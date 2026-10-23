@@ -11,9 +11,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   НОВЫЕ ЦВЕТА (PINK/PURPLE DREAMVAPE)
-   ═══════════════════════════════════════════ */
 :root{
   --bg:#0d0518; --bg2:#140a24; --card:#1a0b2e;
   --acc:#ff4dd2; --acc2:#a855f7; --grad:linear-gradient(135deg, #ff4dd2, #a855f7);
@@ -169,6 +166,10 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .order-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--bd);font-size:12px}
 .order-total{font-weight:700;color:var(--txt);font-size:14px}
 
+.order-status{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;margin-left:6px}
+.order-status.new{background:rgba(255,215,0,.15);color:var(--gold)}
+.order-status.confirmed{background:rgba(34,197,94,.15);color:var(--ok)}
+
 /* PROMOS DRAWER */
 .promo-hero{background:linear-gradient(145deg,var(--card),#1f0e38);border:1px solid var(--bd);border-radius:20px;padding:24px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
 .promo-hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,77,210,.15) 0%,transparent 60%);pointer-events:none}
@@ -233,6 +234,15 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .confirm-btn.send{background:var(--grad);color:#fff;opacity:.5;pointer-events:none;box-shadow:0 4px 15px -5px rgba(255,77,210,.5)}
 .confirm-btn.send.active{opacity:1;pointer-events:auto;cursor:pointer}
 
+/* ADMIN PANEL */
+.admin-card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px}
+.admin-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
+.admin-user{font-size:12px;color:var(--mut)}
+.admin-items{font-size:12px;color:var(--txt);margin-bottom:8px;line-height:1.5}
+.admin-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--bd);font-size:13px;font-weight:700}
+.btn-confirm{background:var(--ok);color:#fff;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-confirm:hover{opacity:0.8}
+
 /* TOAST */
 .toast{position:fixed;bottom:calc(20px + var(--sb));left:50%;transform:translate(-50%,120px);background:var(--grad);color:#fff;padding:12px 22px;border-radius:12px;font-weight:700;font-size:13px;z-index:500;transition:transform .35s cubic-bezier(.4,0,.2,1);max-width:calc(100vw - 32px);text-align:center;box-shadow:0 15px 40px -10px rgba(255,77,210,.5);pointer-events:none}
 .toast.show{transform:translate(-50%,0)}
@@ -268,8 +278,10 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   <nav class="nav">
     <a href="#" class="logo"><div class="logo-mark">T</div><span>Trahan Zizhka</span></a>
     <div class="nav-actions">
+      <!-- Кнопка Админа (скрыта, пока не проверится ID) -->
+      <button class="icon-btn hidden" id="adminBtn" onclick="openAdmin()">⚙️ Админ</button>
+      
       <button class="icon-btn" onclick="openPromos()">🎁 <span class="btn-text">Акции</span></button>
-      <!-- Профиль теперь всегда в шапке -->
       <button class="avatar" id="headerAvatar" onclick="openProfile()" title="Профиль">👤</button>
       <button class="icon-btn" onclick="openCart()">
         🛒 <span class="cart-count" id="cartCount">0</span>
@@ -282,7 +294,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 <section class="hero">
   <div>
     <h1>Вкус, который <span class="grad">взорвёт</span> рецепторы</h1>
-    <!-- ИСПРАВЛЕННЫЙ ТЕКСТ ТУТ -->
     <p>Жидкости, снюс, одноразки и расходники. Быстрая доставка по Минску. Оформление через менеджера в Telegram.</p>
     <div class="hero-btns">
       <button class="btn btn-primary" onclick="document.getElementById('catalog').scrollIntoView()">Смотреть каталог →</button>
@@ -340,20 +351,11 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       <h2>Твои скидки</h2>
       <p>Активируй промокод или получай скидку за верность</p>
     </div>
-    
-    <!-- Loyalty -->
     <div class="loyalty-card">
-      <div class="loyalty-header">
-        <h3>💎 Программа лояльности</h3>
-        <span id="loyaltyCounter">0 / 10</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="loyaltyBar"></div>
-      </div>
+      <div class="loyalty-header"><h3>💎 Программа лояльности</h3><span id="loyaltyCounter">0 / 10</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="loyaltyBar"></div></div>
       <div class="loyalty-hint" id="loyaltyHint">Сделай 10 заказов и получи скидку 20% на всё!</div>
     </div>
-
-    <!-- Promo Input -->
     <div class="promo-input-card">
       <h3>🎟️ Ввести промокод</h3>
       <div class="promo-row" id="promoInputRow">
@@ -361,11 +363,15 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
         <button id="promoBtn" onclick="applyPromo()">Активировать</button>
       </div>
       <div class="promo-msg" id="promoMsg"></div>
-      
-      <!-- Active Promo Display -->
       <div id="activePromoBox" class="hidden"></div>
     </div>
   </div>
+</aside>
+
+<!-- ADMIN DRAWER -->
+<aside class="drawer" id="adminDrawer">
+  <div class="drawer-head"><h3>⚙️ Админ-панель</h3><button class="close-btn" onclick="closeAll()">×</button></div>
+  <div class="profile-content" id="adminContent" style="padding:20px"></div>
 </aside>
 
 <!-- FLAVOR MODAL -->
@@ -401,65 +407,40 @@ const SUPABASE_URL = 'https://jqrjybptkhspfgbhvalo.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_RDMAZ6lxzNWSShrdgDs0ug_d9nTPAcD';
 const MANAGER = 'TrahanZizhka';
 
-/* ═══════════════════════════════════════════
-   СТАТУСЫ (50 УРОВНЕЙ)
-   ═══════════════════════════════════════════ */
-const HIERARCHY = [
-  { min: 1, icon: '🐓', name: 'Лох', color: '#888' },
-  { min: 2, icon: '🧹', name: 'Шнырь', color: '#888' },
-  { min: 3, icon: '🥖', name: 'Бич', color: '#888' },
-  { min: 4, icon: '🫏', name: 'Фраерок', color: '#888' },
-  { min: 5, icon: '🐀', name: 'Крыса', color: '#888' },
-  { min: 6, icon: '🥫', name: 'Шестёрка', color: '#888' },
-  { min: 7, icon: '🧽', name: 'Швабра', color: '#888' },
-  { min: 8, icon: '🥴', name: 'Терпила', color: '#888' },
-  { min: 9, icon: '🐒', name: 'Обезьяна', color: '#888' },
-  { min: 10, icon: '🔒', name: 'Арестант', color: '#aaa' },
-  { min: 11, icon: '🚬', name: 'Фраер', color: '#5b8def' },
-  { min: 12, icon: '🥷', name: 'Шустрый', color: '#5b8def' },
-  { min: 13, icon: '🔑', name: 'Старичок', color: '#5b8def' },
-  { min: 14, icon: '🦍', name: 'Бродяга', color: '#5b8def' },
-  { min: 15, icon: '🥶', name: 'Местный', color: '#5b8def' },
-  { min: 16, icon: '⛓️', name: 'Авторитетик', color: '#5b8def' },
-  { min: 17, icon: '🐺', name: 'Волчара', color: '#5b8def' },
-  { min: 18, icon: '🔥', name: 'Бывалый', color: '#5b8def' },
-  { min: 19, icon: '🗿', name: 'Смотрящий за углом', color: '#5b8def' },
-  { min: 20, icon: '👊', name: 'Уважаемый', color: '#5b8def' },
-  { min: 21, icon: '🥶', name: 'Старый волк', color: '#a855f7' },
-  { min: 22, icon: '🔥', name: 'Матёрый', color: '#a855f7' },
-  { min: 23, icon: '🦅', name: 'Бродяга со стажем', color: '#a855f7' },
-  { min: 24, icon: '⛓️', name: 'Смотрящий', color: '#a855f7' },
-  { min: 25, icon: '👑', name: 'Авторитет', color: '#a855f7' },
-  { min: 26, icon: '🐺', name: 'Старший', color: '#a855f7' },
-  { min: 27, icon: '💀', name: 'Легенда камеры', color: '#a855f7' },
-  { min: 28, icon: '🔱', name: 'Паханчик', color: '#a855f7' },
-  { min: 29, icon: '🥷', name: 'Теневой авторитет', color: '#a855f7' },
-  { min: 30, icon: '👑', name: 'Пахан', color: '#a855f7' },
-  { min: 31, icon: '🔒', name: 'Старший пахан', color: '#00d2ff' },
-  { min: 32, icon: '🐺', name: 'Волк зоны', color: '#00d2ff' },
-  { min: 33, icon: '⚡', name: 'Грозный', color: '#00d2ff' },
-  { min: 34, icon: '💀', name: 'Легенда барака', color: '#00d2ff' },
-  { min: 35, icon: '🔱', name: 'Криминальный авторитет', color: '#00d2ff' },
-  { min: 36, icon: '👑', name: 'Главный смотрящий', color: '#00d2ff' },
-  { min: 37, icon: '🥶', name: 'Неприкасаемый', color: '#00d2ff' },
-  { min: 38, icon: '🦅', name: 'Вор старой школы', color: '#00d2ff' },
-  { min: 39, icon: '💎', name: 'Легенда системы', color: '#00d2ff' },
-  { min: 40, icon: '👑', name: 'Король зоны', color: '#00d2ff' },
-  { min: 41, icon: '🔱', name: 'Теневой босс', color: '#ffd700' },
-  { min: 42, icon: '💀', name: 'Гроза бараков', color: '#ffd700' },
-  { min: 43, icon: '🐺', name: 'Серый волк', color: '#ffd700' },
-  { min: 44, icon: '👑', name: 'Верховный авторитет', color: '#ffd700' },
-  { min: 45, icon: '🔥', name: 'Легенда улиц', color: '#ffd700' },
-  { min: 46, icon: '⛓️', name: 'Хозяин положения', color: '#ffd700' },
-  { min: 47, icon: '💎', name: 'Элита элит', color: '#ffd700' },
-  { min: 48, icon: '🥶', name: 'Неприкасаемый босс', color: '#ffd700' },
-  { min: 49, icon: '🔱', name: 'Легенда зоны', color: '#ffd700' },
-  { min: 50, icon: '👑', name: 'ВОРОВСКОЙ БОГ', color: '#ff0000' }
-];
+// Твой Telegram ID для доступа к админке
+const ADMIN_ID = 8024091933; 
 
 /* ═══════════════════════════════════════════
-   ТОВАРЫ
+   СТАТУСЫ
    ═══════════════════════════════════════════ */
+const HIERARCHY = [
+  { min: 1, icon: '🐓', name: 'Лох', color: '#888' }, { min: 2, icon: '🧹', name: 'Шнырь', color: '#888' },
+  { min: 3, icon: '🥖', name: 'Бич', color: '#888' }, { min: 4, icon: '🫏', name: 'Фраерок', color: '#888' },
+  { min: 5, icon: '🐀', name: 'Крыса', color: '#888' }, { min: 6, icon: '🥫', name: 'Шестёрка', color: '#888' },
+  { min: 7, icon: '🧽', name: 'Швабра', color: '#888' }, { min: 8, icon: '🥴', name: 'Терпила', color: '#888' },
+  { min: 9, icon: '🐒', name: 'Обезьяна', color: '#888' }, { min: 10, icon: '🔒', name: 'Арестант', color: '#aaa' },
+  { min: 11, icon: '🚬', name: 'Фраер', color: '#5b8def' }, { min: 12, icon: '🥷', name: 'Шустрый', color: '#5b8def' },
+  { min: 13, icon: '🔑', name: 'Старичок', color: '#5b8def' }, { min: 14, icon: '🦍', name: 'Бродяга', color: '#5b8def' },
+  { min: 15, icon: '🥶', name: 'Местный', color: '#5b8def' }, { min: 16, icon: '⛓️', name: 'Авторитетик', color: '#5b8def' },
+  { min: 17, icon: '🐺', name: 'Волчара', color: '#5b8def' }, { min: 18, icon: '🔥', name: 'Бывалый', color: '#5b8def' },
+  { min: 19, icon: '🗿', name: 'Смотрящий за углом', color: '#5b8def' }, { min: 20, icon: '👊', name: 'Уважаемый', color: '#5b8def' },
+  { min: 21, icon: '🥶', name: 'Старый волк', color: '#a855f7' }, { min: 22, icon: '🔥', name: 'Матёрый', color: '#a855f7' },
+  { min: 23, icon: '🦅', name: 'Бродяга со стажем', color: '#a855f7' }, { min: 24, icon: '⛓️', name: 'Смотрящий', color: '#a855f7' },
+  { min: 25, icon: '👑', name: 'Авторитет', color: '#a855f7' }, { min: 26, icon: '🐺', name: 'Старший', color: '#a855f7' },
+  { min: 27, icon: '💀', name: 'Легенда камеры', color: '#a855f7' }, { min: 28, icon: '🔱', name: 'Паханчик', color: '#a855f7' },
+  { min: 29, icon: '🥷', name: 'Теневой авторитет', color: '#a855f7' }, { min: 30, icon: '👑', name: 'Пахан', color: '#a855f7' },
+  { min: 31, icon: '🔒', name: 'Старший пахан', color: '#00d2ff' }, { min: 32, icon: '🐺', name: 'Волк зоны', color: '#00d2ff' },
+  { min: 33, icon: '⚡', name: 'Грозный', color: '#00d2ff' }, { min: 34, icon: '💀', name: 'Легенда барака', color: '#00d2ff' },
+  { min: 35, icon: '🔱', name: 'Криминальный авторитет', color: '#00d2ff' }, { min: 36, icon: '👑', name: 'Главный смотрящий', color: '#00d2ff' },
+  { min: 37, icon: '🥶', name: 'Неприкасаемый', color: '#00d2ff' }, { min: 38, icon: '🦅', name: 'Вор старой школы', color: '#00d2ff' },
+  { min: 39, icon: '💎', name: 'Легенда системы', color: '#00d2ff' }, { min: 40, icon: '👑', name: 'Король зоны', color: '#00d2ff' },
+  { min: 41, icon: '🔱', name: 'Теневой босс', color: '#ffd700' }, { min: 42, icon: '💀', name: 'Гроза бараков', color: '#ffd700' },
+  { min: 43, icon: '🐺', name: 'Серый волк', color: '#ffd700' }, { min: 44, icon: '👑', name: 'Верховный авторитет', color: '#ffd700' },
+  { min: 45, icon: '🔥', name: 'Легенда улиц', color: '#ffd700' }, { min: 46, icon: '⛓️', name: 'Хозяин положения', color: '#ffd700' },
+  { min: 47, icon: '💎', name: 'Элита элит', color: '#ffd700' }, { min: 48, icon: '🥶', name: 'Неприкасаемый босс', color: '#ffd700' },
+  { min: 49, icon: '🔱', name: 'Легенда зоны', color: '#ffd700' }, { min: 50, icon: '👑', name: 'ВОРОВСКОЙ БОГ', color: '#ff0000' }
+];
+
 const P = [
   {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Red Bull 🐂⚡","Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪","Red bull The blue edition 💙","Red bull The pink edition 💗"],desc:"Снюс, крепкий"},
   {id:2,name:"💀 D.L.T.A XS ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Микс ягод 🫐🍓","Зеленый виноград мята 🍇🌿"],desc:"Снюс, крепкий"},
@@ -505,9 +486,6 @@ const P = [
 const CAT_NAMES = {liquid:'Жидкость',snus:'Снюс',kofein:'Кофеин',consumables:'Расходник'};
 const CAT_EMOJI = {liquid:'💧',snus:'🥫',kofein:'☕',consumables:'🔧'};
 
-/* ═══════════════════════════════════════════
-   INIT & STATE
-   ═══════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toFixed(2).replace('.',',');
 const getP = id => P.find(x => x.id == id);
@@ -524,12 +502,13 @@ let supabase = null;
 if (isTG) { try { tg.ready(); tg.expand(); tg.setHeaderColor?.('#0d0518'); tg.setBackgroundColor?.('#0d0518'); tg.enableClosingConfirmation?.(); } catch(e){} }
 if (window.supabase && SUPABASE_URL.startsWith('http')) { try { supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e){} }
 
-// Обновление аватарки в шапке
 if (isTG) {
-  if (user.photo_url) {
-    $('headerAvatar').innerHTML = `<img src="${user.photo_url}">`;
-  } else {
-    $('headerAvatar').textContent = user.first_name[0].toUpperCase();
+  if (user.photo_url) $('headerAvatar').innerHTML = `<img src="${user.photo_url}">`;
+  else $('headerAvatar').textContent = user.first_name[0].toUpperCase();
+  
+  // Проверка на админа (твой ID)
+  if (user.id === ADMIN_ID) {
+    $('adminBtn').classList.remove('hidden');
   }
 }
 
@@ -537,7 +516,7 @@ let cart = {}, orders = [], activePromo = null;
 let curCat = 'all', curBrand = 'all', modalPid = null, modalFlavor = null;
 let promoLoading = false;
 
-const SK = 'tz_v9';
+const SK = 'tz_v11';
 function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
 function load(){
   try {
@@ -552,9 +531,6 @@ function load(){
 
 function haptic(t='light'){ try { tg?.HapticFeedback?.impactOccurred(t); } catch(e){} }
 
-/* ═══════════════════════════════════════════
-   STATUS
-   ═══════════════════════════════════════════ */
 function getStatus(count) {
   if (count === 0) return { icon: '👤', name: 'Новичок', color: '#b8a2d6' };
   const idx = Math.min(count - 1, HIERARCHY.length - 1);
@@ -597,7 +573,6 @@ function renderProducts(){
   list.slice(0,6).forEach(p => { const i = new Image(); i.src = `images/product${p.id}.jpg`; });
 }
 
-// Brands
 const brandSet = {};
 P.forEach(p => { if (p.brand) brandSet[p.brand] = true; });
 $('brandFilters').insertAdjacentHTML('beforeend', Object.keys(brandSet).sort().map(b => `<button class="filter" data-brand="${b}">${b}</button>`).join(''));
@@ -625,7 +600,8 @@ function subtotal(){ return Object.values(cart).reduce((s,i) => { const p = getP
 function openCart() { closeAll(); updateCartUI(); $('cartDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
 function openProfile() { if (!isTG) return alert('Открой через Telegram'); closeAll(); renderProfile(); $('profileDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
 function openPromos() { closeAll(); renderPromos(); $('promosDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
-function closeAll() { $('cartDrawer').classList.remove('open'); $('profileDrawer').classList.remove('open'); $('promosDrawer').classList.remove('open'); $('overlay').classList.remove('open'); if (tg?.BackButton) tg.BackButton.hide(); }
+function openAdmin() { closeAll(); renderAdmin(); $('adminDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
+function closeAll() { $('cartDrawer').classList.remove('open'); $('profileDrawer').classList.remove('open'); $('promosDrawer').classList.remove('open'); $('adminDrawer').classList.remove('open'); $('overlay').classList.remove('open'); if (tg?.BackButton) tg.BackButton.hide(); }
 
 function updateCartUI() {
   const items = $('cartItems');
@@ -694,9 +670,9 @@ function changeQty(k, d) { if (!cart[k]) return; cart[k].qty += d; if (cart[k].q
 function rmItem(k) { delete cart[k]; save(); updateCartUI(); updateCount(); }
 
 /* ═══════════════════════════════════════════
-   PROFILE
+   PROFILE & ORDER HISTORY
    ═══════════════════════════════════════════ */
-function renderProfile() {
+async function renderProfile() {
   const name = uName(user);
   const count = orders.length;
   const status = getStatus(count);
@@ -711,9 +687,17 @@ function renderProfile() {
     </div>
   `;
 
+  let userOrders = orders;
+  if (supabase && user.id) {
+    try {
+      const { data, error } = await supabase.from('orders').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+      if (!error && data) userOrders = data;
+    } catch(e) {}
+  }
+
   $('profileStats').innerHTML = `
-    <div class="stat"><div class="stat-label">Заказов</div><div class="stat-val">${count}</div></div>
-    <div class="stat"><div class="stat-label">Потрачено</div><div class="stat-val">${fmt(orders.reduce((s,o)=>s+o.total,0))} BYN</div></div>
+    <div class="stat"><div class="stat-label">Заказов</div><div class="stat-val">${userOrders.length}</div></div>
+    <div class="stat"><div class="stat-label">Потрачено</div><div class="stat-val">${fmt(userOrders.reduce((s,o)=>s+Number(o.total),0))} BYN</div></div>
   `;
 
   $('profileContent').innerHTML = `
@@ -726,16 +710,16 @@ function renderProfile() {
     </div>
     <div class="pf-section">
       <div class="pf-title">История заказов</div>
-      ${orders.length === 0 ? `<div class="empty-block"><div class="em">📦</div><p>Пока пусто</p></div>` : 
-        orders.map(o => `
+      ${userOrders.length === 0 ? `<div class="empty-block"><div class="em">📦</div><p>Пока пусто</p></div>` : 
+        userOrders.map(o => `
           <div class="order-card">
             <div class="order-head">
-              <span class="order-id">${o.id}</span>
-              <span class="order-date">${new Date(o.date).toLocaleDateString('ru-RU')}</span>
+              <span class="order-id">${o.order_id || o.id}</span>
+              <span class="order-date">${new Date(o.created_at || o.date).toLocaleDateString('ru-RU')}</span>
             </div>
-            <div class="order-items">${o.items.map(i => `${i.name} ×${i.qty}`).join(', ')}</div>
+            <div class="order-items">${(o.items || []).map(i => `${i.name} ×${i.qty}`).join(', ')}</div>
             <div class="order-foot">
-              <span>${o.items.length} поз.</span>
+              <span>${(o.items || []).length} поз. <span class="order-status ${o.status || 'new'}">${o.status === 'confirmed' ? 'Выполнен' : 'Ожидает'}</span></span>
               <span class="order-total">${fmt(o.total)} BYN</span>
             </div>
           </div>
@@ -806,6 +790,62 @@ async function applyPromo() {
 function removePromo() { activePromo = null; save(); renderPromos(); updateCartUI(); }
 
 /* ═══════════════════════════════════════════
+   ADMIN PANEL
+   ═══════════════════════════════════════════ */
+async function renderAdmin() {
+  $('adminContent').innerHTML = '<p style="text-align:center;color:var(--mut);padding:20px;">Загрузка...</p>';
+  
+  if (!supabase) {
+    $('adminContent').innerHTML = '<p style="text-align:center;color:var(--err);padding:20px;">Supabase не подключён</p>';
+    return;
+  }
+
+  const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+  
+  if (error || !data) {
+    $('adminContent').innerHTML = `<p style="text-align:center;color:var(--err);padding:20px;">Ошибка загрузки: ${error?.message}</p>`;
+    return;
+  }
+
+  if (data.length === 0) {
+    $('adminContent').innerHTML = '<p style="text-align:center;color:var(--mut);padding:20px;">Заказов пока нет</p>';
+    return;
+  }
+
+  $('adminContent').innerHTML = data.map(o => `
+    <div class="admin-card">
+      <div class="admin-head">
+        <div>
+          <b style="color:var(--acc)">${o.order_id}</b><br>
+          <span class="admin-user">@${o.username} (ID: ${o.user_id})</span><br>
+          <span class="admin-user">${new Date(o.created_at).toLocaleString('ru-RU')}</span>
+        </div>
+        <span class="order-status ${o.status}">${o.status === 'confirmed' ? 'Выполнен' : 'Новый'}</span>
+      </div>
+      <div class="admin-items">
+        ${(o.items || []).map(i => `▪️ ${i.name}${i.flavor ? ` (${i.flavor})` : ''} ×${i.qty}`).join('<br>')}
+      </div>
+      <div class="admin-foot">
+        <span>Итого: ${fmt(o.total)} BYN</span>
+        ${o.status === 'new' ? `<button class="btn-confirm" onclick="confirmOrder('${o.order_id}')">Подтвердить</button>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+async function confirmOrder(orderId) {
+  if (!supabase) return;
+  try {
+    const { error } = await supabase.from('orders').update({ status: 'confirmed' }).eq('order_id', orderId);
+    if (error) throw error;
+    alert('Заказ подтвержден!');
+    renderAdmin(); // Обновить список
+  } catch(e) {
+    alert('Ошибка: ' + e.message);
+  }
+}
+
+/* ═══════════════════════════════════════════
    FLAVOR MODAL
    ═══════════════════════════════════════════ */
 function addToCart(id, flavor) {
@@ -856,7 +896,7 @@ function addFromModal() {
 function closeModal() { $('flavorModal').classList.remove('open'); }
 
 /* ═══════════════════════════════════════════
-   CHECKOUT (ANTI-ABUSE)
+   CHECKOUT (ANTI-ABUSE) & SAVE TO SUPABASE
    ═══════════════════════════════════════════ */
 function openConfirmOrder() {
   const username = $('custUsername')?.value.trim();
@@ -880,28 +920,46 @@ async function sendOrderToTG() {
   const finalDisc = Math.max(promoDisc, loyaltyDisc);
   const total = Math.max(0, sub - finalDisc);
   
-  let msg = '🛒 ЗАКАЗ TRAHAN ZIZHKA\n\n';
-  msg += `👤 @${username}\n`;
-  if (user.id) msg += `🆔 TG ID: ${user.id}\n\n`;
-  msg += '📋 Товары:\n';
-  for (const it of Object.values(cart)) {
-    const p = getP(it.id);
-    msg += `▪️ ${p.name}${it.flavor ? ` (${it.flavor})` : ''} × ${it.qty} = ${fmt(p.price*it.qty)} BYN\n`;
+  const orderId = 'TZ-' + Date.now().toString().slice(-6);
+  const orderItems = Object.values(cart).map(i => { const p = getP(i.id); return { name:p.name, flavor:i.flavor, qty:i.qty, price:p.price }; });
+
+  if (supabase && user.id) {
+    try {
+      await supabase.from('orders').insert({
+        order_id: orderId,
+        user_id: user.id,
+        username: username,
+        items: orderItems,
+        subtotal: sub,
+        discount: finalDisc,
+        total: total,
+        promo_code: activePromo?.code || null,
+        status: 'new'
+      });
+    } catch(e) { console.error('Ошибка сохранения заказа:', e); }
   }
-  msg += `\n💰 Сумма: ${fmt(sub)} BYN\n`;
-  if (finalDisc > 0) msg += `🎟️ Скидка: −${fmt(finalDisc)} BYN\n`;
-  msg += `💜 Итого: ${fmt(total)} BYN\n\n✅ Подтверждаю!`;
 
   orders.unshift({
-    id: 'TZ-' + Date.now().toString().slice(-6),
+    id: orderId,
     date: new Date().toISOString(),
-    items: Object.values(cart).map(i => { const p = getP(i.id); return { name:p.name, flavor:i.flavor, qty:i.qty, price:p.price }; }),
+    items: orderItems,
     total, discount: finalDisc
   });
   
   cart = {};
   if (activePromo) activePromo = null;
   save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
+
+  let msg = '🛒 ЗАКАЗ TRAHAN ZIZHKA\n\n';
+  msg += `👤 @${username}\n`;
+  if (user.id) msg += `🆔 TG ID: ${user.id}\n\n`;
+  msg += '📋 Товары:\n';
+  for (const it of orderItems) {
+    msg += `▪️ ${it.name}${it.flavor ? ` (${it.flavor})` : ''} × ${it.qty} = ${fmt(it.price*it.qty)} BYN\n`;
+  }
+  msg += `\n💰 Сумма: ${fmt(sub)} BYN\n`;
+  if (finalDisc > 0) msg += `🎟️ Скидка: −${fmt(finalDisc)} BYN\n`;
+  msg += `💜 Итого: ${fmt(total)} BYN\n\n✅ Подтверждаю!`;
 
   const url = `https://t.me/${MANAGER}?text=${encodeURIComponent(msg)}`;
   if (tg?.openTelegramLink) tg.openTelegramLink(url);
