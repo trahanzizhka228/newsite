@@ -461,7 +461,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     try {
       if (user.photo_url) $('headerAvatar').innerHTML = `<img src="${user.photo_url}">`;
       else $('headerAvatar').textContent = user.first_name[0].toUpperCase();
-      if (user.id === ADMIN_ID) $('adminBtn').classList.remove('hidden');
+      if (user.id === ADMIN_IDS) $('adminBtn').classList.remove('hidden');
     } catch(e){}
   }
 
