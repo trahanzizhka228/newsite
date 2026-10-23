@@ -5,19 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0d0518">
 <title>Trahan Zizhka</title>
+<script>
+window.addEventListener('error', function(e){
+  console.error('[TZ ERROR]', e.message, '@', (e.filename||'') + ':' + e.lineno);
+});
+</script>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0d0518; --bg2:#140a24; --card:#1a0b2e;
-  --acc:#ff4dd2; --acc2:#a855f7; --grad:linear-gradient(135deg, #ff4dd2, #a855f7);
-  --txt:#ffffff; --mut:#b8a2d6; --bd:rgba(255,77,210,.15);
-  --ok:#22c55e; --err:#ff4d6d; --gold:#ffd700;
-  --st:env(safe-area-inset-top,0); --sb:env(safe-area-inset-bottom,0);
-}
+:root{--bg:#0d0518;--bg2:#140a24;--card:#1a0b2e;--acc:#ff4dd2;--acc2:#a855f7;--grad:linear-gradient(135deg,#ff4dd2,#a855f7);--txt:#fff;--mut:#b8a2d6;--bd:rgba(255,77,210,.15);--ok:#22c55e;--err:#ff4d6d;--gold:#ffd700;--st:env(safe-area-inset-top,0);--sb:env(safe-area-inset-bottom,0)}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
@@ -32,7 +31,6 @@ img{display:block;max-width:100%}
 .bg-glow::before{width:600px;height:600px;background:var(--acc);top:-150px;left:-150px;opacity:0.2}
 .bg-glow::after{width:700px;height:700px;background:var(--acc2);bottom:-200px;right:-150px;opacity:0.15}
 
-/* HEADER */
 header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:rgba(13,5,24,.85);border-bottom:1px solid var(--bd);padding-top:var(--st)}
 .nav{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:10px}
 .logo{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;white-space:nowrap}
@@ -41,11 +39,10 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .nav-actions{display:flex;align-items:center;gap:8px}
 .icon-btn{background:var(--card);border:1px solid var(--bd);color:var(--txt);padding:10px 14px;border-radius:12px;font-weight:600;font-size:14px;transition:.2s;display:flex;align-items:center;gap:6px}
 .icon-btn:hover{border-color:var(--acc);color:var(--acc)}
-.avatar{width:40px;height:40px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;overflow:hidden;transition:.2s;flex-shrink:0}
+.avatar{width:40px;height:40px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;overflow:hidden;flex-shrink:0}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .cart-count{background:var(--acc);color:#fff;font-size:11px;font-weight:800;border-radius:999px;min-width:20px;height:20px;display:grid;place-items:center;padding:0 6px}
 
-/* HERO */
 .hero{max-width:1280px;margin:0 auto;padding:50px 16px 60px;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
 .hero h1{font-size:clamp(30px,6vw,58px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:18px}
 .hero h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -53,9 +50,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .hero-btns{display:flex;gap:10px;flex-wrap:wrap}
 .btn{padding:14px 22px;border-radius:14px;font-weight:600;font-size:14px;transition:.25s;display:inline-flex;align-items:center;gap:8px;justify-content:center;min-height:46px}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 40px -10px rgba(255,77,210,.5)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 15px 50px -10px rgba(255,77,210,.7)}
 .hero-visual{position:relative;height:340px;display:grid;place-items:center}
-.hero-card{position:absolute;background:linear-gradient(145deg,var(--card),#140a24);border:1px solid var(--bd);border-radius:20px;padding:18px;width:180px;height:250px;display:flex;flex-direction:column;justify-content:space-between;transition:.4s}
+.hero-card{position:absolute;background:linear-gradient(145deg,var(--card),#140a24);border:1px solid var(--bd);border-radius:20px;padding:18px;width:180px;height:250px;display:flex;flex-direction:column;justify-content:space-between}
 .hero-card:nth-child(1){transform:rotate(-12deg) translate(-32px,10px);opacity:.55}
 .hero-card:nth-child(2){z-index:2;box-shadow:0 30px 80px -20px rgba(168,85,247,.4);border-color:rgba(255,77,210,.4)}
 .hero-card:nth-child(3){transform:rotate(12deg) translate(32px,10px);opacity:.55}
@@ -63,31 +59,24 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .hero-card h4{font-size:12px;margin-bottom:2px}
 .hero-card small{color:var(--mut);font-size:10px}
 
-/* SECTIONS */
 .section{max-width:1280px;margin:0 auto;padding:50px 16px}
 .section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:26px;flex-wrap:wrap;gap:12px}
 .section-head h2{font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-1.5px}
 .section-head p{color:var(--mut);margin-top:4px;font-size:13px}
 
-/* FILTERS */
 .filters-bar{display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
 .filters-group{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .filters-label{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-right:4px}
-.filter{background:transparent;border:1px solid var(--bd);color:var(--mut);padding:7px 13px;border-radius:999px;font-size:12px;font-weight:500;transition:.2s;min-height:34px;white-space:nowrap;cursor:pointer}
-.filter:hover{color:var(--txt);border-color:rgba(255,77,210,.4)}
-.filter.active{background:var(--grad);color:#fff;border-color:transparent;font-weight:700;box-shadow:0 4px 15px -5px rgba(255,77,210,.6)}
+.filter{background:transparent;border:1px solid var(--bd);color:var(--mut);padding:7px 13px;border-radius:999px;font-size:12px;font-weight:500;min-height:34px;white-space:nowrap;cursor:pointer}
+.filter.active{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
 
-/* PRODUCTS */
 .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.product{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;transition:.3s;cursor:pointer;position:relative;overflow:hidden;content-visibility:auto;contain-intrinsic-size:0 340px}
-.product:hover{transform:translateY(-4px);border-color:rgba(255,77,210,.4);box-shadow:0 20px 50px -20px rgba(255,77,210,.2)}
+.product{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;cursor:pointer;position:relative;overflow:hidden;transition:.3s}
+.product:hover{transform:translateY(-4px);border-color:rgba(255,77,210,.4)}
 .product-img{aspect-ratio:1;border-radius:12px;margin-bottom:12px;background:linear-gradient(135deg,var(--bg2),#1a0b2e);position:relative;overflow:hidden}
-.product-img img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s,transform .4s}
-.product-img img.loaded{opacity:1}
-.product:hover .product-img img{transform:scale(1.06)}
+.product-img img{width:100%;height:100%;object-fit:cover}
 .product-img .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:52px;opacity:.3;pointer-events:none}
-.product-img .ph.hidden{display:none}
-.badge{position:absolute;top:8px;left:8px;z-index:2;padding:4px 9px;border-radius:999px;font-size:9px;font-weight:700;background:var(--grad);color:#fff;text-transform:uppercase;letter-spacing:.4px;box-shadow:0 4px 10px rgba(255,77,210,.4)}
+.badge{position:absolute;top:8px;left:8px;z-index:2;padding:4px 9px;border-radius:999px;font-size:9px;font-weight:700;background:var(--grad);color:#fff;text-transform:uppercase}
 .product-cat{font-size:10px;color:var(--acc);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px}
 .product h3{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.3;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .product .desc{color:var(--mut);font-size:11px;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -95,20 +84,17 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .product-foot{display:flex;align-items:center;justify-content:space-between;gap:6px}
 .price{font-size:15px;font-weight:800}
 .price small{font-size:10px;color:var(--mut);font-weight:400;margin-left:1px}
-.add-btn{background:var(--grad);color:#fff;border-radius:10px;width:36px;height:36px;font-size:20px;font-weight:700;transition:.2s;display:grid;place-items:center;flex-shrink:0;cursor:pointer;box-shadow:0 4px 15px -5px rgba(255,77,210,.5)}
-.add-btn:hover{transform:scale(1.1) rotate(90deg)}
+.add-btn{background:var(--grad);color:#fff;border-radius:10px;width:36px;height:36px;font-size:20px;font-weight:700;display:grid;place-items:center;flex-shrink:0;cursor:pointer}
 
-/* DRAWERS */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:.3s;z-index:200}
 .overlay.open{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;height:100dvh;width:440px;max-width:100%;background:var(--bg2);border-left:1px solid var(--bd);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:300;display:flex;flex-direction:column;overscroll-behavior:contain}
+.drawer{position:fixed;top:0;right:0;height:100dvh;width:440px;max-width:100%;background:var(--bg2);border-left:1px solid var(--bd);transform:translateX(100%);transition:transform .35s;z-index:300;display:flex;flex-direction:column}
 .drawer.open{transform:translateX(0)}
 .drawer-head{padding:18px 20px;padding-top:calc(18px + var(--st));border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .drawer-head h3{font-size:18px;color:var(--acc)}
-.close-btn{background:transparent;color:var(--mut);font-size:26px;width:38px;height:38px;border-radius:10px;transition:.2s;display:grid;place-items:center;cursor:pointer}
+.close-btn{background:transparent;color:var(--mut);font-size:26px;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;cursor:pointer}
 .close-btn:hover{background:var(--card);color:var(--txt)}
 
-/* CART */
 .cart-items{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
 .cart-empty{text-align:center;color:var(--mut);padding:50px 20px}
 .cart-empty .em{font-size:48px;margin-bottom:10px;opacity:.5}
@@ -120,29 +106,24 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .cart-item-flavor{color:var(--mut);font-size:11px;margin-bottom:4px}
 .cart-item-price{color:var(--acc);font-weight:700;font-size:14px}
 .qty{display:flex;align-items:center;gap:6px;margin-top:6px}
-.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--bd);background:transparent;color:var(--txt);font-size:15px;display:grid;place-items:center;transition:.2s;cursor:pointer}
-.qty button:hover{border-color:var(--acc);color:var(--acc)}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--bd);background:transparent;color:var(--txt);font-size:15px;display:grid;place-items:center;cursor:pointer}
 .qty span{font-weight:600;font-size:14px;min-width:20px;text-align:center}
 .qty .rm{margin-left:auto;color:var(--err);border-color:transparent}
 
 .cart-foot{padding:16px 20px;padding-bottom:calc(16px + var(--sb));border-top:1px solid var(--bd);background:var(--bg2);flex-shrink:0;max-height:70vh;overflow-y:auto}
 .cart-field{margin-bottom:12px}
 .cart-field label{display:block;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:6px}
-.cart-field input{width:100%;padding:12px;background:var(--card);border:1px solid var(--bd);border-radius:10px;color:var(--txt);font-family:inherit;font-size:16px;-webkit-appearance:none;outline:none}
-.cart-field input:focus{border-color:var(--acc)}
+.cart-field input{width:100%;padding:12px;background:var(--card);border:1px solid var(--bd);border-radius:10px;color:var(--txt);font-family:inherit;font-size:16px;outline:none}
 .pay-opts{display:flex;gap:8px}
-.pay-opt{flex:1;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--mut);font-size:13px;font-weight:600;text-align:center;transition:.2s;cursor:pointer}
-.pay-opt:hover{color:var(--txt)}
-.pay-opt.sel{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 4px 15px -5px rgba(255,77,210,.5)}
+.pay-opt{flex:1;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--mut);font-size:13px;font-weight:600;text-align:center;cursor:pointer}
+.pay-opt.sel{background:var(--grad);color:#fff;border-color:transparent}
 .totals{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;font-size:14px}
 .totals .row{display:flex;justify-content:space-between;color:var(--mut)}
 .totals .row.disc{color:var(--ok)}
 .totals .row.final{color:var(--txt);font-size:17px;font-weight:700;padding-top:10px;border-top:1px solid var(--bd);margin-top:4px}
 .totals .row.final b{font-size:20px;color:var(--acc)}
-.checkout-btn{width:100%;padding:16px;border-radius:12px;background:var(--grad);color:#fff;font-weight:800;font-size:16px;text-align:center;box-shadow:0 10px 25px -10px rgba(255,77,210,.6);transition:.2s}
-.checkout-btn:hover{transform:translateY(-2px)}
+.checkout-btn{width:100%;padding:16px;border-radius:12px;background:var(--grad);color:#fff;font-weight:800;font-size:16px;text-align:center;box-shadow:0 10px 25px -10px rgba(255,77,210,.6)}
 
-/* PROFILE */
 .profile-user{padding:20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--bd);flex-shrink:0}
 .profile-user .avatar{width:58px;height:58px;border-radius:16px;font-size:22px}
 .profile-user h4{font-size:16px;font-weight:700;margin-bottom:2px}
@@ -161,111 +142,100 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .order-card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px}
 .order-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:10px}
 .order-id{font-weight:700;font-size:13px;color:var(--acc)}
-.order-date{color:var(--mut);font-size:11px;margin-top:2px}
+.order-date{color:var(--mut);font-size:11px}
 .order-items{font-size:12px;color:var(--mut);margin-bottom:8px;line-height:1.5}
 .order-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--bd);font-size:12px}
 .order-total{font-weight:700;color:var(--txt);font-size:14px}
-
 .order-status{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;margin-left:6px}
 .order-status.new{background:rgba(255,215,0,.15);color:var(--gold)}
 .order-status.confirmed{background:rgba(34,197,94,.15);color:var(--ok)}
 
-/* PROMOS DRAWER */
-.promo-hero{background:linear-gradient(145deg,var(--card),#1f0e38);border:1px solid var(--bd);border-radius:20px;padding:24px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
-.promo-hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,77,210,.15) 0%,transparent 60%);pointer-events:none}
+.ref-card{background:linear-gradient(145deg,var(--card),#1f0e38);border:1px solid var(--bd);border-radius:16px;padding:18px}
+.ref-card h4{font-size:15px;margin-bottom:8px;color:var(--acc)}
+.ref-card p{font-size:12px;color:var(--mut);margin-bottom:14px;line-height:1.5}
+.ref-link{display:flex;gap:6px;margin-bottom:10px}
+.ref-link input{flex:1;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;color:var(--txt);font-family:inherit;font-size:13px;outline:none;min-width:0}
+.ref-share-btn{padding:10px 16px;background:var(--grad);color:#fff;border-radius:10px;font-weight:700;font-size:13px;white-space:nowrap;cursor:pointer}
+.ref-stats{display:flex;gap:14px;font-size:12px;color:var(--mut);padding-top:10px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.ref-stats b{color:var(--txt)}
+.ref-bonus{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;margin-left:4px}
+.ref-bonus.available{background:rgba(34,197,94,.15);color:var(--ok)}
+.ref-bonus.used{background:rgba(255,255,255,.05);color:var(--mut)}
+
+.promo-hero{background:linear-gradient(145deg,var(--card),#1f0e38);border:1px solid var(--bd);border-radius:20px;padding:24px;text-align:center;margin-bottom:20px}
 .promo-hero h2{font-size:22px;margin-bottom:8px;color:var(--acc)}
-.promo-hero p{color:var(--mut);font-size:14px;margin-bottom:20px}
+.promo-hero p{color:var(--mut);font-size:14px}
 .loyalty-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;margin-bottom:20px}
 .loyalty-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .loyalty-header h3{font-size:16px}
 .loyalty-header span{font-size:13px;color:var(--acc);font-weight:700}
 .progress-bar{height:12px;background:var(--bg2);border-radius:999px;overflow:hidden;margin-bottom:8px;border:1px solid var(--bd)}
-.progress-fill{height:100%;background:var(--grad);width:0%;transition:width .5s ease;box-shadow:0 0 10px rgba(255,77,210,.5)}
+.progress-fill{height:100%;background:var(--grad);width:0%;transition:width .5s}
 .loyalty-hint{font-size:12px;color:var(--mut);text-align:center}
-.promo-input-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px}
+.promo-input-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;margin-bottom:20px}
 .promo-input-card h3{font-size:16px;margin-bottom:12px}
 .promo-row{display:flex;gap:8px}
 .promo-row input{flex:1;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;color:var(--txt);font-family:inherit;font-size:16px;outline:none;text-transform:uppercase;letter-spacing:1px;min-width:0}
-.promo-row input:focus{border-color:var(--acc)}
-.promo-row button{background:var(--grad);color:#fff;padding:0 20px;border-radius:10px;font-weight:700;font-size:14px;transition:.2s;white-space:nowrap;cursor:pointer}
-.promo-row button:disabled{opacity:.5;cursor:wait}
+.promo-row button{background:var(--grad);color:#fff;padding:0 20px;border-radius:10px;font-weight:700;font-size:14px;white-space:nowrap;cursor:pointer}
+.promo-row button:disabled{opacity:.5}
 .promo-msg{margin-top:10px;font-size:13px;min-height:20px;text-align:center}
 .promo-msg.ok{color:var(--ok)}
 .promo-msg.err{color:var(--err)}
 .active-discount{display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:12px;padding:14px;margin-top:16px}
-.active-discount-info{display:flex;align-items:center;gap:10px}
-.active-discount-icon{font-size:24px}
 .active-discount-text b{color:var(--ok);display:block;font-size:14px}
 .active-discount-text span{color:var(--mut);font-size:12px}
 .remove-promo{background:transparent;color:var(--err);font-size:20px;padding:4px;cursor:pointer}
 
-/* MODALS */
 .modal{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;padding:16px}
 .modal.open{display:flex}
 .modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px)}
-.modal-card{position:relative;background:var(--bg2);border:1px solid var(--bd);border-radius:20px;max-width:480px;width:100%;max-height:90dvh;display:flex;flex-direction:column;overflow:hidden;animation:pop .3s cubic-bezier(.4,0,.2,1);box-shadow:0 20px 60px -20px rgba(255,77,210,.3)}
-@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-card{position:relative;background:var(--bg2);border:1px solid var(--bd);border-radius:20px;max-width:480px;width:100%;max-height:90dvh;display:flex;flex-direction:column;overflow:hidden}
 .modal-img{aspect-ratio:16/10;background:var(--card);position:relative;overflow:hidden;flex-shrink:0}
 .modal-img img{width:100%;height:100%;object-fit:cover}
-.modal-img .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:80px;opacity:.3}
-.modal-body{padding:20px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
 .modal-body h3{font-size:22px;margin-bottom:6px;color:var(--acc)}
-.modal-body .mcat{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:10px}
-.modal-body .mdesc{color:var(--mut);font-size:13px;line-height:1.5;margin-bottom:16px}
 .mflavors-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);font-weight:700;margin-bottom:8px}
 .flavors-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}
-.flavor-chip{padding:10px 12px;border:1px solid var(--bd);background:var(--card);border-radius:9px;color:var(--txt);font-size:12px;font-weight:500;text-align:left;transition:.2s;min-height:38px;line-height:1.3;cursor:pointer}
-.flavor-chip:hover{border-color:var(--acc)}
+.flavor-chip{padding:10px 12px;border:1px solid var(--bd);background:var(--card);border-radius:9px;color:var(--txt);font-size:12px;font-weight:500;text-align:left;min-height:38px;line-height:1.3;cursor:pointer}
 .flavor-chip.sel{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
 .modal-foot{display:flex;align-items:center;gap:10px;padding:14px 20px;padding-bottom:calc(14px + var(--sb));border-top:1px solid var(--bd);flex-shrink:0}
 .modal-foot .price{flex:1;font-size:22px}
 .modal-foot .btn{flex-shrink:0;padding:14px 24px;background:var(--grad);color:#fff;border-radius:12px;font-weight:700;cursor:pointer}
 
-/* CONFIRM ORDER MODAL */
-.confirm-box{background:var(--bg2);border:1px solid var(--bd);border-radius:20px;max-width:400px;width:100%;padding:24px;text-align:center;position:relative;z-index:2;box-shadow:0 20px 60px -20px rgba(255,77,210,.3)}
+.confirm-box{background:var(--bg2);border:1px solid var(--bd);border-radius:20px;max-width:400px;width:100%;padding:24px;text-align:center;position:relative;z-index:2}
 .confirm-box h3{font-size:20px;margin-bottom:12px;color:var(--acc)}
 .confirm-box p{color:var(--mut);font-size:14px;line-height:1.5;margin-bottom:16px}
 .confirm-check{display:flex;align-items:flex-start;gap:10px;text-align:left;margin-bottom:20px;background:var(--card);padding:12px;border-radius:10px;border:1px solid var(--bd);cursor:pointer}
 .confirm-check input{width:20px;height:20px;accent-color:var(--acc);margin-top:2px;cursor:pointer}
 .confirm-check span{font-size:12px;color:var(--txt);line-height:1.4}
 .confirm-btns{display:flex;gap:10px}
-.confirm-btn{flex:1;padding:14px;border-radius:12px;font-weight:700;font-size:14px;transition:.2s}
+.confirm-btn{flex:1;padding:14px;border-radius:12px;font-weight:700;font-size:14px}
 .confirm-btn.cancel{background:transparent;border:1px solid var(--bd);color:var(--mut);cursor:pointer}
-.confirm-btn.send{background:var(--grad);color:#fff;opacity:.5;pointer-events:none;box-shadow:0 4px 15px -5px rgba(255,77,210,.5)}
+.confirm-btn.send{background:var(--grad);color:#fff;opacity:.5;pointer-events:none}
 .confirm-btn.send.active{opacity:1;pointer-events:auto;cursor:pointer}
 
-/* ADMIN PANEL */
 .admin-card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px}
 .admin-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
 .admin-user{font-size:12px;color:var(--mut)}
 .admin-items{font-size:12px;color:var(--txt);margin-bottom:8px;line-height:1.5}
 .admin-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--bd);font-size:13px;font-weight:700}
-.btn-confirm{background:var(--ok);color:#fff;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
-.btn-confirm:hover{opacity:0.8}
+.btn-confirm{background:var(--ok);color:#fff;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
 
-/* TOAST */
-.toast{position:fixed;bottom:calc(20px + var(--sb));left:50%;transform:translate(-50%,120px);background:var(--grad);color:#fff;padding:12px 22px;border-radius:12px;font-weight:700;font-size:13px;z-index:500;transition:transform .35s cubic-bezier(.4,0,.2,1);max-width:calc(100vw - 32px);text-align:center;box-shadow:0 15px 40px -10px rgba(255,77,210,.5);pointer-events:none}
+.toast{position:fixed;bottom:calc(20px + var(--sb));left:50%;transform:translate(-50%,120px);background:var(--grad);color:#fff;padding:12px 22px;border-radius:12px;font-weight:700;font-size:13px;z-index:500;transition:transform .35s;max-width:calc(100vw - 32px);text-align:center;box-shadow:0 15px 40px -10px rgba(255,77,210,.5);pointer-events:none}
 .toast.show{transform:translate(-50%,0)}
-.toast.error{background:var(--err);box-shadow:0 15px 40px -10px rgba(255,77,109,.5)}
+.toast.error{background:var(--err)}
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:28px;gap:22px}
   .hero-visual{height:280px}
-  .filters-bar{gap:8px}
-  .filters-group{gap:4px}
-  .filter{padding:6px 10px;font-size:11px}
 }
 @media(max-width:520px){
   .drawer{width:100%}
-  .cart-btn .btn-text{display:none}
   .products{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
   .product{padding:10px;border-radius:12px}
   .product h3{font-size:12px;min-height:auto}
   .product .desc,.product .flavors-info{display:none}
-  .price{font-size:13px}
-  .add-btn{width:32px;height:32px;font-size:18px}
   .flavors-list{grid-template-columns:1fr}
-  .logo span{font-size:15px}
 }
 </style>
 </head>
@@ -273,24 +243,18 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 
 <div class="bg-glow"></div>
 
-<!-- HEADER -->
 <header>
   <nav class="nav">
     <a href="#" class="logo"><div class="logo-mark">T</div><span>Trahan Zizhka</span></a>
     <div class="nav-actions">
-      <!-- Кнопка Админа (скрыта, пока не проверится ID) -->
-      <button class="icon-btn hidden" id="adminBtn" onclick="openAdmin()">⚙️ Админ</button>
-      
+      <button class="icon-btn hidden" id="adminBtn" onclick="openAdmin()">⚙️</button>
       <button class="icon-btn" onclick="openPromos()">🎁 <span class="btn-text">Акции</span></button>
-      <button class="avatar" id="headerAvatar" onclick="openProfile()" title="Профиль">👤</button>
-      <button class="icon-btn" onclick="openCart()">
-        🛒 <span class="cart-count" id="cartCount">0</span>
-      </button>
+      <button class="avatar" id="headerAvatar" onclick="openProfile()">👤</button>
+      <button class="icon-btn" onclick="openCart()">🛒 <span class="cart-count" id="cartCount">0</span></button>
     </div>
   </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div>
     <h1>Вкус, который <span class="grad">взорвёт</span> рецепторы</h1>
@@ -306,7 +270,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   </div>
 </section>
 
-<!-- CATALOG -->
 <section class="section" id="catalog">
   <div class="section-head"><div><h2>Каталог</h2><p>Цены в BYN</p></div></div>
   <div class="filters-bar">
@@ -318,24 +281,19 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       <button class="filter" data-cat="kofein">Кофеин</button>
       <button class="filter" data-cat="consumables">Расходники</button>
     </div>
-    <div class="filters-group" id="brandFilters">
-      <span class="filters-label">Бренды:</span>
-    </div>
+    <div class="filters-group" id="brandFilters"><span class="filters-label">Бренды:</span></div>
   </div>
   <div class="products" id="products"></div>
 </section>
 
-<!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="closeAll()"></div>
 
-<!-- CART DRAWER -->
 <aside class="drawer" id="cartDrawer">
   <div class="drawer-head"><h3>🛒 Корзина</h3><button class="close-btn" onclick="closeAll()">×</button></div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot" id="cartFoot"></div>
 </aside>
 
-<!-- PROFILE DRAWER -->
 <aside class="drawer" id="profileDrawer">
   <div class="drawer-head"><h3>👤 Профиль</h3><button class="close-btn" onclick="closeAll()">×</button></div>
   <div class="profile-user" id="profileUser"></div>
@@ -343,52 +301,50 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   <div class="profile-content" id="profileContent"></div>
 </aside>
 
-<!-- PROMOS DRAWER -->
 <aside class="drawer" id="promosDrawer">
   <div class="drawer-head"><h3>🎁 Акции и Скидки</h3><button class="close-btn" onclick="closeAll()">×</button></div>
   <div class="profile-content" style="padding:20px">
-    <div class="promo-hero">
-      <h2>Твои скидки</h2>
-      <p>Активируй промокод или получай скидку за верность</p>
-    </div>
+    <div class="promo-hero"><h2>Твои бонусы</h2><p>Промокод, лояльность и рефералка — всё здесь</p></div>
+    
     <div class="loyalty-card">
-      <div class="loyalty-header"><h3>💎 Программа лояльности</h3><span id="loyaltyCounter">0 / 10</span></div>
+      <div class="loyalty-header"><h3>💎 Лояльность</h3><span id="loyaltyCounter">0 / 10</span></div>
       <div class="progress-bar"><div class="progress-fill" id="loyaltyBar"></div></div>
-      <div class="loyalty-hint" id="loyaltyHint">Сделай 10 заказов и получи скидку 20% на всё!</div>
+      <div class="loyalty-hint" id="loyaltyHint">Сделай 10 заказов — получи 20%!</div>
     </div>
+    
     <div class="promo-input-card">
-      <h3>🎟️ Ввести промокод</h3>
+      <h3>🎟️ Промокод</h3>
       <div class="promo-row" id="promoInputRow">
-        <input id="promoInput" placeholder="ТВОЙ КОД" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();applyPromo()}">
-        <button id="promoBtn" onclick="applyPromo()">Активировать</button>
+        <input id="promoInput" placeholder="КОД" maxlength="20" onkeydown="if(event.key==='Enter'){event.preventDefault();applyPromo()}">
+        <button id="promoBtn" onclick="applyPromo()">ОК</button>
       </div>
       <div class="promo-msg" id="promoMsg"></div>
       <div id="activePromoBox" class="hidden"></div>
     </div>
+
+    <!-- 👥 РЕФЕРАЛКА ПЕРЕНЕСЕНА СЮДА -->
+    <div id="refBlock"></div>
   </div>
 </aside>
 
-<!-- ADMIN DRAWER -->
 <aside class="drawer" id="adminDrawer">
-  <div class="drawer-head"><h3>⚙️ Админ-панель</h3><button class="close-btn" onclick="closeAll()">×</button></div>
+  <div class="drawer-head"><h3>⚙️ Админ</h3><button class="close-btn" onclick="closeAll()">×</button></div>
   <div class="profile-content" id="adminContent" style="padding:20px"></div>
 </aside>
 
-<!-- FLAVOR MODAL -->
 <div class="modal" id="flavorModal">
   <div class="modal-bg" onclick="closeModal()"></div>
   <div class="modal-card" id="modalCard"></div>
 </div>
 
-<!-- CONFIRM ORDER MODAL -->
 <div class="modal" id="confirmOrderModal">
   <div class="modal-bg" onclick="closeConfirmOrder()"></div>
   <div class="confirm-box">
-    <h3>Подтверждение заказа</h3>
-    <p>Твой заказ будет отправлен менеджеру в Telegram. Пожалуйста, подтверди, что это <b>реальный заказ</b>.</p>
+    <h3>Подтверждение</h3>
+    <p>Заказ будет отправлен менеджеру. Подтверди, что это <b>реальный заказ</b>.</p>
     <label class="confirm-check">
       <input type="checkbox" id="confirmCheckbox" onchange="toggleConfirmBtn()">
-      <span>Я подтверждаю заказ. Понимаю, что фейковые заказы приводят к блокировке.</span>
+      <span>Подтверждаю. Фейковые заказы → блокировка.</span>
     </label>
     <div class="confirm-btns">
       <button class="confirm-btn cancel" onclick="closeConfirmOrder()">Отмена</button>
@@ -400,590 +356,638 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 <div class="toast" id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════════
-   КОНФИГ
-   ═══════════════════════════════════════════ */
-const SUPABASE_URL = 'https://jqrjybptkhspfgbhvalo.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_RDMAZ6lxzNWSShrdgDs0ug_d9nTPAcD';
-const MANAGER = 'TrahanZizhka';
+'use strict';
+(function(){
+  const SUPABASE_URL = 'https://jqrjybptkhspfgbhvalo.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_RDMAZ6lxzNWSShrdgDs0ug_d9nTPAcD';
+  const MANAGER = 'TrahanZizhka';
+  const BOT_USERNAME = 'TrahanZizhka_bot';
+  const ADMIN_ID = 8024091933;
 
-// Твой Telegram ID для доступа к админке
-const ADMIN_ID = 8024091933; 
+  const HIERARCHY = [
+    {min:1,icon:'🐓',name:'Лох',color:'#888'},{min:2,icon:'🧹',name:'Шнырь',color:'#888'},
+    {min:3,icon:'🥖',name:'Бич',color:'#888'},{min:4,icon:'🫏',name:'Фраерок',color:'#888'},
+    {min:5,icon:'🐀',name:'Крыса',color:'#888'},{min:6,icon:'🥫',name:'Шестёрка',color:'#888'},
+    {min:7,icon:'🧽',name:'Швабра',color:'#888'},{min:8,icon:'🥴',name:'Терпила',color:'#888'},
+    {min:9,icon:'🐒',name:'Обезьяна',color:'#888'},{min:10,icon:'🔒',name:'Арестант',color:'#aaa'},
+    {min:11,icon:'🚬',name:'Фраер',color:'#5b8def'},{min:12,icon:'🥷',name:'Шустрый',color:'#5b8def'},
+    {min:13,icon:'🔑',name:'Старичок',color:'#5b8def'},{min:14,icon:'🦍',name:'Бродяга',color:'#5b8def'},
+    {min:15,icon:'🥶',name:'Местный',color:'#5b8def'},{min:16,icon:'⛓️',name:'Авторитетик',color:'#5b8def'},
+    {min:17,icon:'🐺',name:'Волчара',color:'#5b8def'},{min:18,icon:'🔥',name:'Бывалый',color:'#5b8def'},
+    {min:19,icon:'🗿',name:'Смотрящий за углом',color:'#5b8def'},{min:20,icon:'👊',name:'Уважаемый',color:'#5b8def'},
+    {min:21,icon:'🥶',name:'Старый волк',color:'#a855f7'},{min:22,icon:'🔥',name:'Матёрый',color:'#a855f7'},
+    {min:23,icon:'🦅',name:'Бродяга со стажем',color:'#a855f7'},{min:24,icon:'⛓️',name:'Смотрящий',color:'#a855f7'},
+    {min:25,icon:'👑',name:'Авторитет',color:'#a855f7'},{min:26,icon:'🐺',name:'Старший',color:'#a855f7'},
+    {min:27,icon:'💀',name:'Легенда камеры',color:'#a855f7'},{min:28,icon:'🔱',name:'Паханчик',color:'#a855f7'},
+    {min:29,icon:'🥷',name:'Теневой авторитет',color:'#a855f7'},{min:30,icon:'👑',name:'Пахан',color:'#a855f7'},
+    {min:31,icon:'🔒',name:'Старший пахан',color:'#00d2ff'},{min:32,icon:'🐺',name:'Волк зоны',color:'#00d2ff'},
+    {min:33,icon:'⚡',name:'Грозный',color:'#00d2ff'},{min:34,icon:'💀',name:'Легенда барака',color:'#00d2ff'},
+    {min:35,icon:'🔱',name:'Криминальный авторитет',color:'#00d2ff'},{min:36,icon:'👑',name:'Главный смотрящий',color:'#00d2ff'},
+    {min:37,icon:'🥶',name:'Неприкасаемый',color:'#00d2ff'},{min:38,icon:'🦅',name:'Вор старой школы',color:'#00d2ff'},
+    {min:39,icon:'💎',name:'Легенда системы',color:'#00d2ff'},{min:40,icon:'👑',name:'Король зоны',color:'#00d2ff'},
+    {min:41,icon:'🔱',name:'Теневой босс',color:'#ffd700'},{min:42,icon:'💀',name:'Гроза бараков',color:'#ffd700'},
+    {min:43,icon:'🐺',name:'Серый волк',color:'#ffd700'},{min:44,icon:'👑',name:'Верховный авторитет',color:'#ffd700'},
+    {min:45,icon:'🔥',name:'Легенда улиц',color:'#ffd700'},{min:46,icon:'⛓️',name:'Хозяин положения',color:'#ffd700'},
+    {min:47,icon:'💎',name:'Элита элит',color:'#ffd700'},{min:48,icon:'🥶',name:'Неприкасаемый босс',color:'#ffd700'},
+    {min:49,icon:'🔱',name:'Легенда зоны',color:'#ffd700'},{min:50,icon:'👑',name:'ВОРОВСКОЙ БОГ',color:'#ff0000'}
+  ];
 
-/* ═══════════════════════════════════════════
-   СТАТУСЫ
-   ═══════════════════════════════════════════ */
-const HIERARCHY = [
-  { min: 1, icon: '🐓', name: 'Лох', color: '#888' }, { min: 2, icon: '🧹', name: 'Шнырь', color: '#888' },
-  { min: 3, icon: '🥖', name: 'Бич', color: '#888' }, { min: 4, icon: '🫏', name: 'Фраерок', color: '#888' },
-  { min: 5, icon: '🐀', name: 'Крыса', color: '#888' }, { min: 6, icon: '🥫', name: 'Шестёрка', color: '#888' },
-  { min: 7, icon: '🧽', name: 'Швабра', color: '#888' }, { min: 8, icon: '🥴', name: 'Терпила', color: '#888' },
-  { min: 9, icon: '🐒', name: 'Обезьяна', color: '#888' }, { min: 10, icon: '🔒', name: 'Арестант', color: '#aaa' },
-  { min: 11, icon: '🚬', name: 'Фраер', color: '#5b8def' }, { min: 12, icon: '🥷', name: 'Шустрый', color: '#5b8def' },
-  { min: 13, icon: '🔑', name: 'Старичок', color: '#5b8def' }, { min: 14, icon: '🦍', name: 'Бродяга', color: '#5b8def' },
-  { min: 15, icon: '🥶', name: 'Местный', color: '#5b8def' }, { min: 16, icon: '⛓️', name: 'Авторитетик', color: '#5b8def' },
-  { min: 17, icon: '🐺', name: 'Волчара', color: '#5b8def' }, { min: 18, icon: '🔥', name: 'Бывалый', color: '#5b8def' },
-  { min: 19, icon: '🗿', name: 'Смотрящий за углом', color: '#5b8def' }, { min: 20, icon: '👊', name: 'Уважаемый', color: '#5b8def' },
-  { min: 21, icon: '🥶', name: 'Старый волк', color: '#a855f7' }, { min: 22, icon: '🔥', name: 'Матёрый', color: '#a855f7' },
-  { min: 23, icon: '🦅', name: 'Бродяга со стажем', color: '#a855f7' }, { min: 24, icon: '⛓️', name: 'Смотрящий', color: '#a855f7' },
-  { min: 25, icon: '👑', name: 'Авторитет', color: '#a855f7' }, { min: 26, icon: '🐺', name: 'Старший', color: '#a855f7' },
-  { min: 27, icon: '💀', name: 'Легенда камеры', color: '#a855f7' }, { min: 28, icon: '🔱', name: 'Паханчик', color: '#a855f7' },
-  { min: 29, icon: '🥷', name: 'Теневой авторитет', color: '#a855f7' }, { min: 30, icon: '👑', name: 'Пахан', color: '#a855f7' },
-  { min: 31, icon: '🔒', name: 'Старший пахан', color: '#00d2ff' }, { min: 32, icon: '🐺', name: 'Волк зоны', color: '#00d2ff' },
-  { min: 33, icon: '⚡', name: 'Грозный', color: '#00d2ff' }, { min: 34, icon: '💀', name: 'Легенда барака', color: '#00d2ff' },
-  { min: 35, icon: '🔱', name: 'Криминальный авторитет', color: '#00d2ff' }, { min: 36, icon: '👑', name: 'Главный смотрящий', color: '#00d2ff' },
-  { min: 37, icon: '🥶', name: 'Неприкасаемый', color: '#00d2ff' }, { min: 38, icon: '🦅', name: 'Вор старой школы', color: '#00d2ff' },
-  { min: 39, icon: '💎', name: 'Легенда системы', color: '#00d2ff' }, { min: 40, icon: '👑', name: 'Король зоны', color: '#00d2ff' },
-  { min: 41, icon: '🔱', name: 'Теневой босс', color: '#ffd700' }, { min: 42, icon: '💀', name: 'Гроза бараков', color: '#ffd700' },
-  { min: 43, icon: '🐺', name: 'Серый волк', color: '#ffd700' }, { min: 44, icon: '👑', name: 'Верховный авторитет', color: '#ffd700' },
-  { min: 45, icon: '🔥', name: 'Легенда улиц', color: '#ffd700' }, { min: 46, icon: '⛓️', name: 'Хозяин положения', color: '#ffd700' },
-  { min: 47, icon: '💎', name: 'Элита элит', color: '#ffd700' }, { min: 48, icon: '🥶', name: 'Неприкасаемый босс', color: '#ffd700' },
-  { min: 49, icon: '🔱', name: 'Легенда зоны', color: '#ffd700' }, { min: 50, icon: '👑', name: 'ВОРОВСКОЙ БОГ', color: '#ff0000' }
-];
+  const P = [
+    {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Red Bull 🐂⚡","Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪","Red bull The blue edition 💙","Red bull The pink edition 💗"],desc:"Снюс, крепкий"},
+    {id:2,name:"💀 D.L.T.A XS ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Микс ягод 🫐🍓","Зеленый виноград мята 🍇🌿"],desc:"Снюс, крепкий"},
+    {id:303,name:"🔥 Iceberg Hardcore",price:16,cat:"snus",brand:"iceberg",flavors:["Ice shock 🧊💥"],desc:"150мг"},
+    {id:129,name:"💀 Iceberg Strong",price:16,cat:"snus",brand:"iceberg",flavors:["Черная смородина 🫐","Виноград 🍇","Арбуз лайм 🍉🍋"],desc:"75 мг"},
+    {id:130,name:"💀 Iceberg Overkill",price:16,cat:"snus",brand:"iceberg",flavors:["Cherry riot 🍒💥","Citrus blast 🍋💥","Green rampage 🍏💥","Like strike ⚡💥","Night crush 🖤💥","Polar fury 🧊💥"],desc:"200 мг"},
+    {id:131,name:"💀 Iceberg Ultra",price:16,cat:"snus",brand:"iceberg",flavors:["Жвачка тутти-фрутти 🍬🫧","Мультифрукт цитрус 🍊🍋","Аромат цветов 🌸","Мандарин 🍊"],desc:"150 мг"},
+    {id:500,name:"⚡ Кофеиновые паучи Iceberg",price:13,cat:"kofein",brand:"ICBERG",flavors:["Сладкая мята 🌿🍬","Энергетик ⚡","Мятный арбуз 🌿🍉","Зеленое яблоко 🍏"],desc:"Кофеиновые паучи"},
+    {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",isNew:true,flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
+    {id:125,name:"🧪 Monster Hardcore",price:16,cat:"liquid",brand:"monster",isNew:true,flavors:["Смородиновый коктейль 🫐🥤","Фруктовый коктейль 🍓🥭🍍"],desc:"50 мг, 30мл"},
+    {id:126,name:"🧪 Monster Iceberg",price:16,cat:"liquid",brand:"monster",isNew:true,flavors:["Арбузный фреш 🍉🥤","Вишневый смузи 🍒🥤","Ледяные ягоды 🧊🫐🍓","Ментоловый спрайт 🌿🧊🫧","Морозная пинаколада 🧊🍹🥥","Розовый лимонад 🌸🍋🥤","Смородиновый смузи 🫐🥤"],desc:"50 мг, 30мл"},
+    {id:127,name:"🧪 Злая Монашка Buble",price:18,cat:"liquid",brand:"злая монашка",isNew:true,flavors:["Арбузная конфета 🍉🍬","Виноградный скитлс 🍇🍬","Вишневый тик-так 🍒🍬","Кислая мармеладная лента 🍬🍋","Кислый скитлс черешня 🍒🍬🍋","Клубничный бабл-гам 🍓🫧","Смородиновый холлс 🫐🍬","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
+    {id:128,name:"🧪 Самоубийца Danger",price:20,cat:"liquid",brand:"самоубийца",isNew:true,flavors:["Виноград смородина мята 🍇🫐🌿","Вишневый холлс 🍒🍬","Вишня виноград 🍒🍇","Зеленый скитлс 🍏🍬","Земляничный спрайт 🍓🫧","Классический энергетик","Мармеладный энергетик ⚡🍬","Ягодная жвачка 🫐🫧"],desc:"100 мг, 30мл"},
+    {id:8,name:"🧪 Bjorn Long 80mg 🧛",price:20,cat:"liquid",brand:"bjorn",flavors:["Мята спрайт 🌿🧊","Фруктовый мармелад 🍬🍊"],desc:"80mg, 30мл"},
+    {id:102,name:"🧪 Bjorn Сон Призрака",price:20,cat:"liquid",brand:"bjorn",flavors:["Ледяная клубника личи 🍓🧊","Манго со льдом 🥭🧊","Ананас манго 🍍🥭","Кислое яблоко 🍏","Яблоко персик 🍎🍑"],desc:"30мл"},
+    {id:81,name:"🧪 Монашка Hotspot",price:18,cat:"liquid",brand:"hotspot , монашка",flavors:["Мармеладные червячки 🍬🪱","Ледяной энергетик ⚡🧊","Вишня ледяной лайм 🍒🧊🍋","Кислый ленточки вишня черника 🎀🍒🫐","Кислые клубничный чупа чупс 🍓🍭","Кислый скитлс малина ананас 🍬🍓🍍","Клубника лайм 🍓🍋","Манго черная смородина 🥭🫐","Морозные лесные ягоды 🧊🫐🍓"],desc:"30мл"},
+    {id:104,name:"🧪 Злая Монашка",price:18,cat:"liquid",brand:"злая монашка",flavors:["Энергетик арбуз ⚡🍉","Жвачка арбуз 🫧🍉","Пина колада 🍹🥥","Клубнично ежевичный морс 🍓🫐","Доктор Пеппер черешня 🥤🍒","Клубника личи 🍓🥭"],desc:"70mg, 30мл"},
+    {id:120,name:"🧪 Злая Монашка Ice",price:18,cat:"liquid",brand:"злая монашка",flavors:["Клубника арбуз лед 🍓🍉🧊","Морс из красных ягод лед 🍓🧊","Смородиновый мармелад лед 🫐🍬🧊"],desc:"70 мг, 30мл"},
+    {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧","Лит энерджи малина ⚡🍓"],desc:"70mg, 30мл"},
+    {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊","Клубника персик 🍓🍑"],desc:"70 мг, 30мл"},
+    {id:117,name:"🧪 Anima Love Killer",price:17,cat:"liquid",brand:"anima",flavors:["Арбузный смузи 🍉🥤","Банан клубника 🍌🍓","Виноград вишня 🍇🍒","Вишневая газировка 🍒🫧","Клубничный коктейль 🍓🍹","Чернично-малиновые червячки 🫐🍓🪱","Яблочный лимонад 🍎🍋","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
+    {id:118,name:"🧪 Bjorn Joker 🃏",price:20,cat:"liquid",brand:"bjorn",flavors:["Клубника банан 🍓🍌","Кола вишня 🥤🍒","Черника мята 🫐🌿","Энергетик ⚡","Вишня клюква 🍒🫐"],desc:"80 мг, 30мл"},
+    {id:201,name:"🧪 Hotspot Don't Chew It 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Жвачка ледяная вишня 🫧🍒🧊","Жвачка маракуйя 🫧🥭"],desc:"60мг"},
+    {id:202,name:"🧪 Hotspot Dot 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Банан лайм 🍌🍋"],desc:"60мг"},
+    {id:203,name:"🧪 Hotspot Fuel 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Дыня черника 🍈🫐"],desc:"60мг"},
+    {id:106,name:"🧪 Hotspot x Podonki 60 мг",price:15,cat:"liquid",brand:"hotspot , podonki",flavors:["Освежающий лимонад лайм мята 🍋🌿❄️","Холодное яблоко 🍎🧊","Холодный арбуз 🍉🧊"],desc:"60мг"},
+    {id:107,name:"🧪 Podonki Inferno",price:16,cat:"liquid",brand:"podonki",flavors:["Черника лед 🫐🧊"],desc:"60mg, 30мл"},
+    {id:108,name:"🧪 Bjorn Zloy V2.0",price:16,cat:"liquid",brand:"bjorn",flavors:["Виноград мармелад маршмеллоу 🍇🍬🍡","Смородина малина яблоко 🫐🍓🍎","Ваниль вишня 🍦🍒","Яблоко виноград 🍎🍇","Мохито 🍋🌿🫧","Ягодный напиток 🫐🍓🥤","Энергетик монстер ⚡🖤"],desc:"60mg, 30мл"},
+    {id:111,name:"🧪 Anima Love Zombie",price:17,cat:"liquid",brand:"anima",flavors:["Яблоко виноград 🍎🍇","Клубничный леденец 🍓🍬","Клубника банан 🍓🍌","Малина с кислинкой 🍓","Арбузный Бабл гам 🍉🫧","Алоэ виноград 🌵🍇"],desc:"60mg, 30мл"},
+    {id:114,name:"🧪 Anima Love Sour",price:16,cat:"liquid",brand:"anima",flavors:["Кислая черника апельсин 🫐🍊🍋","Кислый зеленый виноград 🍇🍋","Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50mg, 30мл"},
+    {id:119,name:"🧪 Anima Love Phobia",price:17,cat:"liquid",brand:"anima",flavors:["Вишневый скитлс 🍒🍬","Голубика черная смородина 🫐","Дикие ягоды 🫐🍓","Кислые ягодные червячки 🪱🍋","Клубнично-банановый фреш 🍓🍌🥤","Морс из домашних ягод 🫐🍓","Ред Булл малина ⚡🍓","Ред Булл со льдом ⚡🧊","Смородина лимонад 🫐🍋","Фруктовый скитлс 🍬🍊","Ягодный Ред Булл ⚡🫐"],desc:"70мг, 30мл"},
+    {id:122,name:"🧪 Rich",price:18,cat:"liquid",brand:"Rich",flavors:["Вишневые леденцы 🍒🍬","Вишня клубника 🍒🍓","Морозные лесные ягоды 🧊🫐🍓"],desc:"80 мг, 30мл"},
+    {id:123,name:"🧪 Catswill x Hotspot",price:17,cat:"liquid",brand:"catswill, hotspot",flavors:["Энергетик яблоко смородина малина ⚡🍎🫐🍓","Кислая мамба лесная земляника 🍋🫐🍓","Харибо тропические фрукты 🍬🥭🍍","Малиновый энергетик с клубникой ⚡🍓","Кислая клубника ананас 🍓🍍🍋","Кислая черная смородина 🫐🍋","Мармеладные червячки малина лайм 🪱🍓🍋"],desc:"70 мг, 30мл"},
+    {id:48,name:"🔧 Картридж Xros 0.4 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
+    {id:49,name:"🔧 Картридж Xros 0.6 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
+    {id:112,name:"🔧 Картридж Xros 0.8 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
+    {id:50,name:"🔧 Испаритель Aegis Coil B0 (50-58w)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"0.2Ω, 5 шт"},
+    {id:98,name:"🔧 Испаритель Pasito 3/Pasito 2/Knight 80",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"0.15Ω, (70-90)"},
+    {id:121,name:"🔧 Испаритель Voopoo V.THRU 0.4 Ом",price:13,cat:"consumables",brand:"voopoo",flavors:[],desc:"0.4 Ом"},
+    {id:51,name:"🔧 Никобустер Salt (+20мг на 30 мл)",price:3,cat:"consumables",brand:"jord",flavors:[],desc:"Для миксования"}
+  ];
 
-/* ═══════════════════════════════════════════
-   ТОВАРЫ (1-в-1 из products.js)
-   ═══════════════════════════════════════════ */
-const P = [
-  // СНЮС
-  {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Red Bull 🐂⚡","Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪","Red bull The blue edition 💙","Red bull The pink edition 💗"],desc:"Снюс, крепкий"},
-  {id:2,name:"💀 D.L.T.A XS ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Микс ягод 🫐🍓","Зеленый виноград мята 🍇🌿"],desc:"Снюс, крепкий"},
-  {id:303,name:"🔥 Iceberg Hardcore",price:16,cat:"snus",brand:"iceberg",flavors:["Ice shock 🧊💥"],desc:"150мг"},
-  {id:129,name:"💀 Iceberg Strong",price:16,cat:"snus",brand:"iceberg",flavors:["Черная смородина 🫐","Виноград 🍇","Арбуз лайм 🍉🍋"],desc:"75 мг"},
-  {id:130,name:"💀 Iceberg Overkill",price:16,cat:"snus",brand:"iceberg",flavors:["Cherry riot 🍒💥","Citrus blast 🍋💥","Green rampage 🍏💥","Like strike ⚡💥","Night crush 🖤💥","Polar fury 🧊💥"],desc:"200 мг"},
-  {id:131,name:"💀 Iceberg Ultra",price:16,cat:"snus",brand:"iceberg",flavors:["Жвачка тутти-фрутти 🍬🫧","Мультифрукт цитрус 🍊🍋","Аромат цветов 🌸","Мандарин 🍊"],desc:"150 мг"},
-  
-  // КОФЕИНОВЫЕ ПАУЧИ
-  {id:500,name:"⚡ Кофеиновые паучи Iceberg",price:13,cat:"kofein",brand:"ICBERG",flavors:["Сладкая мята 🌿🍬","Энергетик ⚡","Мятный арбуз 🌿🍉","Зеленое яблоко 🍏"],desc:"Кофеиновые паучи"},
+  const CAT_NAMES = {liquid:'Жидкость',snus:'Снюс',kofein:'Кофеин',consumables:'Расходник'};
+  const CAT_EMOJI = {liquid:'💧',snus:'🥫',kofein:'☕',consumables:'🔧'};
 
-  // НОВЫЕ ЖИДКОСТИ
-  {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",isNew:true,flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
-  {id:125,name:"🧪 Monster Hardcore",price:16,cat:"liquid",brand:"monster",isNew:true,flavors:["Смородиновый коктейль 🫐🥤","Фруктовый коктейль 🍓🥭🍍"],desc:"50 мг, 30мл"},
-  {id:126,name:"🧪 Monster Iceberg",price:16,cat:"liquid",brand:"monster",isNew:true,flavors:["Арбузный фреш 🍉🥤","Вишневый смузи 🍒🥤","Ледяные ягоды 🧊🫐🍓","Ментоловый спрайт 🌿🧊🫧","Морозная пинаколада 🧊🍹🥥","Розовый лимонад 🌸🍋🥤","Смородиновый смузи 🫐🥤"],desc:"50 мг, 30мл"},
-  {id:127,name:"🧪 Злая Монашка Buble",price:18,cat:"liquid",brand:"злая монашка",isNew:true,flavors:["Арбузная конфета 🍉🍬","Виноградный скитлс 🍇🍬","Вишневый тик-так 🍒🍬","Кислая мармеладная лента 🍬🍋","Кислый скитлс черешня 🍒🍬🍋","Клубничный бабл-гам 🍓🫧","Смородиновый холлс 🫐🍬","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
-  {id:128,name:"🧪 Самоубийца Danger",price:20,cat:"liquid",brand:"самоубийца",isNew:true,flavors:["Виноград смородина мята 🍇🫐🌿","Вишневый холлс 🍒🍬","Вишня виноград 🍒🍇","Зеленый скитлс 🍏🍬","Земляничный спрайт 🍓🫧","Классический энергетик","Мармеладный энергетик ⚡🍬","Ягодная жвачка 🫐🫧"],desc:"100 мг, 30мл"},
+  const $ = id => document.getElementById(id);
+  const fmt = n => Number(n).toFixed(2).replace('.',',');
+  const getP = id => P.find(x => x.id == id);
+  const uName = u => [u.first_name,u.last_name].filter(Boolean).join(' ') || 'Пользователь';
+  function safeGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function safeSet(k,v){ try { localStorage.setItem(k,v); return true; } catch(e){ return false; } }
 
-  // ОСТАЛЬНЫЕ ЖИДКОСТИ
-  {id:8,name:"🧪 Bjorn Long 80mg 🧛",price:20,cat:"liquid",brand:"bjorn",flavors:["Мята спрайт 🌿🧊","Фруктовый мармелад 🍬🍊"],desc:"80mg, 30мл"},
-  {id:102,name:"🧪 Bjorn Сон Призрака",price:20,cat:"liquid",brand:"bjorn",flavors:["Ледяная клубника личи 🍓🧊","Манго со льдом 🥭🧊","Ананас манго 🍍🥭","Кислое яблоко 🍏","Яблоко персик 🍎🍑"],desc:"30мл"},
-  {id:81,name:"🧪 Монашка Hotspot",price:18,cat:"liquid",brand:"hotspot , монашка",flavors:["Мармеладные червячки 🍬🪱","Ледяной энергетик ⚡🧊","Вишня ледяной лайм 🍒🧊🍋","Кислый ленточки вишня черника 🎀🍒🫐","Кислые клубничный чупа чупс 🍓🍭","Кислый скитлс малина ананас 🍬🍓🍍","Клубника лайм 🍓🍋","Манго черная смородина 🥭🫐","Морозные лесные ягоды 🧊🫐🍓"],desc:"30мл"},
-  {id:104,name:"🧪 Злая Монашка",price:18,cat:"liquid",brand:"злая монашка",flavors:["Энергетик арбуз ⚡🍉","Жвачка арбуз 🫧🍉","Пина колада 🍹🥥","Клубнично ежевичный морс 🍓🫐","Доктор Пеппер черешня 🥤🍒","Клубника личи 🍓🥭"],desc:"70mg, 30мл"},
-  {id:120,name:"🧪 Злая Монашка Ice",price:18,cat:"liquid",brand:"злая монашка",flavors:["Клубника арбуз лед 🍓🍉🧊","Морс из красных ягод лед 🍓🧊","Смородиновый мармелад лед 🫐🍬🧊"],desc:"70 мг, 30мл"},
-  {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧","Лит энерджи малина ⚡🍓"],desc:"70mg, 30мл"},
-  {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊","Клубника персик 🍓🍑"],desc:"70 мг, 30мл"},
-  {id:117,name:"🧪 Anima Love Killer",price:17,cat:"liquid",brand:"anima",flavors:["Арбузный смузи 🍉🥤","Банан клубника 🍌🍓","Виноград вишня 🍇🍒","Вишневая газировка 🍒🫧","Клубничный коктейль 🍓🍹","Чернично-малиновые червячки 🫐🍓🪱","Яблочный лимонад 🍎🍋","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
-  // Товар 133 (anima love) пропущен, так как в исходнике он сломан (цена 2112, пустые вкусы)
-  {id:118,name:"🧪 Bjorn Joker 🃏",price:20,cat:"liquid",brand:"bjorn",flavors:["Клубника банан 🍓🍌","Кола вишня 🥤🍒","Черника мята 🫐🌿","Энергетик ⚡","Вишня клюква 🍒🫐"],desc:"80 мг, 30мл"},
-  {id:201,name:"🧪 Hotspot Don't Chew It 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Жвачка ледяная вишня 🫧🍒🧊","Жвачка маракуйя 🫧🥭"],desc:"60мг"},
-  {id:202,name:"🧪 Hotspot Dot 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Банан лайм 🍌🍋"],desc:"60мг"},
-  {id:203,name:"🧪 Hotspot Fuel 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Дыня черника 🍈🫐"],desc:"60мг"},
-  {id:106,name:"🧪 Hotspot x Podonki 60 мг",price:15,cat:"liquid",brand:"hotspot , podonki",flavors:["Освежающий лимонад лайм мята 🍋🌿❄️","Холодное яблоко 🍎🧊","Холодный арбуз 🍉🧊"],desc:"60мг"},
-  {id:107,name:"🧪 Podonki Inferno",price:16,cat:"liquid",brand:"podonki",flavors:["Черника лед 🫐🧊"],desc:"60mg, 30мл"},
-  {id:108,name:"🧪 Bjorn Zloy V2.0",price:16,cat:"liquid",brand:"bjorn",flavors:["Виноград мармелад маршмеллоу 🍇🍬🍡","Смородина малина яблоко 🫐🍓🍎","Ваниль вишня 🍦🍒","Яблоко виноград 🍎🍇","Мохито 🍋🌿🫧","Ягодный напиток 🫐🍓🥤","Энергетик монстер ⚡🖤"],desc:"60mg, 30мл"},
-  {id:111,name:"🧪 Anima Love Zombie",price:17,cat:"liquid",brand:"anima",flavors:["Яблоко виноград 🍎🍇","Клубничный леденец 🍓🍬","Клубника банан 🍓🍌","Малина с кислинкой 🍓","Арбузный Бабл гам 🍉🫧","Алоэ виноград 🌵🍇"],desc:"60mg, 30мл"},
-  {id:114,name:"🧪 Anima Love Sour",price:16,cat:"liquid",brand:"anima",flavors:["Кислая черника апельсин 🫐🍊🍋","Кислый зеленый виноград 🍇🍋","Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50mg, 30мл"},
-  {id:119,name:"🧪 Anima Love Phobia",price:17,cat:"liquid",brand:"anima",flavors:["Вишневый скитлс 🍒🍬","Голубика черная смородина 🫐","Дикие ягоды 🫐🍓","Кислые ягодные червячки 🪱🍋","Клубнично-банановый фреш 🍓🍌🥤","Морс из домашних ягод 🫐🍓","Ред Булл малина ⚡🍓","Ред Булл со льдом ⚡🧊","Смородина лимонад 🫐🍋","Фруктовый скитлс 🍬🍊","Ягодный Ред Булл ⚡🫐"],desc:"70мг, 30мл"},
-  {id:122,name:"🧪 Rich",price:18,cat:"liquid",brand:"Rich",flavors:["Вишневые леденцы 🍒🍬","Вишня клубника 🍒🍓","Морозные лесные ягоды 🧊🫐🍓"],desc:"80 мг, 30мл"},
-  {id:123,name:"🧪 Catswill x Hotspot",price:17,cat:"liquid",brand:"catswill, hotspot",flavors:["Энергетик яблоко смородина малина ⚡🍎🫐🍓","Кислая мамба лесная земляника 🍋🫐🍓","Харибо тропические фрукты 🍬🥭🍍","Малиновый энергетик с клубникой ⚡🍓","Кислая клубника ананас 🍓🍍🍋","Кислая черная смородина 🫐🍋","Мармеладные червячки малина лайм 🪱🍓🍋"],desc:"70 мг, 30мл"},
+  const tg = window.Telegram?.WebApp;
+  const isTG = !!(tg?.initDataUnsafe?.user);
+  let user = isTG ? tg.initDataUnsafe.user : { id:0, first_name:'Гость', username:'' };
 
-  // РАСХОДНИКИ
-  {id:48,name:"🔧 Картридж Xros 0.4 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
-  {id:49,name:"🔧 Картридж Xros 0.6 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
-  {id:112,name:"🔧 Картридж Xros 0.8 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
-  {id:50,name:"🔧 Испаритель Aegis Coil B0 (50-58w)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"0.2Ω, 5 шт"},
-  {id:98,name:"🔧 Испаритель Pasito 3/Pasito 2/Knight 80",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"0.15Ω, (70-90)"},
-  {id:121,name:"🔧 Испаритель Voopoo V.THRU 0.4 Ом",price:13,cat:"consumables",brand:"voopoo",flavors:[],desc:"0.4 Ом"},
-  {id:51,name:"🔧 Никобустер Salt (+20мг на 30 мл)",price:3,cat:"consumables",brand:"jord",flavors:[],desc:"Для миксования"}
-];
-
-const CAT_NAMES = {liquid:'Жидкость',snus:'Снюс',kofein:'Кофеин',consumables:'Расходник'};
-const CAT_EMOJI = {liquid:'💧',snus:'🥫',kofein:'☕',consumables:'🔧'};
-
-const $ = id => document.getElementById(id);
-const fmt = n => Number(n).toFixed(2).replace('.',',');
-const getP = id => P.find(x => x.id == id);
-const uName = u => [u.first_name,u.last_name].filter(Boolean).join(' ') || 'Пользователь';
-
-function safeGet(k){ try { return localStorage.getItem(k); } catch(e){ return sessionStorage.getItem(k); } }
-function safeSet(k,v){ try { localStorage.setItem(k,v); return true; } catch(e){ try { sessionStorage.setItem(k,v); return true; } catch(e2){ return false; } } }
-
-const tg = window.Telegram?.WebApp;
-const isTG = !!(tg?.initDataUnsafe?.user);
-let user = isTG ? tg.initDataUnsafe.user : { id:0, first_name:'Гость', username:'' };
-let supabase = null;
-
-if (isTG) { try { tg.ready(); tg.expand(); tg.setHeaderColor?.('#0d0518'); tg.setBackgroundColor?.('#0d0518'); tg.enableClosingConfirmation?.(); } catch(e){} }
-if (window.supabase && SUPABASE_URL.startsWith('http')) { try { supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e){} }
-
-if (isTG) {
-  if (user.photo_url) $('headerAvatar').innerHTML = `<img src="${user.photo_url}">`;
-  else $('headerAvatar').textContent = user.first_name[0].toUpperCase();
-  
-  // Проверка на админа (твой ID)
-  if (user.id === ADMIN_ID) {
-    $('adminBtn').classList.remove('hidden');
-  }
-}
-
-let cart = {}, orders = [], activePromo = null;
-let curCat = 'all', curBrand = 'all', modalPid = null, modalFlavor = null;
-let promoLoading = false;
-
-const SK = 'tz_v11';
-function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
-function load(){
-  try {
-    const raw = safeGet(SK);
-    if (!raw) return;
-    const s = JSON.parse(raw);
-    if (s.cart) cart = s.cart;
-    if (Array.isArray(s.orders)) orders = s.orders;
-    if (s.activePromo) activePromo = s.activePromo;
-  } catch(e){}
-}
-
-function haptic(t='light'){ try { tg?.HapticFeedback?.impactOccurred(t); } catch(e){} }
-
-function getStatus(count) {
-  if (count === 0) return { icon: '👤', name: 'Новичок', color: '#b8a2d6' };
-  const idx = Math.min(count - 1, HIERARCHY.length - 1);
-  return HIERARCHY[idx];
-}
-
-/* ═══════════════════════════════════════════
-   RENDER PRODUCTS & FILTERS
-   ═══════════════════════════════════════════ */
-function renderProducts(){
-  const wrap = $('products');
-  const list = P.filter(p => {
-    const catOK = curCat === 'all' || p.cat === curCat;
-    const brandOK = curBrand === 'all' || String(p.brand||'').toLowerCase() === curBrand.toLowerCase();
-    return catOK && brandOK;
-  });
-
-  if (!list.length) { wrap.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--mut)">Нет товаров</div>`; return; }
-  
-  let html = '';
-  for (const p of list){
-    const hasFl = p.flavors?.length > 0;
-    const badge = p.isNew ? '<span class="badge">Новинка</span>' : '';
-    html += `<div class="product" data-pid="${p.id}">${badge}
-      <div class="product-img">
-        <img src="images/product${p.id}.jpg" alt="${p.name}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-        <div class="ph">${CAT_EMOJI[p.cat]}</div>
-      </div>
-      <div class="product-cat">${CAT_NAMES[p.cat]}</div>
-      <h3>${p.name}</h3>
-      <div class="desc">${p.desc||''}</div>
-      ${hasFl ? `<div class="flavors-info">🍬 ${p.flavors.length} вкусов</div>` : ''}
-      <div class="product-foot">
-        <div class="price">${p.price}<small>BYN</small></div>
-        <button class="add-btn" data-add="${p.id}">+</button>
-      </div>
-    </div>`;
-  }
-  wrap.innerHTML = html;
-  list.slice(0,6).forEach(p => { const i = new Image(); i.src = `images/product${p.id}.jpg`; });
-}
-
-const brandSet = {};
-P.forEach(p => { if (p.brand) brandSet[p.brand] = true; });
-$('brandFilters').insertAdjacentHTML('beforeend', Object.keys(brandSet).sort().map(b => `<button class="filter" data-brand="${b}">${b}</button>`).join(''));
-
-$('catFilters').addEventListener('click', e => {
-  const b = e.target.closest('[data-cat]'); if (!b) return;
-  document.querySelectorAll('#catFilters .filter').forEach(x => x.classList.remove('active'));
-  b.classList.add('active'); curCat = b.dataset.cat; renderProducts();
-});
-
-$('brandFilters').addEventListener('click', e => {
-  const b = e.target.closest('[data-brand]'); if (!b) return;
-  const was = b.classList.contains('active');
-  document.querySelectorAll('#brandFilters .filter').forEach(x => x.classList.remove('active'));
-  if (was){ curBrand = 'all'; } else { b.classList.add('active'); curBrand = b.dataset.brand; }
-  renderProducts();
-});
-
-/* ═══════════════════════════════════════════
-   CART
-   ═══════════════════════════════════════════ */
-function updateCount(){ $('cartCount').textContent = Object.values(cart).reduce((s,i)=>s+i.qty, 0); }
-function subtotal(){ return Object.values(cart).reduce((s,i) => { const p = getP(i.id); return s + (p ? p.price * i.qty : 0); }, 0); }
-
-function openCart() { closeAll(); updateCartUI(); $('cartDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
-function openProfile() { if (!isTG) return alert('Открой через Telegram'); closeAll(); renderProfile(); $('profileDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
-function openPromos() { closeAll(); renderPromos(); $('promosDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
-function openAdmin() { closeAll(); renderAdmin(); $('adminDrawer').classList.add('open'); $('overlay').classList.add('open'); if (tg?.BackButton) tg.BackButton.show(); }
-function closeAll() { $('cartDrawer').classList.remove('open'); $('profileDrawer').classList.remove('open'); $('promosDrawer').classList.remove('open'); $('adminDrawer').classList.remove('open'); $('overlay').classList.remove('open'); if (tg?.BackButton) tg.BackButton.hide(); }
-
-function updateCartUI() {
-  const items = $('cartItems');
-  const entries = Object.entries(cart);
-  const hasItems = entries.length > 0;
-
-  if (!hasItems) {
-    items.innerHTML = `<div class="cart-empty"><div class="em">🛒</div><p>Корзина пуста</p></div>`;
-  } else {
-    items.innerHTML = entries.map(([k, it]) => {
-      const p = getP(it.id);
-      const sk = k.replace(/'/g,"\\'");
-      return `<div class="cart-item">
-        <div class="cart-item-img">${CAT_EMOJI[p.cat]}</div>
-        <div class="cart-item-info">
-          <div class="cart-item-title">${p.name}</div>
-          ${it.flavor ? `<div class="cart-item-flavor">${it.flavor}</div>` : ''}
-          <div class="cart-item-price">${fmt(p.price * it.qty)} BYN</div>
-          <div class="qty">
-            <button onclick="changeQty('${sk}',-1)">−</button>
-            <span>${it.qty}</span>
-            <button onclick="changeQty('${sk}',1)">+</button>
-            <button class="rm" onclick="rmItem('${sk}')">🗑</button>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  const sub = subtotal();
-  const count = orders.length;
-  const hasLoyalty = count > 0 && count % 10 === 0;
-  const loyaltyDisc = hasLoyalty ? sub * 0.2 : 0;
-  const promoDisc = activePromo ? sub * activePromo.discountPercent / 100 : 0;
-  
-  let finalDisc = 0, discLabel = '';
-  if (promoDisc >= loyaltyDisc && promoDisc > 0) { finalDisc = promoDisc; discLabel = `Промокод (${activePromo.discountPercent}%)`; }
-  else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = `Лояльность (20%)`; }
-  const total = Math.max(0, sub - finalDisc);
-
-  $('cartFoot').innerHTML = `
-    ${hasItems ? `
-      <div class="cart-field">
-        <label>Твой Telegram</label>
-        <input id="custUsername" placeholder="@username" value="${user.username||''}">
-      </div>
-      <div class="cart-field">
-        <label>Оплата</label>
-        <div class="pay-opts">
-          <button class="pay-opt sel" onclick="setPay('card')">💳 Картой</button>
-          <button class="pay-opt" onclick="setPay('cash')">💵 Наличными</button>
-        </div>
-      </div>
-      <div class="totals">
-        <div class="row"><span>Сумма:</span><span>${fmt(sub)} BYN</span></div>
-        ${finalDisc > 0 ? `<div class="row disc"><span>${discLabel}:</span><span>−${fmt(finalDisc)} BYN</span></div>` : ''}
-        <div class="row final"><span>Итого:</span><b>${fmt(total)} BYN</b></div>
-      </div>
-      <button class="checkout-btn" onclick="openConfirmOrder()">Оформить заказ</button>
-    ` : `<div class="row final" style="display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--bd)"><span>Итого:</span><b style="color:var(--acc);font-family:Unbounded">0 BYN</b></div>`}
-  `;
-}
-
-function setPay(m) { document.querySelectorAll('.pay-opt').forEach(b => b.classList.remove('sel')); event.target.classList.add('sel'); window._payMethod = m; }
-function changeQty(k, d) { if (!cart[k]) return; cart[k].qty += d; if (cart[k].qty <= 0) delete cart[k]; save(); updateCartUI(); updateCount(); }
-function rmItem(k) { delete cart[k]; save(); updateCartUI(); updateCount(); }
-
-/* ═══════════════════════════════════════════
-   PROFILE & ORDER HISTORY
-   ═══════════════════════════════════════════ */
-async function renderProfile() {
-  const name = uName(user);
-  const count = orders.length;
-  const status = getStatus(count);
-  const nextStatus = count < 50 ? getStatus(count + 1) : null;
-  const statusText = nextStatus ? `До статуса «${nextStatus.name}» осталось ${nextStatus.min - count} зак.` : `Максимальный статус достигнут!`;
-
-  $('profileUser').innerHTML = `
-    <div class="avatar" id="pfAvatar">${user.photo_url ? `<img src="${user.photo_url}">` : name[0].toUpperCase()}</div>
-    <div>
-      <h4>${name}${user.is_premium ? ' ⭐' : ''}</h4>
-      <span>${user.username ? '@'+user.username : ''}</span>
-    </div>
-  `;
-
-  let userOrders = orders;
-  if (supabase && user.id) {
+  if (isTG) {
+    try { tg.ready(); tg.expand(); tg.setHeaderColor?.('#0d0518'); tg.setBackgroundColor?.('#0d0518'); } catch(e){}
     try {
-      const { data, error } = await supabase.from('orders').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
-      if (!error && data) userOrders = data;
-    } catch(e) {}
+      if (user.photo_url) $('headerAvatar').innerHTML = `<img src="${user.photo_url}">`;
+      else $('headerAvatar').textContent = user.first_name[0].toUpperCase();
+      if (user.id === ADMIN_ID) $('adminBtn').classList.remove('hidden');
+    } catch(e){}
   }
 
-  $('profileStats').innerHTML = `
-    <div class="stat"><div class="stat-label">Заказов</div><div class="stat-val">${userOrders.length}</div></div>
-    <div class="stat"><div class="stat-label">Потрачено</div><div class="stat-val">${fmt(userOrders.reduce((s,o)=>s+Number(o.total),0))} BYN</div></div>
-  `;
+  let supabase = null;
+  let currentUserData = null;
 
-  $('profileContent').innerHTML = `
-    <div class="pf-section">
-      <div class="pf-title">Твой статус</div>
-      <div class="status-badge" style="border-color:${status.color};color:${status.color}">
-        <span>${status.icon}</span> <span>${status.name}</span>
-      </div>
-      <div class="status-next">${statusText}</div>
-    </div>
-    <div class="pf-section">
-      <div class="pf-title">История заказов</div>
-      ${userOrders.length === 0 ? `<div class="empty-block"><div class="em">📦</div><p>Пока пусто</p></div>` : 
-        userOrders.map(o => `
-          <div class="order-card">
-            <div class="order-head">
-              <span class="order-id">${o.order_id || o.id}</span>
-              <span class="order-date">${new Date(o.created_at || o.date).toLocaleDateString('ru-RU')}</span>
-            </div>
-            <div class="order-items">${(o.items || []).map(i => `${i.name} ×${i.qty}`).join(', ')}</div>
-            <div class="order-foot">
-              <span>${(o.items || []).length} поз. <span class="order-status ${o.status || 'new'}">${o.status === 'confirmed' ? 'Выполнен' : 'Ожидает'}</span></span>
-              <span class="order-total">${fmt(o.total)} BYN</span>
-            </div>
-          </div>
-        `).join('')}
-    </div>
-  `;
-}
-
-/* ═══════════════════════════════════════════
-   PROMOS
-   ═══════════════════════════════════════════ */
-function renderPromos() {
-  const count = orders.length;
-  const progress = count % 10;
-  const isRewardReady = count > 0 && count % 10 === 0;
-
-  $('loyaltyCounter').textContent = isRewardReady ? '10 / 10' : `${progress} / 10`;
-  $('loyaltyBar').style.width = isRewardReady ? '100%' : `${(progress / 10) * 100}%`;
-  $('loyaltyHint').innerHTML = isRewardReady 
-    ? `<b style="color:var(--acc)">🎉 Ты получил скидку 20% за 10 заказов!</b>` 
-    : `Сделай 10 заказов и получи скидку 20% на всё! Осталось: ${10 - progress}`;
-
-  if (activePromo) {
-    $('activePromoBox').innerHTML = `
-      <div class="active-discount">
-        <div class="active-discount-info">
-          <div class="active-discount-icon">🎟️</div>
-          <div class="active-discount-text"><b>${activePromo.code}</b><span>Скидка ${activePromo.discountPercent}% активна</span></div>
-        </div>
-        <button class="remove-promo" onclick="removePromo()">×</button>
-      </div>`;
-    $('activePromoBox').classList.remove('hidden');
-    $('promoInputRow').classList.add('hidden');
-  } else {
-    $('activePromoBox').classList.add('hidden');
-    $('promoInputRow').classList.remove('hidden');
-  }
-}
-
-async function applyPromo() {
-  if (!supabase) return alert('Ошибка базы');
-  if (!user.id) return alert('Открой через Telegram');
-  if (promoLoading) return;
-
-  const code = $('promoInput').value.trim().toUpperCase();
-  if (!code) return;
-
-  promoLoading = true;
-  $('promoBtn').disabled = true;
-  $('promoMsg').textContent = 'Проверяем...';
-  $('promoMsg').className = 'promo-msg';
-
-  try {
-    const { data, error } = await supabase.rpc('activate_promo_code', { p_code: code, p_telegram_id: user.id });
-    if (error || !data?.ok) {
-      $('promoMsg').textContent = data?.message || 'Ошибка';
-      $('promoMsg').className = 'promo-msg err';
-    } else {
-      activePromo = { code: data.code, discountPercent: Number(data.discount_percent) };
-      save(); renderPromos(); updateCartUI();
-      $('promoMsg').textContent = '✅ Активирован!';
-      $('promoMsg').className = 'promo-msg ok';
-    }
-  } catch(e) { $('promoMsg').textContent = 'Ошибка сети'; $('promoMsg').className = 'promo-msg err'; }
-  finally { promoLoading = false; $('promoBtn').disabled = false; }
-}
-
-function removePromo() { activePromo = null; save(); renderPromos(); updateCartUI(); }
-
-/* ═══════════════════════════════════════════
-   ADMIN PANEL
-   ═══════════════════════════════════════════ */
-async function renderAdmin() {
-  $('adminContent').innerHTML = '<p style="text-align:center;color:var(--mut);padding:20px;">Загрузка...</p>';
-  
-  if (!supabase) {
-    $('adminContent').innerHTML = '<p style="text-align:center;color:var(--err);padding:20px;">Supabase не подключён</p>';
-    return;
+  function initSupabase(cb){
+    let n = 0;
+    (function loop(){
+      if (window.supabase) {
+        try { supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); console.log('[Supabase] ✅ OK'); if (cb) cb(); } catch(e){ console.error('[Supabase]', e); }
+        return;
+      }
+      if (++n > 50) { console.warn('[Supabase] timeout'); return; }
+      setTimeout(loop, 100);
+    })();
   }
 
-  const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
-  
-  if (error || !data) {
-    $('adminContent').innerHTML = `<p style="text-align:center;color:var(--err);padding:20px;">Ошибка загрузки: ${error?.message}</p>`;
-    return;
-  }
+  let cart = {}, orders = [], activePromo = null;
+  let curCat = 'all', curBrand = 'all', modalPid = null, modalFlavor = null;
+  let promoLoading = false;
 
-  if (data.length === 0) {
-    $('adminContent').innerHTML = '<p style="text-align:center;color:var(--mut);padding:20px;">Заказов пока нет</p>';
-    return;
-  }
-
-  $('adminContent').innerHTML = data.map(o => `
-    <div class="admin-card">
-      <div class="admin-head">
-        <div>
-          <b style="color:var(--acc)">${o.order_id}</b><br>
-          <span class="admin-user">@${o.username} (ID: ${o.user_id})</span><br>
-          <span class="admin-user">${new Date(o.created_at).toLocaleString('ru-RU')}</span>
-        </div>
-        <span class="order-status ${o.status}">${o.status === 'confirmed' ? 'Выполнен' : 'Новый'}</span>
-      </div>
-      <div class="admin-items">
-        ${(o.items || []).map(i => `▪️ ${i.name}${i.flavor ? ` (${i.flavor})` : ''} ×${i.qty}`).join('<br>')}
-      </div>
-      <div class="admin-foot">
-        <span>Итого: ${fmt(o.total)} BYN</span>
-        ${o.status === 'new' ? `<button class="btn-confirm" onclick="confirmOrder('${o.order_id}')">Подтвердить</button>` : ''}
-      </div>
-    </div>
-  `).join('');
-}
-
-async function confirmOrder(orderId) {
-  if (!supabase) return;
-  try {
-    const { error } = await supabase.from('orders').update({ status: 'confirmed' }).eq('order_id', orderId);
-    if (error) throw error;
-    alert('Заказ подтвержден!');
-    renderAdmin(); // Обновить список
-  } catch(e) {
-    alert('Ошибка: ' + e.message);
-  }
-}
-
-/* ═══════════════════════════════════════════
-   FLAVOR MODAL
-   ═══════════════════════════════════════════ */
-function addToCart(id, flavor) {
-  const p = getP(id); if (!p) return;
-  const key = `${id}|${flavor||''}`;
-  if (cart[key]) cart[key].qty++;
-  else cart[key] = { id, flavor:flavor||'', qty:1 };
-  save(); updateCount(); updateCartUI(); haptic();
-}
-
-$('products').addEventListener('click', e => {
-  const addBtn = e.target.closest('[data-add]');
-  if (addBtn) {
-    e.stopPropagation();
-    const p = getP(addBtn.dataset.add);
-    if (p.flavors?.length > 0) {
-      modalPid = p.id; modalFlavor = p.flavors[0];
-      $('modalCard').innerHTML = `
-        <div class="modal-img"><img src="images/product${p.id}.jpg"></div>
-        <div class="modal-body">
-          <h3>${p.name}</h3>
-          <div class="mflavors-label">Выбери вкус</div>
-          <div class="flavors-list" id="flavorsList">
-            ${p.flavors.map((f,i) => `<button class="flavor-chip${i===0?' sel':''}" data-flavor="${f}">${f}</button>`).join('')}
-          </div>
-        </div>
-        <div class="modal-foot">
-          <div class="price">${p.price}<small>BYN</small></div>
-          <button class="btn" onclick="addFromModal()">В корзину</button>
-        </div>
-      `;
-      $('flavorModal').classList.add('open');
-      $('flavorsList').onclick = ev => {
-        const chip = ev.target.closest('.flavor-chip'); if (!chip) return;
-        $('flavorsList').querySelectorAll('.flavor-chip').forEach(c => c.classList.remove('sel'));
-        chip.classList.add('sel'); modalFlavor = chip.dataset.flavor;
-      };
-    } else {
-      addToCart(p.id);
-    }
-    return;
-  }
-});
-
-function addFromModal() {
-  if (modalPid && modalFlavor) { addToCart(modalPid, modalFlavor); $('flavorModal').classList.remove('open'); }
-}
-function closeModal() { $('flavorModal').classList.remove('open'); }
-
-/* ═══════════════════════════════════════════
-   CHECKOUT (ANTI-ABUSE) & SAVE TO SUPABASE
-   ═══════════════════════════════════════════ */
-function openConfirmOrder() {
-  const username = $('custUsername')?.value.trim();
-  if (!username) return alert('Введи Telegram username!');
-  $('confirmCheckbox').checked = false;
-  $('confirmSendBtn').classList.remove('active');
-  $('confirmOrderModal').classList.add('open');
-}
-function closeConfirmOrder() { $('confirmOrderModal').classList.remove('open'); }
-function toggleConfirmBtn() { $('confirmSendBtn').classList.toggle('active', $('confirmCheckbox').checked); }
-
-async function sendOrderToTG() {
-  if (!$('confirmCheckbox').checked) return;
-  const username = $('custUsername').value.trim().replace(/^@/,'');
-  const sub = subtotal();
-  
-  const count = orders.length;
-  const hasLoyalty = count > 0 && count % 10 === 0;
-  const loyaltyDisc = hasLoyalty ? sub * 0.2 : 0;
-  const promoDisc = activePromo ? sub * activePromo.discountPercent / 100 : 0;
-  const finalDisc = Math.max(promoDisc, loyaltyDisc);
-  const total = Math.max(0, sub - finalDisc);
-  
-  const orderId = 'TZ-' + Date.now().toString().slice(-6);
-  const orderItems = Object.values(cart).map(i => { const p = getP(i.id); return { name:p.name, flavor:i.flavor, qty:i.qty, price:p.price }; });
-
-  if (supabase && user.id) {
+  const SK = 'tz_v14';
+  function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
+  function load(){
     try {
-      await supabase.from('orders').insert({
-        order_id: orderId,
-        user_id: user.id,
-        username: username,
-        items: orderItems,
-        subtotal: sub,
-        discount: finalDisc,
-        total: total,
-        promo_code: activePromo?.code || null,
-        status: 'new'
+      const raw = safeGet(SK); if (!raw) return;
+      const s = JSON.parse(raw);
+      if (s.cart) cart = s.cart;
+      if (Array.isArray(s.orders)) orders = s.orders;
+      if (s.activePromo) activePromo = s.activePromo;
+    } catch(e){}
+  }
+
+  function haptic(t='light'){ try { tg?.HapticFeedback?.impactOccurred(t); } catch(e){} }
+  function showToast(msg, isErr=false){
+    try {
+      const t = $('toast'); if (!t) return;
+      t.textContent = msg; t.classList.toggle('error', !!isErr); t.classList.add('show');
+      clearTimeout(t._timer); t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+    } catch(e){}
+  }
+
+  function getStatus(count) {
+    if (count === 0) return { icon:'👤', name:'Новичок', color:'#b8a2d6' };
+    return HIERARCHY[Math.min(count - 1, HIERARCHY.length - 1)];
+  }
+
+  /* ═════ SUPABASE USER + REFERRAL ═════ */
+  async function initUserAndReferral(){
+    if (!supabase || !user.id) return;
+    try {
+      const { data: existing } = await supabase.from('users').select('*').eq('telegram_id', user.id).maybeSingle();
+      if (existing) { currentUserData = existing; return; }
+
+      const sp = tg?.initDataUnsafe?.start_param;
+      let referredBy = null;
+      if (sp && sp.startsWith('ref_')) {
+        const rid = parseInt(sp.substring(4));
+        if (rid && rid !== user.id) referredBy = rid;
+      }
+
+      const { data: newUser } = await supabase.from('users').insert({
+        telegram_id: user.id, username: user.username||'', first_name: user.first_name||'', referred_by: referredBy
+      }).select().maybeSingle();
+      currentUserData = newUser;
+
+      if (referredBy) {
+        await supabase.from('referrals').insert({ referrer_id: referredBy, referred_id: user.id, status:'pending' });
+        showToast('👋 Ты пришёл по приглашению! Первый заказ = 20% обоим');
+      }
+    } catch(e){ console.warn('[ref]', e); }
+  }
+
+  async function completeReferralIfFirstOrder(){
+    if (!supabase || !user.id || !currentUserData?.referred_by || currentUserData.referral_credited) return;
+    try {
+      const { count } = await supabase.from('orders').select('*', { count:'exact', head:true }).eq('user_id', user.id);
+      if (count === 1) {
+        await supabase.from('referrals').update({ status:'completed' }).eq('referred_id', user.id);
+        await supabase.from('users').update({ referral_credited:true, referral_discount_available:true }).eq('telegram_id', user.id);
+        await supabase.from('users').update({ referral_discount_available:true }).eq('telegram_id', currentUserData.referred_by);
+        currentUserData.referral_credited = true;
+        currentUserData.referral_discount_available = true;
+        showToast('🎉 Реферал сработал! 20% у тебя и друга');
+      }
+    } catch(e){}
+  }
+
+  function getReferralLink(){ return `https://t.me/${BOT_USERNAME}?startapp=ref_${user.id}`; }
+
+  async function shareReferral(){
+    const link = getReferralLink();
+    const text = `🔥 Trahan Zizhka — жидкости, снюс и поды! Перейди по ссылке, сделай первый заказ — получим по 20% 🎁`;
+    const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(text);
+    try {
+      if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl);
+      else window.open(shareUrl, '_blank');
+    } catch(e){
+      try { await navigator.clipboard.writeText(link); showToast('Ссылка скопирована ✓'); } catch(e2){ showToast('Не удалось', true); }
+    }
+  }
+
+  /* ═════ PRODUCTS ═════ */
+  function renderProducts(){
+    try {
+      const wrap = $('products'); if (!wrap) return;
+      const list = P.filter(p => {
+        const catOK = curCat === 'all' || p.cat === curCat;
+        const brandOK = curBrand === 'all' || String(p.brand||'').toLowerCase() === curBrand.toLowerCase();
+        return catOK && brandOK;
       });
-    } catch(e) { console.error('Ошибка сохранения заказа:', e); }
+      if (!list.length) { wrap.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--mut)">Нет товаров</div>`; return; }
+      let html = '';
+      for (const p of list){
+        const hasFl = p.flavors?.length > 0;
+        const badge = p.isNew ? '<span class="badge">Новинка</span>' : '';
+        html += `<div class="product" data-pid="${p.id}">${badge}
+          <div class="product-img">
+            <img src="images/product${p.id}.jpg" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+            <div class="ph">${CAT_EMOJI[p.cat]}</div>
+          </div>
+          <div class="product-cat">${CAT_NAMES[p.cat]}</div>
+          <h3>${p.name}</h3>
+          <div class="desc">${p.desc||''}</div>
+          ${hasFl ? `<div class="flavors-info">🍬 ${p.flavors.length} вкусов</div>` : ''}
+          <div class="product-foot">
+            <div class="price">${p.price}<small>BYN</small></div>
+            <button class="add-btn" data-add="${p.id}">+</button>
+          </div>
+        </div>`;
+      }
+      wrap.innerHTML = html;
+    } catch(e){}
   }
 
-  orders.unshift({
-    id: orderId,
-    date: new Date().toISOString(),
-    items: orderItems,
-    total, discount: finalDisc
+  try {
+    const bSet = {};
+    P.forEach(p => { if (p.brand) bSet[p.brand] = true; });
+    $('brandFilters').insertAdjacentHTML('beforeend', Object.keys(bSet).sort().map(b => `<button class="filter" data-brand="${b}">${b}</button>`).join(''));
+  } catch(e){}
+
+  $('catFilters')?.addEventListener('click', e => {
+    const b = e.target.closest('[data-cat]'); if (!b) return;
+    document.querySelectorAll('#catFilters .filter').forEach(x => x.classList.remove('active'));
+    b.classList.add('active'); curCat = b.dataset.cat; renderProducts();
   });
-  
-  cart = {};
-  if (activePromo) activePromo = null;
-  save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
 
-  let msg = '🛒 ЗАКАЗ TRAHAN ZIZHKA\n\n';
-  msg += `👤 @${username}\n`;
-  if (user.id) msg += `🆔 TG ID: ${user.id}\n\n`;
-  msg += '📋 Товары:\n';
-  for (const it of orderItems) {
-    msg += `▪️ ${it.name}${it.flavor ? ` (${it.flavor})` : ''} × ${it.qty} = ${fmt(it.price*it.qty)} BYN\n`;
+  $('brandFilters')?.addEventListener('click', e => {
+    const b = e.target.closest('[data-brand]'); if (!b) return;
+    const was = b.classList.contains('active');
+    document.querySelectorAll('#brandFilters .filter').forEach(x => x.classList.remove('active'));
+    if (was){ curBrand = 'all'; } else { b.classList.add('active'); curBrand = b.dataset.brand; }
+    renderProducts();
+  });
+
+  /* ═════ CART ═════ */
+  function updateCount(){ const el = $('cartCount'); if (el) el.textContent = Object.values(cart).reduce((s,i)=>s+i.qty, 0); }
+  function subtotal(){ return Object.values(cart).reduce((s,i) => { const p = getP(i.id); return s + (p ? p.price * i.qty : 0); }, 0); }
+
+  function openCart(){ closeAll(); updateCartUI(); $('cartDrawer')?.classList.add('open'); $('overlay')?.classList.add('open'); }
+  function openProfile(){ if (!isTG) return showToast('Открой через Telegram', true); closeAll(); renderProfile(); $('profileDrawer')?.classList.add('open'); $('overlay')?.classList.add('open'); }
+  function openPromos(){ closeAll(); renderPromos(); $('promosDrawer')?.classList.add('open'); $('overlay')?.classList.add('open'); }
+  function openAdmin(){ closeAll(); renderAdmin(); $('adminDrawer')?.classList.add('open'); $('overlay')?.classList.add('open'); }
+  function closeAll(){ ['cartDrawer','profileDrawer','promosDrawer','adminDrawer'].forEach(id => $(id)?.classList.remove('open')); $('overlay')?.classList.remove('open'); }
+
+  function updateCartUI(){
+    try {
+      const items = $('cartItems'); if (!items) return;
+      const entries = Object.entries(cart);
+      const hasItems = entries.length > 0;
+
+      items.innerHTML = !hasItems
+        ? `<div class="cart-empty"><div class="em">🛒</div><p>Корзина пуста</p></div>`
+        : entries.map(([k, it]) => {
+            const p = getP(it.id); if (!p) return '';
+            const sk = k.replace(/'/g,"\\'");
+            return `<div class="cart-item">
+              <div class="cart-item-img">${CAT_EMOJI[p.cat]}</div>
+              <div class="cart-item-info">
+                <div class="cart-item-title">${p.name}</div>
+                ${it.flavor ? `<div class="cart-item-flavor">${it.flavor}</div>` : ''}
+                <div class="cart-item-price">${fmt(p.price * it.qty)} BYN</div>
+                <div class="qty">
+                  <button onclick="changeQty('${sk}',-1)">−</button>
+                  <span>${it.qty}</span>
+                  <button onclick="changeQty('${sk}',1)">+</button>
+                  <button class="rm" onclick="rmItem('${sk}')">🗑</button>
+                </div>
+              </div>
+            </div>`;
+          }).join('');
+
+      const sub = subtotal();
+      const count = orders.length;
+      const hasLoyalty = count > 0 && count % 10 === 0;
+      const loyaltyDisc = hasLoyalty ? sub * 0.2 : 0;
+      const promoDisc = activePromo ? sub * activePromo.discountPercent / 100 : 0;
+      const refDisc = currentUserData?.referral_discount_available ? sub * 0.2 : 0;
+      let finalDisc = 0, discLabel = '';
+      const maxD = Math.max(promoDisc, loyaltyDisc, refDisc);
+      if (maxD === promoDisc && promoDisc > 0) { finalDisc = promoDisc; discLabel = `Промокод (${activePromo.discountPercent}%)`; }
+      else if (maxD === refDisc && refDisc > 0) { finalDisc = refDisc; discLabel = 'Реферальная (20%)'; }
+      else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = 'Лояльность (20%)'; }
+      const total = Math.max(0, sub - finalDisc);
+      const foot = $('cartFoot'); if (!foot) return;
+
+      foot.innerHTML = !hasItems
+        ? `<div class="row final" style="display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--bd)"><span>Итого:</span><b style="color:var(--acc);font-family:Unbounded">0 BYN</b></div>`
+        : `<div class="cart-field"><label>Твой Telegram</label><input id="custUsername" placeholder="@username" value="${user.username||''}"></div>
+          <div class="cart-field">
+            <label>Оплата</label>
+            <div class="pay-opts">
+              <button class="pay-opt sel" data-pay="card">💳 Картой</button>
+              <button class="pay-opt" data-pay="cash">💵 Наличными</button>
+            </div>
+          </div>
+          <div class="totals">
+            <div class="row"><span>Сумма:</span><span>${fmt(sub)} BYN</span></div>
+            ${finalDisc > 0 ? `<div class="row disc"><span>${discLabel}:</span><span>−${fmt(finalDisc)} BYN</span></div>` : ''}
+            <div class="row final"><span>Итого:</span><b>${fmt(total)} BYN</b></div>
+          </div>
+          <button class="checkout-btn" onclick="openConfirmOrder()">Оформить заказ</button>`;
+
+      foot.querySelectorAll('.pay-opt').forEach(btn => {
+        btn.onclick = () => {
+          foot.querySelectorAll('.pay-opt').forEach(b => b.classList.remove('sel'));
+          btn.classList.add('sel');
+        };
+      });
+    } catch(e){}
   }
-  msg += `\n💰 Сумма: ${fmt(sub)} BYN\n`;
-  if (finalDisc > 0) msg += `🎟️ Скидка: −${fmt(finalDisc)} BYN\n`;
-  msg += `💜 Итого: ${fmt(total)} BYN\n\n✅ Подтверждаю!`;
 
-  const url = `https://t.me/${MANAGER}?text=${encodeURIComponent(msg)}`;
-  if (tg?.openTelegramLink) tg.openTelegramLink(url);
-  else window.location.href = url;
-}
+  function changeQty(k, d){ if (!cart[k]) return; cart[k].qty += d; if (cart[k].qty <= 0) delete cart[k]; save(); updateCartUI(); updateCount(); }
+  function rmItem(k){ delete cart[k]; save(); updateCartUI(); updateCount(); }
 
-// Init
-load();
-renderProducts();
-updateCount();
-if (tg?.BackButton) tg.BackButton.onClick(() => closeAll());
+  /* ═════ PROFILE (без рефералки) ═════ */
+  async function renderProfile(){
+    try {
+      const name = uName(user);
+      const count = orders.length;
+      const status = getStatus(count);
+      const nextStatus = count < 50 ? getStatus(count + 1) : null;
+      const statusText = nextStatus ? `До «${nextStatus.name}» осталось ${nextStatus.min - count} зак.` : 'Максимум!';
+
+      $('profileUser').innerHTML = `
+        <div class="avatar" id="pfAvatar">${user.photo_url ? `<img src="${user.photo_url}">` : name[0].toUpperCase()}</div>
+        <div><h4>${name}${user.is_premium ? ' ⭐' : ''}</h4><span>${user.username ? '@'+user.username : ''}</span></div>`;
+
+      let userOrders = orders;
+      if (supabase && user.id) {
+        try {
+          const { data: o } = await supabase.from('orders').select('*').eq('user_id', user.id).order('created_at', { ascending:false });
+          if (o) userOrders = o;
+        } catch(e){}
+      }
+
+      $('profileStats').innerHTML = `
+        <div class="stat"><div class="stat-label">Заказов</div><div class="stat-val">${userOrders.length}</div></div>
+        <div class="stat"><div class="stat-label">Потрачено</div><div class="stat-val">${fmt(userOrders.reduce((s,o)=>s+Number(o.total),0))} BYN</div></div>`;
+
+      $('profileContent').innerHTML = `
+        <div class="pf-section">
+          <div class="pf-title">Твой статус</div>
+          <div class="status-badge" style="border-color:${status.color};color:${status.color}"><span>${status.icon}</span> <span>${status.name}</span></div>
+          <div class="status-next">${statusText}</div>
+        </div>
+        <div class="pf-section">
+          <div class="pf-title">История заказов</div>
+          ${!userOrders.length ? `<div class="empty-block"><div class="em">📦</div><p>Пока пусто</p></div>` :
+            userOrders.map(o => `
+              <div class="order-card">
+                <div class="order-head">
+                  <span class="order-id">${o.order_id || o.id}</span>
+                  <span class="order-date">${new Date(o.created_at || o.date).toLocaleDateString('ru-RU')}</span>
+                </div>
+                <div class="order-items">${(o.items||[]).map(i => `${i.name} ×${i.qty}`).join(', ')}</div>
+                <div class="order-foot">
+                  <span>${(o.items||[]).length} поз. <span class="order-status ${o.status||'new'}">${o.status==='confirmed'?'Выполнен':'Ожидает'}</span></span>
+                  <span class="order-total">${fmt(o.total)} BYN</span>
+                </div>
+              </div>`).join('')}
+        </div>`;
+    } catch(e){}
+  }
+
+  /* ═════ PROMOS + REFERRAL (перенесена сюда) ═════ */
+  async function renderPromos(){
+    try {
+      const count = orders.length;
+      const progress = count % 10;
+      const isReady = count > 0 && count % 10 === 0;
+      $('loyaltyCounter').textContent = isReady ? '10 / 10' : `${progress} / 10`;
+      $('loyaltyBar').style.width = isReady ? '100%' : `${(progress/10)*100}%`;
+      $('loyaltyHint').innerHTML = isReady ? `<b style="color:var(--acc)">🎉 Ты получил скидку 20%!</b>` : `Осталось ${10-progress} заказов до 20%`;
+
+      if (activePromo) {
+        $('activePromoBox').innerHTML = `<div class="active-discount"><div class="active-discount-text"><b>${activePromo.code}</b><span>−${activePromo.discountPercent}%</span></div><button class="remove-promo" onclick="removePromo()">×</button></div>`;
+        $('activePromoBox').classList.remove('hidden');
+        $('promoInputRow').classList.add('hidden');
+      } else {
+        $('activePromoBox').classList.add('hidden');
+        $('promoInputRow').classList.remove('hidden');
+      }
+
+      // Загрузка данных рефералов
+      let refs = { total:0, completed:0 };
+      if (supabase && user.id) {
+        try {
+          const { data: r } = await supabase.from('referrals').select('*').eq('referrer_id', user.id);
+          if (r) { refs.total = r.length; refs.completed = r.filter(x => x.status === 'completed').length; }
+          const { data: u } = await supabase.from('users').select('*').eq('telegram_id', user.id).maybeSingle();
+          if (u) currentUserData = u;
+        } catch(e){}
+      }
+
+      const refBonus = currentUserData?.referral_discount_available
+        ? `<span class="ref-bonus available">✓ Доступна</span>`
+        : `<span class="ref-bonus used">Нет</span>`;
+
+      const refBlock = $('refBlock');
+      if (refBlock) {
+        refBlock.innerHTML = `
+          <div class="ref-card">
+            <h4>👥 Пригласи друга — получите по 20%</h4>
+            <p>Поделись ссылкой. Когда друг сделает первый заказ — вы оба получите скидку 20% на следующий!</p>
+            <div class="ref-link">
+              <input readonly value="${getReferralLink()}" onclick="this.select()">
+              <button class="ref-share-btn" onclick="shareReferral()">Поделиться</button>
+            </div>
+            <div class="ref-stats">
+              <span>Приглашено: <b>${refs.total}</b></span>
+              <span>Активировано: <b>${refs.completed}</b></span>
+              <span>Бонус: ${refBonus}</span>
+            </div>
+          </div>`;
+      }
+    } catch(e){ console.warn('[promos]', e); }
+  }
+
+  async function applyPromo(){
+    if (!supabase) return showToast('База не подключена', true);
+    if (!user.id) return showToast('Открой через Telegram', true);
+    if (promoLoading) return;
+    const code = $('promoInput').value.trim().toUpperCase();
+    if (!code) return;
+    promoLoading = true;
+    $('promoBtn').disabled = true;
+    $('promoMsg').textContent = 'Проверяем...';
+    $('promoMsg').className = 'promo-msg';
+    try {
+      const { data, error } = await supabase.rpc('activate_promo_code', { p_code: code, p_telegram_id: user.id });
+      if (error || !data?.ok) {
+        $('promoMsg').textContent = data?.message || 'Ошибка';
+        $('promoMsg').className = 'promo-msg err';
+      } else {
+        activePromo = { code: data.code, discountPercent: Number(data.discount_percent) };
+        save(); renderPromos(); updateCartUI();
+        $('promoMsg').textContent = '✅ Активирован!';
+        $('promoMsg').className = 'promo-msg ok';
+      }
+    } catch(e){ $('promoMsg').textContent = 'Ошибка'; $('promoMsg').className = 'promo-msg err'; }
+    finally { promoLoading = false; $('promoBtn').disabled = false; }
+  }
+
+  function removePromo(){ activePromo = null; save(); renderPromos(); updateCartUI(); }
+
+  /* ═════ ADMIN ═════ */
+  async function renderAdmin(){
+    $('adminContent').innerHTML = '<p style="text-align:center;padding:20px;color:var(--mut)">Загрузка...</p>';
+    if (!supabase) { $('adminContent').innerHTML = '<p style="text-align:center;color:var(--err)">Supabase не подключён</p>'; return; }
+    try {
+      const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending:false });
+      if (error || !data) { $('adminContent').innerHTML = `<p style="color:var(--err);text-align:center">${error?.message||'Ошибка'}</p>`; return; }
+      if (!data.length) { $('adminContent').innerHTML = '<p style="text-align:center;color:var(--mut)">Заказов нет</p>'; return; }
+      $('adminContent').innerHTML = data.map(o => `
+        <div class="admin-card">
+          <div class="admin-head">
+            <div><b style="color:var(--acc)">${o.order_id}</b><br><span class="admin-user">@${o.username} (ID: ${o.user_id})</span><br><span class="admin-user">${new Date(o.created_at).toLocaleString('ru-RU')}</span></div>
+            <span class="order-status ${o.status}">${o.status==='confirmed'?'Выполнен':'Новый'}</span>
+          </div>
+          <div class="admin-items">${(o.items||[]).map(i => `▪️ ${i.name}${i.flavor?` (${i.flavor})`:''} ×${i.qty}`).join('<br>')}</div>
+          <div class="admin-foot">
+            <span>Итого: ${fmt(o.total)} BYN</span>
+            ${o.status==='new'?`<button class="btn-confirm" onclick="confirmOrder('${o.order_id}')">Подтвердить</button>`:''}
+          </div>
+        </div>`).join('');
+    } catch(e){}
+  }
+
+  async function confirmOrder(orderId){
+    if (!supabase) return;
+    try {
+      const { error } = await supabase.from('orders').update({ status:'confirmed' }).eq('order_id', orderId);
+      if (error) throw error;
+      showToast('Заказ подтверждён ✓');
+      renderAdmin();
+    } catch(e){ showToast('Ошибка: '+e.message, true); }
+  }
+
+  /* ═════ MODAL ═════ */
+  function addToCart(id, flavor){
+    const p = getP(id); if (!p) return;
+    const key = `${id}|${flavor||''}`;
+    if (cart[key]) cart[key].qty++; else cart[key] = { id, flavor:flavor||'', qty:1 };
+    save(); updateCount(); updateCartUI(); haptic();
+  }
+
+  $('products')?.addEventListener('click', e => {
+    const addBtn = e.target.closest('[data-add]');
+    if (addBtn) {
+      e.stopPropagation();
+      const p = getP(addBtn.dataset.add); if (!p) return;
+      if (p.flavors?.length > 0) {
+        modalPid = p.id; modalFlavor = p.flavors[0];
+        $('modalCard').innerHTML = `
+          <div class="modal-img"><img src="images/product${p.id}.jpg"></div>
+          <div class="modal-body">
+            <h3>${p.name}</h3>
+            <div class="mflavors-label">Выбери вкус</div>
+            <div class="flavors-list" id="flavorsList">
+              ${p.flavors.map((f,i) => `<button class="flavor-chip${i===0?' sel':''}" data-flavor="${f}">${f}</button>`).join('')}
+            </div>
+          </div>
+          <div class="modal-foot">
+            <div class="price">${p.price}<small>BYN</small></div>
+            <button class="btn" onclick="addFromModal()">В корзину</button>
+          </div>`;
+        $('flavorModal').classList.add('open');
+        $('flavorsList').onclick = ev => {
+          const chip = ev.target.closest('.flavor-chip'); if (!chip) return;
+          $('flavorsList').querySelectorAll('.flavor-chip').forEach(c => c.classList.remove('sel'));
+          chip.classList.add('sel'); modalFlavor = chip.dataset.flavor;
+        };
+      } else { addToCart(p.id); }
+      return;
+    }
+  });
+
+  function addFromModal(){ if (modalPid && modalFlavor) { addToCart(modalPid, modalFlavor); closeModal(); } }
+  function closeModal(){ $('flavorModal')?.classList.remove('open'); }
+
+  function openConfirmOrder(){
+    const u = $('custUsername')?.value.trim();
+    if (!u) return showToast('Введи Telegram username', true);
+    $('confirmCheckbox').checked = false;
+    $('confirmSendBtn').classList.remove('active');
+    $('confirmOrderModal').classList.add('open');
+  }
+  function closeConfirmOrder(){ $('confirmOrderModal')?.classList.remove('open'); }
+  function toggleConfirmBtn(){ $('confirmSendBtn').classList.toggle('active', $('confirmCheckbox').checked); }
+
+  async function sendOrderToTG(){
+    if (!$('confirmCheckbox').checked) return;
+    const username = $('custUsername').value.trim().replace(/^@/,'');
+    const sub = subtotal();
+    const count = orders.length;
+    const hasLoyalty = count > 0 && count % 10 === 0;
+    const loyaltyDisc = hasLoyalty ? sub * 0.2 : 0;
+    const promoDisc = activePromo ? sub * activePromo.discountPercent / 100 : 0;
+    const refDisc = currentUserData?.referral_discount_available ? sub * 0.2 : 0;
+    let finalDisc = 0, discLabel = '';
+    const maxD = Math.max(promoDisc, loyaltyDisc, refDisc);
+    if (maxD === promoDisc && promoDisc > 0) { finalDisc = promoDisc; discLabel = 'promo'; }
+    else if (maxD === refDisc && refDisc > 0) { finalDisc = refDisc; discLabel = 'referral'; }
+    else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = 'loyalty'; }
+    const total = Math.max(0, sub - finalDisc);
+
+    const orderId = 'TZ-' + Date.now().toString().slice(-6);
+    const orderItems = Object.values(cart).map(i => { const p = getP(i.id); return { name:p.name, flavor:i.flavor, qty:i.qty, price:p.price }; });
+
+    if (supabase && user.id) {
+      try {
+        await supabase.from('orders').insert({
+          order_id: orderId, user_id: user.id, username,
+          items: orderItems, subtotal: sub, discount: finalDisc, total,
+          promo_code: activePromo?.code || null, status: 'new'
+        });
+        if (discLabel === 'referral') {
+          await supabase.from('users').update({ referral_discount_available:false }).eq('telegram_id', user.id);
+          if (currentUserData) currentUserData.referral_discount_available = false;
+        }
+        await completeReferralIfFirstOrder();
+      } catch(e){}
+    }
+
+    orders.unshift({ id: orderId, date: new Date().toISOString(), items: orderItems, total, discount: finalDisc });
+    cart = {};
+    if (activePromo) activePromo = null;
+    save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
+
+    let msg = '🛒 ЗАКАЗ TRAHAN ZIZHKA\n\n';
+    msg += `👤 @${username}\n`;
+    if (user.id) msg += `🆔 TG ID: ${user.id}\n\n`;
+    msg += '📋 Товары:\n';
+    for (const it of orderItems) msg += `▪️ ${it.name}${it.flavor?` (${it.flavor})`:''} × ${it.qty} = ${fmt(it.price*it.qty)} BYN\n`;
+    msg += `\n💰 Сумма: ${fmt(sub)} BYN\n`;
+    if (finalDisc > 0) msg += `🎟️ Скидка: −${fmt(finalDisc)} BYN\n`;
+    msg += `💜 Итого: ${fmt(total)} BYN\n\n✅ Подтверждаю!`;
+
+    const url = `https://t.me/${MANAGER}?text=${encodeURIComponent(msg)}`;
+    try {
+      if (tg?.openTelegramLink) tg.openTelegramLink(url);
+      else window.location.href = url;
+    } catch(e){ window.location.href = url; }
+  }
+
+  window.openCart = openCart;
+  window.openProfile = openProfile;
+  window.openPromos = openPromos;
+  window.openAdmin = openAdmin;
+  window.closeAll = closeAll;
+  window.changeQty = changeQty;
+  window.rmItem = rmItem;
+  window.addFromModal = addFromModal;
+  window.closeModal = closeModal;
+  window.openConfirmOrder = openConfirmOrder;
+  window.closeConfirmOrder = closeConfirmOrder;
+  window.toggleConfirmBtn = toggleConfirmBtn;
+  window.sendOrderToTG = sendOrderToTG;
+  window.applyPromo = applyPromo;
+  window.removePromo = removePromo;
+  window.confirmOrder = confirmOrder;
+  window.shareReferral = shareReferral;
+
+  load();
+  renderProducts();
+  updateCount();
+  updateCartUI();
+  initSupabase(async () => { await initUserAndReferral(); });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
+  console.log('%c🎨 Trahan Zizhka v14','font-size:16px;font-weight:bold;color:#c6ff2e');
+})();
 </script>
 </body>
 </html>
