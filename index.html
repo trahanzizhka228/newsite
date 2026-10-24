@@ -49,14 +49,13 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .hero-btns{display:flex;gap:10px;flex-wrap:wrap}
 .btn{padding:14px 22px;border-radius:14px;font-weight:600;font-size:14px;transition:.25s;display:inline-flex;align-items:center;gap:8px;justify-content:center;min-height:46px}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 40px -10px rgba(255,77,210,.5)}
-.hero-visual{position:relative;height:340px;display:grid;place-items:center;overflow:hidden;max-width:100%}
-.hero-card{position:absolute;background:linear-gradient(145deg,var(--card),#140a24);border:1px solid var(--bd);border-radius:20px;padding:18px;width:180px;height:250px;display:flex;flex-direction:column;justify-content:space-between}
-.hero-card:nth-child(1){transform:rotate(-12deg) translate(-32px,10px);opacity:.55}
-.hero-card:nth-child(2){z-index:2;box-shadow:0 30px 80px -20px rgba(168,85,247,.4);border-color:rgba(255,77,210,.4)}
-.hero-card:nth-child(3){transform:rotate(12deg) translate(32px,10px);opacity:.55}
-.hero-card .bottle{flex:1;border-radius:12px;margin-bottom:10px;background:var(--grad);display:grid;place-items:center;font-size:44px}
-.hero-card h4{font-size:12px;margin-bottom:2px}
-.hero-card small{color:var(--mut);font-size:10px}
+
+/* MAP HERO */
+.hero-visual{position:relative;height:340px;display:flex;align-items:center;justify-content:center;overflow:visible}
+.map-card{position:relative;width:100%;max-width:340px;height:280px;border-radius:20px;background:var(--card);border:1px solid var(--bd);box-shadow:0 30px 80px -20px rgba(168,85,247,.4);overflow:hidden;cursor:pointer;transition:transform 0.3s}
+.map-card:hover{transform:translateY(-4px);border-color:rgba(255,77,210,.4)}
+.map-badge{position:absolute;top:12px;left:12px;background:var(--grad);color:#fff;padding:6px 12px;border-radius:8px;font-size:13px;font-weight:700;z-index:2;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
+.map-hint{position:absolute;bottom:0;left:0;right:0;background:rgba(13,5,24,0.85);backdrop-filter:blur(4px);color:#fff;text-align:center;padding:10px;font-size:12px;font-weight:600;z-index:2}
 
 .section{max-width:1280px;margin:0 auto;padding:50px 16px;overflow-x:hidden}
 .section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:26px;flex-wrap:wrap;gap:12px}
@@ -290,9 +289,17 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     </div>
   </div>
   <div class="hero-visual">
-    <div class="hero-card"><div class="bottle">💧</div><div><h4>Bjorn</h4><small>20 Br</small></div></div>
-    <div class="hero-card"><div class="bottle">🧊</div><div><h4>Iceberg</h4><small>16 Br</small></div></div>
-    <div class="hero-card"><div class="bottle">🧪</div><div><h4>Монашка</h4><small>18 Br</small></div></div>
+    <div class="map-card" onclick="openYandexMaps()">
+      <div class="map-badge">🏪 Самовывоз</div>
+      <iframe 
+        src="https://yandex.ru/map-widget/v1/?ll=27.640362%2C53.844120&z=17&pt=27.640362,53.844120,pm2rdm" 
+        width="100%" 
+        height="100%" 
+        frameborder="0"
+        style="pointer-events: none; border-radius: 16px;">
+      </iframe>
+      <div class="map-hint">Нажми, чтобы открыть в Яндекс Картах</div>
+    </div>
   </div>
 </section>
 
@@ -422,7 +429,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {min:49,icon:'🔱',name:'Легенда зоны',color:'#ffd700'},{min:50,icon:'👑',name:'ВОРОВСКОЙ БОГ',color:'#ff0000'}
   ];
 
-      const P = [
+  const P = [
     // ═══ СНЮС ═══
     // D.L.T.A
     {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪"],desc:"Снюс, крепкий"},
@@ -443,45 +450,38 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {id:102,name:"🧪 Bjorn Сон Призрака",price:20,cat:"liquid",brand:"bjorn",flavors:["Ледяная клубника личи 🍓🧊","Манго со льдом 🥭🧊","Ананас манго 🍍🥭","Кислое яблоко 🍏","Яблоко персик 🍎🍑"],desc:"30мл"},
     {id:108,name:"🧪 Bjorn Zloy V2.0",price:16,cat:"liquid",brand:"bjorn",flavors:["Виноград мармелад маршмеллоу 🍇🍬🍡","Смородина малина яблоко 🫐🍓🍎","Ваниль вишня 🍦🍒","Яблоко виноград 🍎🍇","Мохито 🍋🌿🫧","Ягодный напиток 🫐🍓🥤","Энергетик монстер ⚡🖤"],desc:"60mg, 30мл"},
     {id:118,name:"🧪 Bjorn Joker 🃏",price:20,cat:"liquid",brand:"bjorn",flavors:["Клубника банан 🍓🍌","Кола вишня 🥤🍒","Черника мята 🫐🌿","Энергетик ⚡","Вишня клюква 🍒🫐"],desc:"80 мг, 30мл"},
-
     // ── anima ──
     {id:111,name:"🧪 Anima Love Zombie",price:17,cat:"liquid",brand:"anima",flavors:["Яблоко виноград 🍎🍇","Клубничный леденец 🍓🍬","Клубника банан 🍓🍌","Малина с кислинкой 🍓","Арбузный Бабл гам 🍉🫧","Алоэ виноград 🌵🍇"],desc:"60mg, 30мл"},
     {id:114,name:"🧪 Anima Love Sour",price:16,cat:"liquid",brand:"anima",flavors:["Кислая черника апельсин 🫐🍊🍋","Кислый зеленый виноград 🍇🍋","Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50mg, 30мл"},
     {id:117,name:"🧪 Anima Love Killer",price:17,cat:"liquid",brand:"anima",flavors:["Арбузный смузи 🍉🥤","Банан клубника 🍌🍓","Виноград вишня 🍇🍒","Вишневая газировка 🍒🫧","Клубничный коктейль 🍓🍹","Чернично-малиновые червячки 🫐🍓🪱","Яблочный лимонад 🍎🍋","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
     {id:119,name:"🧪 Anima Love Phobia",price:17,cat:"liquid",brand:"anima",flavors:["Вишневый скитлс 🍒🍬","Дикие ягоды 🫐🍓","Кислые ягодные червячки 🪱🍋","Клубнично-банановый фреш 🍓🍌🥤","Морс из домашних ягод 🫐🍓","Ред Булл малина ⚡🍓","Ред Булл со льдом ⚡🧊","Смородина лимонад 🫐🍋","Фруктовый скитлс 🍬🍊","Ягодный Ред Булл ⚡🫐"],desc:"70мг, 30мл"},
     {id:133,name:"🧪 Anima Love",price:16,cat:"liquid",brand:"anima",flavors:["Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50 мг, 30мл"},
-
     // ── злая монашка ──
     {id:104,name:"🧪 Злая Монашка",price:18,cat:"liquid",brand:"злая монашка",flavors:["Энергетик арбуз ⚡🍉","Жвачка арбуз 🫧🍉","Пина колада 🍹🥥","Клубнично ежевичный морс 🍓🫐","Доктор Пеппер черешня 🥤🍒","Клубника личи 🍓🥭"],desc:"70mg, 30мл"},
     {id:120,name:"🧪 Злая Монашка Ice",price:18,cat:"liquid",brand:"злая монашка",flavors:["Клубника арбуз лед 🍓🍉🧊","Морс из красных ягод лед 🍓🧊","Смородиновый мармелад лед 🫐🍬🧊"],desc:"70 мг, 30мл"},
-    {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
     {id:127,name:"🧪 Злая Монашка Buble",price:18,cat:"liquid",brand:"злая монашка",flavors:["Арбузная конфета 🍉🍬","Вишневый тик-так 🍒🍬","Кислый скитлс черешня 🍒🍬🍋","Клубничный бабл-гам 🍓🫧","Смородиновый холлс 🫐🍬","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
-
+    {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
     // ── злая лабуба ──
     {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧"],desc:"70mg, 30мл"},
     {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊"],desc:"70 мг, 30мл"},
+    // ── duall ──
 
     // ── monster ──
     {id:125,name:"🧪 Monster Hardcore",price:16,cat:"liquid",brand:"monster",flavors:["Смородиновый коктейль 🫐🥤","Фруктовый коктейль 🍓🥭🍍"],desc:"50 мг, 30мл"},
     {id:126,name:"🧪 Monster Iceberg",price:16,cat:"liquid",brand:"monster",flavors:["Арбузный фреш 🍉🥤","Вишневый смузи 🍒🥤","Ледяные ягоды 🧊🫐🍓","Ментоловый спрайт 🌿🧊🫧","Клубничный коктейль 🍓🥤","Розовый лимонад 🌸🍋🥤","Смородиновый смузи 🫐🥤"],desc:"50 мг, 30мл"},
-
     // ── самоубийца ──
     {id:128,name:"🧪 Самоубийца Danger",price:20,cat:"liquid",brand:"самоубийца",flavors:["Виноград смородина мята 🍇🫐🌿","Вишневый холлс 🍒🍬","Вишня виноград 🍒🍇","Зеленый скитлс 🍏🍬","Земляничный спрайт 🍓🫧","Классический энергетик","Мармеладный энергетик ⚡🍬","Ягодная жвачка 🫐🫧"],desc:"100 мг, 30мл"},
-
     // ── hotspot ──
     {id:81,name:"🧪 Монашка Hotspot",price:18,cat:"liquid",brand:"hotspot , монашка",flavors:["Мармеладные червячки 🍬🪱","Ледяной энергетик ⚡🧊","Вишня ледяной лайм 🍒🧊🍋","Кислый ленточки вишня черника 🎀🍒🫐","Кислые клубничный чупа чупс 🍓🍭","Кислый скитлс малина ананас 🍬🍓🍍","Клубника лайм 🍓🍋","Манго черная смородина 🥭🫐","Морозные лесные ягоды 🧊🫐🍓"],desc:"30мл"},
     {id:106,name:"🧪 Hotspot x Podonki 60 мг",price:15,cat:"liquid",brand:"hotspot , podonki",flavors:["Освежающий лимонад лайм мята 🍋🌿❄️","Холодное яблоко 🍎🧊","Холодный арбуз 🍉🧊"],desc:"60мг"},
     {id:201,name:"🧪 Hotspot Don't Chew It 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Жвачка ледяная вишня 🫧🍒🧊","Жвачка маракуйя 🫧🥭"],desc:"60мг"},
     {id:202,name:"🧪 Hotspot Dot 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Банан лайм 🍌🍋"],desc:"60мг"},
-    {id:123,name:"🧪 Catswill x Hotspot",price:17,cat:"liquid",brand:"catswill, hotspot",flavors:["Энергетик яблоко смородина малина ⚡🍎🫐🍓","Кислая мамба лесная земляника 🍋🫐🍓","Харибо тропические фрукты 🍬🥭🍍","Малиновый энергетик с клубникой ⚡🍓","Кислая клубника ананас 🍓🍍🍋","Кислая черная смородина 🫐🍋","Мармеладные червячки малина лайм 🪱🍓🍋"],desc:"70 мг, 30мл"},
     // ── podonki ──
     {id:107,name:"🧪 Podonki Inferno",price:16,cat:"liquid",brand:"podonki",flavors:["Вишня слива груша 🍒🍑🍐"],desc:"60mg, 30мл"},
-
     // ── Rich ──
     {id:122,name:"🧪 Rich",price:18,cat:"liquid",brand:"Rich",flavors:["Вишневые леденцы 🍒🍬","Вишня клубника 🍒🍓","Морозные лесные ягоды 🧊🫐🍓"],desc:"80 мг, 30мл"},
-
     // ── catswill ──
-
+    {id:123,name:"🧪 Catswill x Hotspot",price:17,cat:"liquid",brand:"catswill, hotspot",flavors:["Энергетик яблоко смородина малина ⚡🍎🫐🍓","Кислая мамба лесная земляника 🍋🫐🍓","Харибо тропические фрукты 🍬🥭🍍","Малиновый энергетик с клубникой ⚡🍓","Кислая клубника ананас 🍓🍍🍋","Кислая черная смородина 🫐🍋","Мармеладные червячки малина лайм 🪱🍓🍋"],desc:"70 мг, 30мл"},
 
     // ═══ РАСХОДНИКИ ═══
     // ── vaporesso ──
@@ -497,6 +497,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     // ── jord ──
     {id:51,name:"🔧 Никобустер Salt (+20мг на 30 мл)",price:3,cat:"consumables",brand:"jord",flavors:[],desc:"Для миксовки"}
   ];
+
   const CAT_NAMES = {liquid:'Жидкость',snus:'Снюс',kofein:'Кофеин',consumables:'Расходник'};
   const CAT_EMOJI = {liquid:'💧',snus:'🥫',kofein:'☕',consumables:'🔧'};
 
@@ -526,6 +527,21 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     } catch(e){}
   }
 
+  // Функция открытия Яндекс Карт
+  function openYandexMaps() {
+    const lat = 53.844120;
+    const lon = 27.640362;
+    const url = `https://yandex.ru/maps/?pt=${lon},${lat}&z=17&l=map`;
+    
+    try {
+      if (tg?.openLink) tg.openLink(url);
+      else window.open(url, '_blank');
+    } catch(e) {
+      window.location.href = url;
+    }
+  }
+  window.openYandexMaps = openYandexMaps;
+
   let supabase = null;
   let currentUserData = null;
   let stockCache = {};
@@ -549,7 +565,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let payMethod = 'card';
   let cashAmount = 0;
 
-  const SK = 'tz_v19';
+  const SK = 'tz_v20';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
   function load(){
     try {
@@ -701,12 +717,11 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       let html = '';
       for (const p of list){
         const hasFl = p.flavors?.length > 0;
-        const badge = p.isNew ? '<span class="badge">Новинка</span>' : '';
         const totalStock = getProductTotalStock(p);
         const outOfStock = totalStock === 0;
         const stockInfo = (isAdminUser && totalStock !== null && totalStock > 0) ? `<div class="stock-info">📦 ${totalStock} шт</div>` : '';
         const outBadge = outOfStock ? `<span class="badge out">Нет в наличии</span>` : '';
-        html += `<div class="product ${outOfStock ? 'out' : ''}" data-pid="${p.id}">${badge}${outBadge}
+        html += `<div class="product ${outOfStock ? 'out' : ''}" data-pid="${p.id}">${outBadge}
           <div class="product-img">
             <img src="images/product${p.id}.jpg" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
             <div class="ph">${CAT_EMOJI[p.cat]}</div>
@@ -1425,7 +1440,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   });
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
-  console.log('%c🎨 Trahan Zizhka v19','font-size:16px;font-weight:bold;color:#c6ff2e');
+  console.log('%c🎨 Trahan Zizhka v20','font-size:16px;font-weight:bold;color:#c6ff2e');
 })();
 </script>
 </body>
