@@ -159,7 +159,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .ref-card h4{font-size:15px;margin-bottom:8px;color:var(--acc)}
 .ref-card p{font-size:12px;color:var(--mut);margin-bottom:14px;line-height:1.5}
 .ref-link{display:flex;gap:6px;margin-bottom:10px}
-.ref-link input{flex:1;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;color:var(--txt);font-family:inherit;font-size:13px;outline:none;min-width:0}
+.ref-link input{flex:1;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;color:var(--txt);font-family:inherit;font-size:11px;outline:none;min-width:0}
 .ref-share-btn{padding:10px 16px;background:var(--grad);color:#fff;border-radius:10px;font-weight:700;font-size:13px;white-space:nowrap;cursor:pointer}
 .ref-stats{display:flex;gap:14px;font-size:12px;color:var(--mut);padding-top:10px;border-top:1px solid var(--bd);flex-wrap:wrap}
 .ref-stats b{color:var(--txt)}
@@ -390,7 +390,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   const SUPABASE_URL = 'https://jqrjybptkhspfgbhvalo.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_RDMAZ6lxzNWSShrdgDs0ug_d9nTPAcD';
   const MANAGER = 'TrahanZizhka';
-  const BOT_USERNAME = 'TrahanZizhka_bot';
+  const BOT_USERNAME = 'Newbot22222Got_bot';
+  const APP_SHORT_NAME = 'jink';
   const ADMIN_IDS = [8024091933, 1016597102];
 
   const HIERARCHY = [
@@ -516,7 +517,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let payMethod = 'card';
   let cashAmount = 0;
 
-  const SK = 'tz_v18';
+  const SK = 'tz_v19';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
   function load(){
     try {
@@ -639,7 +640,9 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     } catch(e){}
   }
 
-  function getReferralLink(){ return `https://t.me/${BOT_USERNAME}?startapp=ref_${user.id}`; }
+  function getReferralLink(){ 
+    return `https://t.me/${BOT_USERNAME}/${APP_SHORT_NAME}?startapp=ref_${user.id}`; 
+  }
 
   async function shareReferral(){
     const link = getReferralLink();
@@ -714,7 +717,18 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   function updateCount(){ const el = $('cartCount'); if (el) el.textContent = Object.values(cart).reduce((s,i)=>s+i.qty, 0); }
   function subtotal(){ return Object.values(cart).reduce((s,i) => { const p = getP(i.id); return s + (p ? p.price * i.qty : 0); }, 0); }
 
-  function openCart(){ closeAll(); updateCartUI(); $('cartDrawer')?.classList.add('open'); $('overlay')?.classList.add('open'); }
+  async function openCart(){
+    closeAll();
+    if (supabase && user.id){
+      try {
+        const { data: u } = await supabase.from('users').select('*').eq('telegram_id', user.id).maybeSingle();
+        if (u) currentUserData = u;
+      } catch(e){}
+    }
+    updateCartUI(); 
+    $('cartDrawer')?.classList.add('open'); 
+    $('overlay')?.classList.add('open'); 
+  }
   function openProfile(){ if (!isTG) return showToast('Открой через Telegram', true); closeAll(); renderProfile(); $('profileDrawer')?.classList.add('open'); $('overlay')?.classList.add('open'); }
   function openPromos(){ closeAll(); renderPromos(); $('promosDrawer')?.classList.add('open'); $('overlay')?.classList.add('open'); }
   function openAdmin(){ 
@@ -1124,7 +1138,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       if (getErr) throw getErr;
       if (!order) { showToast('Заказ не найден', true); return; }
 
-      // Если уже подтверждён — вернуть остатки
       if (order.status === 'confirmed'){
         await increaseStock(order.items || []);
       }
@@ -1220,7 +1233,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     const u = $('custUsername')?.value.trim();
     if (!u) return showToast('Введи Telegram username', true);
     
-    // Проверка наличных
     if (payMethod === 'cash'){
       const sub = subtotal();
       const hasLoyalty = hasLoyaltyNow();
@@ -1264,12 +1276,18 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     const orderId = 'TZ-' + Date.now().toString().slice(-6);
     const orderItems = Object.values(cart).map(i => { const p = getP(i.id); return { id:p.id, name:p.name, flavor:i.flavor, qty:i.qty, price:p.price }; });
 
+    // СОХРАНЯЕМ до сброса
+    const savedPayMethod = payMethod;
+    const savedCashAmount = cashAmount;
+    const savedPromoCode = activePromo?.code || '';
+    const savedPromoPercent = activePromo?.discountPercent || 0;
+
     if (supabase && user.id) {
       try {
         await supabase.from('orders').insert({
           order_id: orderId, user_id: user.id, username,
           items: orderItems, subtotal: sub, discount: finalDisc, total,
-          promo_code: activePromo?.code || null, status: 'new'
+          promo_code: savedPromoCode || null, status: 'new'
         });
         if (discLabel === 'referral') {
           await supabase.from('users').update({ referral_discount_available:false }).eq('telegram_id', user.id);
@@ -1282,15 +1300,13 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     orders.unshift({ id: orderId, date: now.toISOString(), items: orderItems, total, discount: finalDisc });
     cart = {};
     if (activePromo) activePromo = null;
-    const cashGiven = cashAmount;
-    const cashChange = cashAmount - total;
     payMethod = 'card';
     cashAmount = 0;
     save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
 
     // Человекочитаемая скидка
     let discLabelHuman = '';
-    if (discLabel === 'promo') discLabelHuman = `Промокод ${orderItems.promo || ''} (${activePromo?.discountPercent || ''}%)`.replace('  ',' ').replace('(%)','');
+    if (discLabel === 'promo') discLabelHuman = `Промокод ${savedPromoCode} (${savedPromoPercent}%)`;
     if (discLabel === 'referral') discLabelHuman = 'Реферальная скидка (20%)';
     if (discLabel === 'loyalty') discLabelHuman = 'Скидка лояльности (20%)';
     
@@ -1306,10 +1322,14 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     msg += `\n💰 Сумма: ${fmt(sub)} BYN\n`;
     if (finalDisc > 0 && discLabelHuman) msg += `🎟️ ${discLabelHuman}: −${fmt(finalDisc)} BYN\n`;
     msg += `💜 Итого: ${fmt(total)} BYN\n\n`;
-    msg += `💳 Оплата: ${payMethod === 'cash' ? 'Наличными' : 'Картой'}\n`;
-    if (payMethod === 'cash'){
-      msg += `💵 Клиент даёт: ${fmt(cashGiven)} BYN\n`;
-      msg += `🔄 Сдача: ${fmt(cashChange)} BYN\n`;
+    
+    // СПОСОБ ОПЛАТЫ + СДАЧА
+    if (savedPayMethod === 'cash') {
+      msg += `💵 Оплата: Наличными\n`;
+      msg += `🤲 Клиент даёт: ${fmt(savedCashAmount)} BYN\n`;
+      msg += `🔄 Сдача: ${fmt(Math.max(0, savedCashAmount - total))} BYN\n`;
+    } else {
+      msg += `💳 Оплата: Картой\n`;
     }
     msg += `\n✅ Подтверждаю!`;
 
@@ -1349,11 +1369,31 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   initSupabase(async () => {
     await loadStock();
     await initUserAndReferral();
+    
+    if (supabase && user.id){
+      try {
+        const { data: o } = await supabase.from('orders')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('status', 'confirmed')
+          .order('created_at', { ascending: false });
+        if (o) {
+          orders = o.map(x => ({
+            id: x.order_id, date: x.created_at, items: x.items,
+            total: Number(x.total), discount: Number(x.discount), status: x.status
+          }));
+          save();
+          updateCount();
+          updateCartUI();
+        }
+      } catch(e){ console.warn('[orders sync]', e); }
+    }
+    
     renderProducts();
   });
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
-  console.log('%c🎨 Trahan Zizhka v18','font-size:16px;font-weight:bold;color:#c6ff2e');
+  console.log('%c🎨 Trahan Zizhka v19','font-size:16px;font-weight:bold;color:#c6ff2e');
 })();
 </script>
 </body>
