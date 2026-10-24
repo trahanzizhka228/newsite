@@ -153,6 +153,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .order-status{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;margin-left:6px}
 .order-status.new{background:rgba(255,215,0,.15);color:var(--gold)}
 .order-status.confirmed{background:rgba(34,197,94,.15);color:var(--ok)}
+.order-status.cancelled{background:rgba(255,77,109,.15);color:var(--err)}
 
 .ref-card{background:linear-gradient(145deg,var(--card),#1f0e38);border:1px solid var(--bd);border-radius:16px;padding:18px}
 .ref-card h4{font-size:15px;margin-bottom:8px;color:var(--acc)}
@@ -230,8 +231,12 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .admin-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
 .admin-user{font-size:12px;color:var(--mut)}
 .admin-items{font-size:12px;color:var(--txt);margin-bottom:8px;line-height:1.5}
-.admin-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--bd);font-size:13px;font-weight:700}
-.btn-confirm{background:var(--ok);color:#fff;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}
+.admin-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--bd);font-size:13px;font-weight:700;flex-wrap:wrap;gap:8px}
+.admin-actions{display:flex;gap:6px}
+.btn-confirm{background:var(--ok);color:#fff;padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-confirm:hover{opacity:0.85}
+.btn-cancel{background:var(--err);color:#fff;padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-cancel:hover{opacity:0.85}
 
 .stock-product{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
 .stock-product-name{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:8px;line-height:1.3}
@@ -579,6 +584,20 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       } catch(e){ console.warn('[stock decrease]', e); }
     }
   }
+  async function increaseStock(items){
+    if (!supabase || !Array.isArray(items)) return;
+    for (const it of items){
+      if (!it.id) continue;
+      const key = stockKey(it.id, it.flavor);
+      if (!(key in stockCache)) continue;
+      const newQty = (stockCache[key] || 0) + it.qty;
+      try {
+        await supabase.from('stock').update({ quantity: newQty })
+          .eq('product_id', it.id).eq('flavor', it.flavor || '');
+        stockCache[key] = newQty;
+      } catch(e){ console.warn('[stock increase]', e); }
+    }
+  }
 
   async function initUserAndReferral(){
     if (!supabase || !user.id) return;
@@ -759,13 +778,12 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       const foot = $('cartFoot'); if (!foot) return;
 
       const isCash = payMethod === 'cash';
-      const cashChange = cashAmount - total;
       let cashBlock = '';
       if (isCash){
         let hint = '';
         if (cashAmount <= 0) hint = `<span style="color:var(--mut)">Введи сумму</span>`;
         else if (cashAmount < total) hint = `<span style="color:var(--err)">Не хватает ${fmt(total - cashAmount)} BYN</span>`;
-        else hint = `<span style="color:var(--ok)">Сдача: ${fmt(cashChange)} BYN</span>`;
+        else hint = `<span style="color:var(--ok)">Сдача: ${fmt(cashAmount - total)} BYN</span>`;
         cashBlock = `<div class="cart-field">
           <label>Клиент даёт (BYN)</label>
           <input id="cashGiven" type="number" min="0" step="0.01" placeholder="${fmt(total)}" value="${cashAmount || ''}" oninput="onCashInput(this)">
@@ -794,12 +812,13 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       foot.querySelectorAll('.pay-opt').forEach(btn => {
         btn.onclick = () => {
           payMethod = btn.dataset.pay;
-          if (payMethod === 'card') cashAmount = 0;
+          cashAmount = 0;
           updateCartUI();
         };
       });
     } catch(e){}
   }
+
   function onCashInput(el){
     cashAmount = parseFloat(el.value) || 0;
     const sub = subtotal();
@@ -863,6 +882,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
         <div class="stat"><div class="stat-label">Заказов</div><div class="stat-val">${userOrders.length}</div></div>
         <div class="stat"><div class="stat-label">Потрачено</div><div class="stat-val">${fmt(userOrders.reduce((s,o)=>s+Number(o.total),0))} BYN</div></div>`;
 
+      const statusLabel = s => s === 'confirmed' ? 'Выполнен' : s === 'cancelled' ? 'Отменён' : 'Ожидает';
+
       $('profileContent').innerHTML = `
         <div class="pf-section">
           <div class="pf-title">Твой статус</div>
@@ -880,7 +901,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
                 </div>
                 <div class="order-items">${(o.items||[]).map(i => `${i.name} ×${i.qty}`).join(', ')}</div>
                 <div class="order-foot">
-                  <span>${(o.items||[]).length} поз. <span class="order-status ${o.status||'new'}">${o.status==='confirmed'?'Выполнен':'Ожидает'}</span></span>
+                  <span>${(o.items||[]).length} поз. <span class="order-status ${o.status||'new'}">${statusLabel(o.status)}</span></span>
                   <span class="order-total">${fmt(o.total)} BYN</span>
                 </div>
               </div>`).join('')}
@@ -978,18 +999,29 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending:false });
       if (error || !data) { $('adminContent').innerHTML = `<p style="color:var(--err);text-align:center">${error?.message||'Ошибка'}</p>`; return; }
       if (!data.length) { $('adminContent').innerHTML = '<p style="text-align:center;color:var(--mut)">Заказов нет</p>'; return; }
-      $('adminContent').innerHTML = data.map(o => `
+      const statusLabel = s => s === 'confirmed' ? 'Выполнен' : s === 'cancelled' ? 'Отменён' : 'Новый';
+      
+      $('adminContent').innerHTML = data.map(o => {
+        const actions = [];
+        if (o.status === 'new'){
+          actions.push(`<button class="btn-confirm" onclick="confirmOrder('${o.order_id}')">✓ Подтвердить</button>`);
+          actions.push(`<button class="btn-cancel" onclick="cancelOrder('${o.order_id}')">✕ Отменить</button>`);
+        } else if (o.status === 'confirmed'){
+          actions.push(`<button class="btn-cancel" onclick="cancelOrder('${o.order_id}')">↩ Вернуть</button>`);
+        }
+        return `
         <div class="admin-card">
           <div class="admin-head">
             <div><b style="color:var(--acc)">${o.order_id}</b><br><span class="admin-user">@${o.username} (ID: ${o.user_id})</span><br><span class="admin-user">${new Date(o.created_at).toLocaleString('ru-RU')}</span></div>
-            <span class="order-status ${o.status}">${o.status==='confirmed'?'Выполнен':'Новый'}</span>
+            <span class="order-status ${o.status}">${statusLabel(o.status)}</span>
           </div>
           <div class="admin-items">${(o.items||[]).map(i => `▪️ ${i.name}${i.flavor?` (${i.flavor})`:''} ×${i.qty}`).join('<br>')}</div>
           <div class="admin-foot">
             <span>Итого: ${fmt(o.total)} BYN</span>
-            ${o.status==='new'?`<button class="btn-confirm" onclick="confirmOrder('${o.order_id}')">Подтвердить</button>`:''}
+            <div class="admin-actions">${actions.join('')}</div>
           </div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
     } catch(e){ $('adminContent').innerHTML = `<p style="color:var(--err);text-align:center">${e.message}</p>`; }
   }
 
@@ -1084,6 +1116,28 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     } catch(e){ showToast('Ошибка: '+e.message, true); }
   }
 
+  async function cancelOrder(orderId){
+    if (!supabase) return;
+    if (!confirm('Отменить заказ? Если он уже подтверждён — остатки вернутся на склад.')) return;
+    try {
+      const { data: order, error: getErr } = await supabase.from('orders').select('*').eq('order_id', orderId).maybeSingle();
+      if (getErr) throw getErr;
+      if (!order) { showToast('Заказ не найден', true); return; }
+
+      // Если уже подтверждён — вернуть остатки
+      if (order.status === 'confirmed'){
+        await increaseStock(order.items || []);
+      }
+
+      const { error } = await supabase.from('orders').update({ status:'cancelled' }).eq('order_id', orderId);
+      if (error) throw error;
+
+      showToast(order.status === 'confirmed' ? 'Возврат оформлен, остатки возвращены ✓' : 'Заказ отменён ✓');
+      renderAdmin();
+      renderProducts();
+    } catch(e){ showToast('Ошибка: '+e.message, true); }
+  }
+
   function addToCart(id, flavor){
     const p = getP(id); if (!p) return;
     const key = `${id}|${flavor||''}`;
@@ -1165,6 +1219,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   function openConfirmOrder(){
     const u = $('custUsername')?.value.trim();
     if (!u) return showToast('Введи Telegram username', true);
+    
+    // Проверка наличных
     if (payMethod === 'cash'){
       const sub = subtotal();
       const hasLoyalty = hasLoyaltyNow();
@@ -1173,10 +1229,12 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       const refDisc = currentUserData?.referral_discount_available ? sub * 0.2 : 0;
       const finalDisc = Math.max(promoDisc, loyaltyDisc, refDisc);
       const total = Math.max(0, sub - finalDisc);
+      
       if (!cashAmount || cashAmount < total){
         return showToast('Введи сумму наличными (не меньше итога)', true);
       }
     }
+    
     $('confirmCheckbox').checked = false;
     $('confirmSendBtn').classList.remove('active');
     $('confirmOrderModal').classList.add('open');
@@ -1198,20 +1256,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     else if (maxD === refDisc && refDisc > 0) { finalDisc = refDisc; discLabel = 'referral'; }
     else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = 'loyalty'; }
     const total = Math.max(0, sub - finalDisc);
-
-    if (payMethod === 'cash' && (!cashAmount || cashAmount < total)){
-      closeConfirmOrder();
-      return showToast('Введи сумму наличными (не меньше итога)', true);
-    }
-
-    // ВАЖНО: формируем discLabelHuman ДО обнуления activePromo
-    let discLabelHuman = '';
-    if (discLabel === 'promo') discLabelHuman = `Промокод ${activePromo?.code || ''} (${activePromo?.discountPercent || 0}%)`;
-    else if (discLabel === 'referral') discLabelHuman = 'Реферальная скидка (20%)';
-    else if (discLabel === 'loyalty') discLabelHuman = 'Скидка лояльности (20%)';
-
-    // Сохраняем cashAmount для сообщения, т.к. потом обнулим
-    const cashPaid = cashAmount;
 
     const now = new Date();
     const dateStr = now.toLocaleDateString('ru-RU');
@@ -1235,13 +1279,21 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       } catch(e){}
     }
 
-    orders.unshift({ id: orderId, date: new Date().toISOString(), items: orderItems, total, discount: finalDisc });
+    orders.unshift({ id: orderId, date: now.toISOString(), items: orderItems, total, discount: finalDisc });
     cart = {};
     if (activePromo) activePromo = null;
+    const cashGiven = cashAmount;
+    const cashChange = cashAmount - total;
     payMethod = 'card';
     cashAmount = 0;
     save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
 
+    // Человекочитаемая скидка
+    let discLabelHuman = '';
+    if (discLabel === 'promo') discLabelHuman = `Промокод ${orderItems.promo || ''} (${activePromo?.discountPercent || ''}%)`.replace('  ',' ').replace('(%)','');
+    if (discLabel === 'referral') discLabelHuman = 'Реферальная скидка (20%)';
+    if (discLabel === 'loyalty') discLabelHuman = 'Скидка лояльности (20%)';
+    
     let msg = '🛒 ЗАКАЗ TRAHAN ZIZHKA\n\n';
     msg += `📅 ${dateStr} в ${timeStr}\n`;
     msg += `👤 @${username}\n`;
@@ -1256,8 +1308,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     msg += `💜 Итого: ${fmt(total)} BYN\n\n`;
     msg += `💳 Оплата: ${payMethod === 'cash' ? 'Наличными' : 'Картой'}\n`;
     if (payMethod === 'cash'){
-      msg += `💵 Клиент даёт: ${fmt(cashPaid)} BYN\n`;
-      msg += `🔄 Сдача: ${fmt(cashPaid - total)} BYN\n`;
+      msg += `💵 Клиент даёт: ${fmt(cashGiven)} BYN\n`;
+      msg += `🔄 Сдача: ${fmt(cashChange)} BYN\n`;
     }
     msg += `\n✅ Подтверждаю!`;
 
@@ -1285,6 +1337,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   window.applyPromo = applyPromo;
   window.removePromo = removePromo;
   window.confirmOrder = confirmOrder;
+  window.cancelOrder = cancelOrder;
   window.shareReferral = shareReferral;
   window.updateStockFromInput = updateStockFromInput;
   window.onCashInput = onCashInput;
