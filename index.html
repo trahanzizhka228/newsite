@@ -422,49 +422,73 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {min:49,icon:'🔱',name:'Легенда зоны',color:'#ffd700'},{min:50,icon:'👑',name:'ВОРОВСКОЙ БОГ',color:'#ff0000'}
   ];
 
-  const P = [
+    const P = [
+    // ═══ СНЮС ═══
+    // D.L.T.A
     {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪"],desc:"Снюс, крепкий"},
     {id:2,name:"💀 D.L.T.A XS ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Микс ягод 🫐🍓","Зеленый виноград мята 🍇🌿"],desc:"Снюс, крепкий"},
-    {id:303,name:"🔥 Iceberg Hardcore",price:16,cat:"snus",brand:"iceberg",flavors:["Ice shock 🧊💥","Dark bubble","Frozen pulse 🧊💥","Dark matter","Black fury"],desc:"150мг"},
+    // iceberg
     {id:129,name:"💀 Iceberg Strong",price:16,cat:"snus",brand:"iceberg",flavors:["Черная смородина 🫐","Виноград 🍇","Арбуз лайм 🍉🍋"],desc:"75 мг"},
     {id:130,name:"💀 Iceberg Overkill",price:16,cat:"snus",brand:"iceberg",flavors:["Cherry riot 🍒💥","Citrus blast 🍋💥","Green rampage 🍏💥","Lime strike ⚡💥","Night crush 🖤💥","Polar fury 🧊💥"],desc:"200 мг"},
     {id:131,name:"💀 Iceberg Ultra",price:16,cat:"snus",brand:"iceberg",flavors:["Жвачка тутти-фрутти 🍬🫧","Мультифрукт цитрус 🍊🍋","Аромат цветов 🌸","Мандарин 🍊"],desc:"150 мг"},
+    {id:303,name:"🔥 Iceberg Hardcore",price:16,cat:"snus",brand:"iceberg",flavors:["Ice shock 🧊💥","Dark bubble","Frozen pulse 🧊💥","Dark matter","Black fury"],desc:"150мг"},
+
+    // ═══ КОФЕИН ═══
     {id:500,name:"⚡ Кофеиновые паучи Iceberg",price:13,cat:"kofein",brand:"ICBERG",flavors:["Сладкая мята 🌿🍬","Энергетик ⚡","Мятный арбуз 🌿🍉","Зеленое яблоко 🍏"],desc:"Кофеиновые паучи"},
-    {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",isNew:true,flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
-    {id:125,name:"🧪 Monster Hardcore",price:16,cat:"liquid",brand:"monster",isNew:true,flavors:["Смородиновый коктейль 🫐🥤","Фруктовый коктейль 🍓🥭🍍"],desc:"50 мг, 30мл"},
-    {id:126,name:"🧪 Monster Iceberg",price:16,cat:"liquid",brand:"monster",isNew:true,flavors:["Арбузный фреш 🍉🥤","Вишневый смузи 🍒🥤","Ледяные ягоды 🧊🫐🍓","Ментоловый спрайт 🌿🧊🫧","Клубничный коктейль 🍓🥤","Розовый лимонад 🌸🍋🥤","Смородиновый смузи 🫐🥤"],desc:"50 мг, 30мл"},
-    {id:127,name:"🧪 Злая Монашка Buble",price:18,cat:"liquid",brand:"злая монашка",isNew:true,flavors:["Арбузная конфета 🍉🍬","Вишневый тик-так 🍒🍬","Кислый скитлс черешня 🍒🍬🍋","Клубничный бабл-гам 🍓🫧","Смородиновый холлс 🫐🍬","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
-    {id:128,name:"🧪 Самоубийца Danger",price:20,cat:"liquid",brand:"самоубийца",isNew:true,flavors:["Виноград смородина мята 🍇🫐🌿","Вишневый холлс 🍒🍬","Вишня виноград 🍒🍇","Зеленый скитлс 🍏🍬","Земляничный спрайт 🍓🫧","Классический энергетик","Мармеладный энергетик ⚡🍬","Ягодная жвачка 🫐🫧"],desc:"100 мг, 30мл"},
+
+    // ═══ ЖИДКОСТИ ═══
+    // ── bjorn ──
     {id:8,name:"🧪 Bjorn Long 80mg 🧛",price:20,cat:"liquid",brand:"bjorn",flavors:["Мята спрайт 🌿🧊","Фруктовый мармелад 🍬🍊"],desc:"80mg, 30мл"},
+    {id:101,name:"🧪 Bjorn Тёмный Хор",price:20,cat:"liquid",brand:"bjorn",flavors:["Кислое зеленое яблоко 🍏🍋","Кислый ягодный микс 🫐🍓🍋","Арбузный лед 🍉🧊","Арбуз мята 🍉🌿","Мятная жвачка 🌿🫧"],desc:"80 мг, 30мл"},
     {id:102,name:"🧪 Bjorn Сон Призрака",price:20,cat:"liquid",brand:"bjorn",flavors:["Ледяная клубника личи 🍓🧊","Манго со льдом 🥭🧊","Ананас манго 🍍🥭","Кислое яблоко 🍏","Яблоко персик 🍎🍑"],desc:"30мл"},
-    {id:101,name:"🧪 Bjorn Тёмный Хор",price:20,cat:"liquid",brand:"bjorn",isNew:true,flavors:["Кислое зеленое яблоко 🍏🍋","Кислый ягодный микс 🫐🍓🍋","Арбузный лед 🍉🧊","Арбуз мята 🍉🌿","Мятная жвачка 🌿🫧"],desc:"80 мг, 30мл"},
-    {id:81,name:"🧪 Монашка Hotspot",price:18,cat:"liquid",brand:"hotspot , монашка",flavors:["Мармеладные червячки 🍬🪱","Ледяной энергетик ⚡🧊","Вишня ледяной лайм 🍒🧊🍋","Кислый ленточки вишня черника 🎀🍒🫐","Кислые клубничный чупа чупс 🍓🍭","Кислый скитлс малина ананас 🍬🍓🍍","Клубника лайм 🍓🍋","Манго черная смородина 🥭🫐","Морозные лесные ягоды 🧊🫐🍓"],desc:"30мл"},
-    {id:104,name:"🧪 Злая Монашка",price:18,cat:"liquid",brand:"злая монашка",flavors:["Энергетик арбуз ⚡🍉","Жвачка арбуз 🫧🍉","Пина колада 🍹🥥","Клубнично ежевичный морс 🍓🫐","Доктор Пеппер черешня 🥤🍒","Клубника личи 🍓🥭"],desc:"70mg, 30мл"},
-    {id:120,name:"🧪 Злая Монашка Ice",price:18,cat:"liquid",brand:"злая монашка",flavors:["Клубника арбуз лед 🍓🍉🧊","Морс из красных ягод лед 🍓🧊","Смородиновый мармелад лед 🫐🍬🧊"],desc:"70 мг, 30мл"},
-    {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧"],desc:"70mg, 30мл"},
-    {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊"],desc:"70 мг, 30мл"},
-    {id:117,name:"🧪 Anima Love Killer",price:17,cat:"liquid",brand:"anima",flavors:["Арбузный смузи 🍉🥤","Банан клубника 🍌🍓","Виноград вишня 🍇🍒","Вишневая газировка 🍒🫧","Клубничный коктейль 🍓🍹","Чернично-малиновые червячки 🫐🍓🪱","Яблочный лимонад 🍎🍋","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
-    {id:133,name:"🧪 Anima Love",price:16,cat:"liquid",brand:"anima",flavors:["Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50 мг, 30мл"},
-    {id:118,name:"🧪 Bjorn Joker 🃏",price:20,cat:"liquid",brand:"bjorn",flavors:["Клубника банан 🍓🍌","Кола вишня 🥤🍒","Черника мята 🫐🌿","Энергетик ⚡","Вишня клюква 🍒🫐"],desc:"80 мг, 30мл"},
-    {id:201,name:"🧪 Hotspot Don't Chew It 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Жвачка ледяная вишня 🫧🍒🧊","Жвачка маракуйя 🫧🥭"],desc:"60мг"},
-    {id:202,name:"🧪 Hotspot Dot 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Банан лайм 🍌🍋"],desc:"60мг"},
-    {id:106,name:"🧪 Hotspot x Podonki 60 мг",price:15,cat:"liquid",brand:"hotspot , podonki",flavors:["Освежающий лимонад лайм мята 🍋🌿❄️","Холодное яблоко 🍎🧊","Холодный арбуз 🍉🧊"],desc:"60мг"},
-    {id:107,name:"🧪 Podonki Inferno",price:16,cat:"liquid",brand:"podonki",flavors:["Вишня слива груша 🍒🍑🍐"],desc:"60mg, 30мл"},
     {id:108,name:"🧪 Bjorn Zloy V2.0",price:16,cat:"liquid",brand:"bjorn",flavors:["Виноград мармелад маршмеллоу 🍇🍬🍡","Смородина малина яблоко 🫐🍓🍎","Ваниль вишня 🍦🍒","Яблоко виноград 🍎🍇","Мохито 🍋🌿🫧","Ягодный напиток 🫐🍓🥤","Энергетик монстер ⚡🖤"],desc:"60mg, 30мл"},
+    {id:118,name:"🧪 Bjorn Joker 🃏",price:20,cat:"liquid",brand:"bjorn",flavors:["Клубника банан 🍓🍌","Кола вишня 🥤🍒","Черника мята 🫐🌿","Энергетик ⚡","Вишня клюква 🍒🫐"],desc:"80 мг, 30мл"},
+    // ── anima ──
     {id:111,name:"🧪 Anima Love Zombie",price:17,cat:"liquid",brand:"anima",flavors:["Яблоко виноград 🍎🍇","Клубничный леденец 🍓🍬","Клубника банан 🍓🍌","Малина с кислинкой 🍓","Арбузный Бабл гам 🍉🫧","Алоэ виноград 🌵🍇"],desc:"60mg, 30мл"},
     {id:114,name:"🧪 Anima Love Sour",price:16,cat:"liquid",brand:"anima",flavors:["Кислая черника апельсин 🫐🍊🍋","Кислый зеленый виноград 🍇🍋","Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50mg, 30мл"},
+    {id:117,name:"🧪 Anima Love Killer",price:17,cat:"liquid",brand:"anima",flavors:["Арбузный смузи 🍉🥤","Банан клубника 🍌🍓","Виноград вишня 🍇🍒","Вишневая газировка 🍒🫧","Клубничный коктейль 🍓🍹","Чернично-малиновые червячки 🫐🍓🪱","Яблочный лимонад 🍎🍋","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
     {id:119,name:"🧪 Anima Love Phobia",price:17,cat:"liquid",brand:"anima",flavors:["Вишневый скитлс 🍒🍬","Дикие ягоды 🫐🍓","Кислые ягодные червячки 🪱🍋","Клубнично-банановый фреш 🍓🍌🥤","Морс из домашних ягод 🫐🍓","Ред Булл малина ⚡🍓","Ред Булл со льдом ⚡🧊","Смородина лимонад 🫐🍋","Фруктовый скитлс 🍬🍊","Ягодный Ред Булл ⚡🫐"],desc:"70мг, 30мл"},
+    {id:133,name:"🧪 Anima Love",price:16,cat:"liquid",brand:"anima",flavors:["Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50 мг, 30мл"},
+    // ── злая монашка ──
+    {id:104,name:"🧪 Злая Монашка",price:18,cat:"liquid",brand:"злая монашка",flavors:["Энергетик арбуз ⚡🍉","Жвачка арбуз 🫧🍉","Пина колада 🍹🥥","Клубнично ежевичный морс 🍓🫐","Доктор Пеппер черешня 🥤🍒","Клубника личи 🍓🥭"],desc:"70mg, 30мл"},
+    {id:120,name:"🧪 Злая Монашка Ice",price:18,cat:"liquid",brand:"злая монашка",flavors:["Клубника арбуз лед 🍓🍉🧊","Морс из красных ягод лед 🍓🧊","Смородиновый мармелад лед 🫐🍬🧊"],desc:"70 мг, 30мл"},
+    {id:127,name:"🧪 Злая Монашка Buble",price:18,cat:"liquid",brand:"злая монашка",flavors:["Арбузная конфета 🍉🍬","Вишневый тик-так 🍒🍬","Кислый скитлс черешня 🍒🍬🍋","Клубничный бабл-гам 🍓🫧","Смородиновый холлс 🫐🍬","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
+    // ── злая лабуба ──
+    {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧"],desc:"70mg, 30мл"},
+    {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊"],desc:"70 мг, 30мл"},
+    // ── duall ──
+    {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
+    // ── monster ──
+    {id:125,name:"🧪 Monster Hardcore",price:16,cat:"liquid",brand:"monster",flavors:["Смородиновый коктейль 🫐🥤","Фруктовый коктейль 🍓🥭🍍"],desc:"50 мг, 30мл"},
+    {id:126,name:"🧪 Monster Iceberg",price:16,cat:"liquid",brand:"monster",flavors:["Арбузный фреш 🍉🥤","Вишневый смузи 🍒🥤","Ледяные ягоды 🧊🫐🍓","Ментоловый спрайт 🌿🧊🫧","Клубничный коктейль 🍓🥤","Розовый лимонад 🌸🍋🥤","Смородиновый смузи 🫐🥤"],desc:"50 мг, 30мл"},
+    // ── самоубийца ──
+    {id:128,name:"🧪 Самоубийца Danger",price:20,cat:"liquid",brand:"самоубийца",flavors:["Виноград смородина мята 🍇🫐🌿","Вишневый холлс 🍒🍬","Вишня виноград 🍒🍇","Зеленый скитлс 🍏🍬","Земляничный спрайт 🍓🫧","Классический энергетик","Мармеладный энергетик ⚡🍬","Ягодная жвачка 🫐🫧"],desc:"100 мг, 30мл"},
+    // ── hotspot ──
+    {id:81,name:"🧪 Монашка Hotspot",price:18,cat:"liquid",brand:"hotspot , монашка",flavors:["Мармеладные червячки 🍬🪱","Ледяной энергетик ⚡🧊","Вишня ледяной лайм 🍒🧊🍋","Кислый ленточки вишня черника 🎀🍒🫐","Кислые клубничный чупа чупс 🍓🍭","Кислый скитлс малина ананас 🍬🍓🍍","Клубника лайм 🍓🍋","Манго черная смородина 🥭🫐","Морозные лесные ягоды 🧊🫐🍓"],desc:"30мл"},
+    {id:106,name:"🧪 Hotspot x Podonki 60 мг",price:15,cat:"liquid",brand:"hotspot , podonki",flavors:["Освежающий лимонад лайм мята 🍋🌿❄️","Холодное яблоко 🍎🧊","Холодный арбуз 🍉🧊"],desc:"60мг"},
+    {id:201,name:"🧪 Hotspot Don't Chew It 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Жвачка ледяная вишня 🫧🍒🧊","Жвачка маракуйя 🫧🥭"],desc:"60мг"},
+    {id:202,name:"🧪 Hotspot Dot 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Банан лайм 🍌🍋"],desc:"60мг"},
+    // ── podonki ──
+    {id:107,name:"🧪 Podonki Inferno",price:16,cat:"liquid",brand:"podonki",flavors:["Вишня слива груша 🍒🍑🍐"],desc:"60mg, 30мл"},
+    // ── Rich ──
     {id:122,name:"🧪 Rich",price:18,cat:"liquid",brand:"Rich",flavors:["Вишневые леденцы 🍒🍬","Вишня клубника 🍒🍓","Морозные лесные ягоды 🧊🫐🍓"],desc:"80 мг, 30мл"},
+    // ── catswill ──
     {id:123,name:"🧪 Catswill x Hotspot",price:17,cat:"liquid",brand:"catswill, hotspot",flavors:["Энергетик яблоко смородина малина ⚡🍎🫐🍓","Кислая мамба лесная земляника 🍋🫐🍓","Харибо тропические фрукты 🍬🥭🍍","Малиновый энергетик с клубникой ⚡🍓","Кислая клубника ананас 🍓🍍🍋","Кислая черная смородина 🫐🍋","Мармеладные червячки малина лайм 🪱🍓🍋"],desc:"70 мг, 30мл"},
+
+    // ═══ РАСХОДНИКИ ═══
+    // ── vaporesso ──
     {id:48,name:"🔧 Картридж Xros 0.4 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
     {id:49,name:"🔧 Картридж Xros 0.6 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
     {id:112,name:"🔧 Картридж Xros 0.8 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
+    // ── geekvape ──
     {id:50,name:"🔧 Испаритель Aegis Coil B0 (50-58w)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"0.2Ω, 5 шт"},
+    // ── smoant ──
     {id:98,name:"🔧 Испаритель Pasito 3/Pasito 2/Knight 80",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"0.15Ω, (70-90)"},
+    // ── voopoo ──
     {id:121,name:"🔧 Испаритель Voopoo V.THRU 0.4 Ом",price:13,cat:"consumables",brand:"voopoo",flavors:[],desc:"0.4 Ом"},
-    {id:51,name:"🔧 Никобустер Salt (+20мг на 30 мл)",price:3,cat:"consumables",brand:"jord",flavors:[],desc:"Для миксования"}
+    // ── jord ──
+    {id:51,name:"🔧 Никобустер Salt (+20мг на 30 мл)",price:3,cat:"consumables",brand:"jord",flavors:[],desc:"Для миксовки"}
   ];
-
   const CAT_NAMES = {liquid:'Жидкость',snus:'Снюс',kofein:'Кофеин',consumables:'Расходник'};
   const CAT_EMOJI = {liquid:'💧',snus:'🥫',kofein:'☕',consumables:'🔧'};
 
