@@ -508,10 +508,10 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let cart = {}, orders = [], activePromo = null;
   let curCat = 'all', curBrand = 'all', modalPid = null, modalFlavor = null;
   let promoLoading = false;
-  let payMethod = 'card';  // 'card' | 'cash'
+  let payMethod = 'card';
   let cashAmount = 0;
 
-  const SK = 'tz_v17';
+  const SK = 'tz_v18';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
   function load(){
     try {
@@ -758,7 +758,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       const total = Math.max(0, sub - finalDisc);
       const foot = $('cartFoot'); if (!foot) return;
 
-          const isCash = payMethod === 'cash';
+      const isCash = payMethod === 'cash';
       const cashChange = cashAmount - total;
       let cashBlock = '';
       if (isCash){
@@ -794,6 +794,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       foot.querySelectorAll('.pay-opt').forEach(btn => {
         btn.onclick = () => {
           payMethod = btn.dataset.pay;
+          if (payMethod === 'card') cashAmount = 0;
           updateCartUI();
         };
       });
@@ -816,7 +817,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     else hint.innerHTML = `<span style="color:var(--ok)">Сдача: ${fmt(cashAmount - total)} BYN</span>`;
   }
 
-  function changeQty(k, d){
   function changeQty(k, d){
     if (!cart[k]) return;
     if (d < 0 && cart[k].qty === 1) {
@@ -1165,6 +1165,18 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   function openConfirmOrder(){
     const u = $('custUsername')?.value.trim();
     if (!u) return showToast('Введи Telegram username', true);
+    if (payMethod === 'cash'){
+      const sub = subtotal();
+      const hasLoyalty = hasLoyaltyNow();
+      const loyaltyDisc = hasLoyalty ? sub * 0.2 : 0;
+      const promoDisc = activePromo ? sub * activePromo.discountPercent / 100 : 0;
+      const refDisc = currentUserData?.referral_discount_available ? sub * 0.2 : 0;
+      const finalDisc = Math.max(promoDisc, loyaltyDisc, refDisc);
+      const total = Math.max(0, sub - finalDisc);
+      if (!cashAmount || cashAmount < total){
+        return showToast('Введи сумму наличными (не меньше итога)', true);
+      }
+    }
     $('confirmCheckbox').checked = false;
     $('confirmSendBtn').classList.remove('active');
     $('confirmOrderModal').classList.add('open');
@@ -1186,13 +1198,20 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     else if (maxD === refDisc && refDisc > 0) { finalDisc = refDisc; discLabel = 'referral'; }
     else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = 'loyalty'; }
     const total = Math.max(0, sub - finalDisc);
-    
 
-
-        if (payMethod === 'cash' && (!cashAmount || cashAmount < total)){
+    if (payMethod === 'cash' && (!cashAmount || cashAmount < total)){
       closeConfirmOrder();
       return showToast('Введи сумму наличными (не меньше итога)', true);
     }
+
+    // ВАЖНО: формируем discLabelHuman ДО обнуления activePromo
+    let discLabelHuman = '';
+    if (discLabel === 'promo') discLabelHuman = `Промокод ${activePromo?.code || ''} (${activePromo?.discountPercent || 0}%)`;
+    else if (discLabel === 'referral') discLabelHuman = 'Реферальная скидка (20%)';
+    else if (discLabel === 'loyalty') discLabelHuman = 'Скидка лояльности (20%)';
+
+    // Сохраняем cashAmount для сообщения, т.к. потом обнулим
+    const cashPaid = cashAmount;
 
     const now = new Date();
     const dateStr = now.toLocaleDateString('ru-RU');
@@ -1219,14 +1238,10 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     orders.unshift({ id: orderId, date: new Date().toISOString(), items: orderItems, total, discount: finalDisc });
     cart = {};
     if (activePromo) activePromo = null;
+    payMethod = 'card';
+    cashAmount = 0;
     save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
 
-    // Человекочитаемая скидка
-    let discLabelHuman = '';
-    if (discLabel === 'promo') discLabelHuman = `Промокод ${activePromo?.code || ''} (${activePromo?.discountPercent || 0}%)`;
-    else if (discLabel === 'referral') discLabelHuman = 'Реферальная скидка (20%)';
-    else if (discLabel === 'loyalty') discLabelHuman = 'Скидка лояльности (20%)';
-    
     let msg = '🛒 ЗАКАЗ TRAHAN ZIZHKA\n\n';
     msg += `📅 ${dateStr} в ${timeStr}\n`;
     msg += `👤 @${username}\n`;
@@ -1241,8 +1256,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     msg += `💜 Итого: ${fmt(total)} BYN\n\n`;
     msg += `💳 Оплата: ${payMethod === 'cash' ? 'Наличными' : 'Картой'}\n`;
     if (payMethod === 'cash'){
-      msg += `💵 Клиент даёт: ${fmt(cashAmount)} BYN\n`;
-      msg += `🔄 Сдача: ${fmt(cashAmount - total)} BYN\n`;
+      msg += `💵 Клиент даёт: ${fmt(cashPaid)} BYN\n`;
+      msg += `🔄 Сдача: ${fmt(cashPaid - total)} BYN\n`;
     }
     msg += `\n✅ Подтверждаю!`;
 
@@ -1272,6 +1287,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   window.confirmOrder = confirmOrder;
   window.shareReferral = shareReferral;
   window.updateStockFromInput = updateStockFromInput;
+  window.onCashInput = onCashInput;
 
   load();
   renderProducts();
@@ -1284,7 +1300,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   });
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
-  console.log('%c🎨 Trahan Zizhka v17','font-size:16px;font-weight:bold;color:#c6ff2e');
+  console.log('%c🎨 Trahan Zizhka v18','font-size:16px;font-weight:bold;color:#c6ff2e');
 })();
 </script>
 </body>
