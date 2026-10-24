@@ -508,6 +508,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let cart = {}, orders = [], activePromo = null;
   let curCat = 'all', curBrand = 'all', modalPid = null, modalFlavor = null;
   let promoLoading = false;
+  let payMethod = 'card';  // 'card' | 'cash'
+  let cashAmount = 0;
 
   const SK = 'tz_v17';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
@@ -756,16 +758,32 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       const total = Math.max(0, sub - finalDisc);
       const foot = $('cartFoot'); if (!foot) return;
 
+          const isCash = payMethod === 'cash';
+      const cashChange = cashAmount - total;
+      let cashBlock = '';
+      if (isCash){
+        let hint = '';
+        if (cashAmount <= 0) hint = `<span style="color:var(--mut)">Введи сумму</span>`;
+        else if (cashAmount < total) hint = `<span style="color:var(--err)">Не хватает ${fmt(total - cashAmount)} BYN</span>`;
+        else hint = `<span style="color:var(--ok)">Сдача: ${fmt(cashChange)} BYN</span>`;
+        cashBlock = `<div class="cart-field">
+          <label>Клиент даёт (BYN)</label>
+          <input id="cashGiven" type="number" min="0" step="0.01" placeholder="${fmt(total)}" value="${cashAmount || ''}" oninput="onCashInput(this)">
+          <div id="cashChangeHint" style="margin-top:6px;font-size:12px;text-align:center">${hint}</div>
+        </div>`;
+      }
+
       foot.innerHTML = !hasItems
         ? `<div class="row final" style="display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--bd)"><span>Итого:</span><b style="color:var(--acc);font-family:Unbounded">0 BYN</b></div>`
         : `<div class="cart-field"><label>Твой Telegram</label><input id="custUsername" placeholder="@username" value="${user.username||''}"></div>
           <div class="cart-field">
             <label>Оплата</label>
             <div class="pay-opts">
-              <button class="pay-opt sel" data-pay="card">💳 Картой</button>
-              <button class="pay-opt" data-pay="cash">💵 Наличными</button>
+              <button class="pay-opt ${!isCash?'sel':''}" data-pay="card">💳 Картой</button>
+              <button class="pay-opt ${isCash?'sel':''}" data-pay="cash">💵 Наличными</button>
             </div>
           </div>
+          ${cashBlock}
           <div class="totals">
             <div class="row"><span>Сумма:</span><span>${fmt(sub)} BYN</span></div>
             ${finalDisc > 0 ? `<div class="row disc"><span>${discLabel}:</span><span>−${fmt(finalDisc)} BYN</span></div>` : ''}
@@ -775,13 +793,30 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 
       foot.querySelectorAll('.pay-opt').forEach(btn => {
         btn.onclick = () => {
-          foot.querySelectorAll('.pay-opt').forEach(b => b.classList.remove('sel'));
-          btn.classList.add('sel');
+          payMethod = btn.dataset.pay;
+          updateCartUI();
         };
       });
     } catch(e){}
   }
+  function onCashInput(el){
+    cashAmount = parseFloat(el.value) || 0;
+    const sub = subtotal();
+    const hasLoyalty = hasLoyaltyNow();
+    const loyaltyDisc = hasLoyalty ? sub * 0.2 : 0;
+    const promoDisc = activePromo ? sub * activePromo.discountPercent / 100 : 0;
+    const refDisc = currentUserData?.referral_discount_available ? sub * 0.2 : 0;
+    const finalDisc = Math.max(promoDisc, loyaltyDisc, refDisc);
+    const total = Math.max(0, sub - finalDisc);
+    
+    const hint = $('cashChangeHint');
+    if (!hint) return;
+    if (cashAmount <= 0) hint.innerHTML = `<span style="color:var(--mut)">Введи сумму</span>`;
+    else if (cashAmount < total) hint.innerHTML = `<span style="color:var(--err)">Не хватает ${fmt(total - cashAmount)} BYN</span>`;
+    else hint.innerHTML = `<span style="color:var(--ok)">Сдача: ${fmt(cashAmount - total)} BYN</span>`;
+  }
 
+  function changeQty(k, d){
   function changeQty(k, d){
     if (!cart[k]) return;
     if (d < 0 && cart[k].qty === 1) {
@@ -1151,6 +1186,17 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     else if (maxD === refDisc && refDisc > 0) { finalDisc = refDisc; discLabel = 'referral'; }
     else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = 'loyalty'; }
     const total = Math.max(0, sub - finalDisc);
+    
+
+
+        if (payMethod === 'cash' && (!cashAmount || cashAmount < total)){
+      closeConfirmOrder();
+      return showToast('Введи сумму наличными (не меньше итога)', true);
+    }
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('ru-RU');
+    const timeStr = now.toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'});
 
     const orderId = 'TZ-' + Date.now().toString().slice(-6);
     const orderItems = Object.values(cart).map(i => { const p = getP(i.id); return { id:p.id, name:p.name, flavor:i.flavor, qty:i.qty, price:p.price }; });
@@ -1175,14 +1221,30 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     if (activePromo) activePromo = null;
     save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
 
+    // Человекочитаемая скидка
+    let discLabelHuman = '';
+    if (discLabel === 'promo') discLabelHuman = `Промокод ${activePromo?.code || ''} (${activePromo?.discountPercent || 0}%)`;
+    else if (discLabel === 'referral') discLabelHuman = 'Реферальная скидка (20%)';
+    else if (discLabel === 'loyalty') discLabelHuman = 'Скидка лояльности (20%)';
+    
     let msg = '🛒 ЗАКАЗ TRAHAN ZIZHKA\n\n';
+    msg += `📅 ${dateStr} в ${timeStr}\n`;
     msg += `👤 @${username}\n`;
     if (user.id) msg += `🆔 TG ID: ${user.id}\n\n`;
     msg += '📋 Товары:\n';
-    for (const it of orderItems) msg += `▪️ ${it.name}${it.flavor?` (${it.flavor})`:''} × ${it.qty} = ${fmt(it.price*it.qty)} BYN\n`;
+    for (const it of orderItems) {
+      msg += `▪️ ${it.name}${it.flavor?` (${it.flavor})`:''}\n`;
+      msg += `   ${fmt(it.price)} BYN × ${it.qty} = ${fmt(it.price*it.qty)} BYN\n`;
+    }
     msg += `\n💰 Сумма: ${fmt(sub)} BYN\n`;
-    if (finalDisc > 0) msg += `🎟️ Скидка: −${fmt(finalDisc)} BYN\n`;
-    msg += `💜 Итого: ${fmt(total)} BYN\n\n✅ Подтверждаю!`;
+    if (finalDisc > 0 && discLabelHuman) msg += `🎟️ ${discLabelHuman}: −${fmt(finalDisc)} BYN\n`;
+    msg += `💜 Итого: ${fmt(total)} BYN\n\n`;
+    msg += `💳 Оплата: ${payMethod === 'cash' ? 'Наличными' : 'Картой'}\n`;
+    if (payMethod === 'cash'){
+      msg += `💵 Клиент даёт: ${fmt(cashAmount)} BYN\n`;
+      msg += `🔄 Сдача: ${fmt(cashAmount - total)} BYN\n`;
+    }
+    msg += `\n✅ Подтверждаю!`;
 
     const url = `https://t.me/${MANAGER}?text=${encodeURIComponent(msg)}`;
     try {
