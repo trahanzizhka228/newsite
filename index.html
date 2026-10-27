@@ -80,7 +80,10 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .badge.out{background:linear-gradient(135deg,#666,#444);top:auto;bottom:8px;left:8px}
 .product-cat{font-size:10px;color:var(--acc);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px}
 .product h3{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.3;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.product .desc{color:var(--mut);font-size:11px;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ИСПРАВЛЕННЫЙ БЕЙДЖ ОПИСАНИЯ */
+.product .desc{display:inline-block;padding:3px 8px;background:rgba(255,77,210,.12);color:var(--acc);font-size:10px;font-weight:700;border-radius:6px;margin-bottom:8px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.3px}
+
 .product .flavors-info{color:var(--gold);font-size:11px;font-weight:600;margin-bottom:4px}
 .product .stock-info{color:var(--ok);font-size:10px;font-weight:700;margin-bottom:8px}
 .product-foot{display:flex;align-items:center;justify-content:space-between;gap:6px}
@@ -259,7 +262,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   .products{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
   .product{padding:10px;border-radius:12px}
   .product h3{font-size:12px;min-height:auto}
-  .product .desc,.product .flavors-info{display:none}
+  .product .desc{font-size:9px;padding:2px 6px} /* Описание видно на мобилке! */
+  .product .flavors-info{display:none}
   .flavors-list{grid-template-columns:1fr}
 }
 </style>
@@ -439,8 +443,9 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {id:130,name:"💀 Iceberg Overkill",price:16,cat:"snus",brand:"iceberg",flavors:["Cherry riot 🍒💥","Citrus blast 🍋💥","Green rampage 🍏💥","Lime strike ⚡💥","Night crush 🖤💥","Polar fury 🧊💥"],desc:"200 мг"},
     {id:131,name:"💀 Iceberg Ultra",price:16,cat:"snus",brand:"iceberg",flavors:["Жвачка тутти-фрутти 🍬🫧","Мультифрукт цитрус 🍊🍋","Аромат цветов 🌸","Мандарин 🍊"],desc:"150 мг"},
     {id:303,name:"🔥 Iceberg Hardcore",price:16,cat:"snus",brand:"iceberg",flavors:["Ice shock 🧊💥","Dark bubble","Frozen pulse 🧊💥","Dark matter","Black fury"],desc:"150мг"},
+    // Glitch
+    {id:400,name:"⚡ Glitch pouches",price:16,cat:"snus",brand:"Glitch",flavors:["Аромат жвачки с мятой","Аромат мяты","Аромат морозной вишни"],desc:"150 мг"},
 
-{id:400,name:"⚡ Glitch pouches",price:16,cat:"snus",brand:"Glitch",flavors:["Аромат жвачки с мятой","Аромат мяты","Аромат морозной вишни"],desc:"150 мг"},
     // ═══ КОФЕИН ═══
     {id:500,name:"⚡ Кофеиновые паучи Iceberg",price:13,cat:"kofein",brand:"ICBERG",flavors:["Сладкая мята 🌿🍬","Энергетик ⚡","Мятный арбуз 🌿🍉","Зеленое яблоко 🍏"],desc:"Кофеиновые паучи"},
 
@@ -465,8 +470,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     // ── злая лабуба ──
     {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧"],desc:"70mg, 30мл"},
     {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊"],desc:"70 мг, 30мл"},
-    // ── duall ──
-
     // ── monster ──
     {id:125,name:"🧪 Monster Hardcore",price:16,cat:"liquid",brand:"monster",flavors:["Смородиновый коктейль 🫐🥤","Фруктовый коктейль 🍓🥭🍍"],desc:"50 мг, 30мл"},
     {id:126,name:"🧪 Monster Iceberg",price:16,cat:"liquid",brand:"monster",flavors:["Арбузный фреш 🍉🥤","Вишневый смузи 🍒🥤","Ледяные ягоды 🧊🫐🍓","Ментоловый спрайт 🌿🧊🫧","Клубничный коктейль 🍓🥤","Розовый лимонад 🌸🍋🥤","Смородиновый смузи 🫐🥤"],desc:"50 мг, 30мл"},
@@ -528,18 +531,14 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     } catch(e){}
   }
 
-  // Функция открытия Яндекс Карт
   function openYandexMaps() {
     const lat = 53.844120;
     const lon = 27.640362;
     const url = `https://yandex.ru/maps/?pt=${lon},${lat}&z=17&l=map`;
-    
     try {
       if (tg?.openLink) tg.openLink(url);
       else window.open(url, '_blank');
-    } catch(e) {
-      window.location.href = url;
-    }
+    } catch(e) { window.location.href = url; }
   }
   window.openYandexMaps = openYandexMaps;
 
@@ -566,7 +565,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let payMethod = 'card';
   let cashAmount = 0;
 
-  const SK = 'tz_v20';
+  const SK = 'tz_v21';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
   function load(){
     try {
@@ -1441,7 +1440,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   });
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
-  console.log('%c🎨 Trahan Zizhka v20','font-size:16px;font-weight:bold;color:#c6ff2e');
+  console.log('%c🎨 Trahan Zizhka v21','font-size:16px;font-weight:bold;color:#c6ff2e');
 })();
 </script>
 </body>
