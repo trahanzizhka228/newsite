@@ -70,6 +70,28 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 
 .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .product{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;cursor:pointer;position:relative;overflow:hidden;transition:.3s}
+
+/* ВЫДЕЛЕННЫЙ ТОВАР (ХИТ) */
+.product.featured {
+  border-color: var(--acc);
+  box-shadow: 0 0 20px rgba(255, 77, 210, 0.3);
+  background: linear-gradient(145deg, var(--card), #2a1048);
+}
+.product.featured::before {
+  content: '🔥 ХИТ';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--err);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  z-index: 3;
+  box-shadow: 0 4px 10px rgba(255, 77, 109, 0.4);
+}
+
 .product:hover{transform:translateY(-4px);border-color:rgba(255,77,210,.4)}
 .product.out{opacity:0.55;cursor:not-allowed}
 .product.out:hover{transform:none;border-color:var(--bd)}
@@ -81,7 +103,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .product-cat{font-size:10px;color:var(--acc);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px}
 .product h3{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.3;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-/* ИСПРАВЛЕННЫЙ БЕЙДЖ ОПИСАНИЯ */
+/* БЕЙДЖ ОПИСАНИЯ */
 .product .desc{display:inline-block;padding:3px 8px;background:rgba(255,77,210,.12);color:var(--acc);font-size:10px;font-weight:700;border-radius:6px;margin-bottom:8px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.3px}
 
 .product .flavors-info{color:var(--gold);font-size:11px;font-weight:600;margin-bottom:4px}
@@ -262,7 +284,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   .products{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
   .product{padding:10px;border-radius:12px}
   .product h3{font-size:12px;min-height:auto}
-  .product .desc{font-size:9px;padding:2px 6px} /* Описание видно на мобилке! */
+  .product .desc{font-size:9px;padding:2px 6px}
   .product .flavors-info{display:none}
   .flavors-list{grid-template-columns:1fr}
 }
@@ -314,6 +336,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       <span class="filters-label">Категории:</span>
       <button class="filter active" data-cat="all">Все</button>
       <button class="filter" data-cat="liquid">Жидкости</button>
+      <button class="filter" data-cat="disposable">Одноразки</button>
+      <button class="filter" data-cat="pod">Поды</button>
       <button class="filter" data-cat="snus">Снюс</button>
       <button class="filter" data-cat="kofein">Кофеин</button>
       <button class="filter" data-cat="consumables">Расходники</button>
@@ -434,10 +458,13 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   ];
 
   const P = [
+    // ═══ ПОД-СИСТЕМЫ (ВЫДЕЛЕННЫЕ) ═══
+    {id:607,name:"📱 VAPORESSO XROS 6 MINI",price:60,cat:"pod",brand:"vaporesso",isNew:true,isFeatured:true,flavors:["Plume pink","Plume white","Plume blue"],desc:"Под-система"},
+
     // ═══ СНЮС ═══
     // D.L.T.A
-    {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪"],desc:"Снюс, 150mg"},
-    {id:2,name:"💀 D.L.T.A XS ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Микс ягод 🫐🍓","Зеленый виноград мята 🍇🌿"],desc:"Снюс, 150mg"},
+    {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪"],desc:"Снюс, крепкий"},
+    {id:2,name:"💀 D.L.T.A XS ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Микс ягод 🫐🍓","Зеленый виноград мята 🍇🌿"],desc:"Снюс, крепкий"},
     // iceberg
     {id:129,name:"💀 Iceberg Strong",price:16,cat:"snus",brand:"iceberg",flavors:["Черная смородина 🫐","Виноград 🍇","Арбуз лайм 🍉🍋"],desc:"75 мг"},
     {id:130,name:"💀 Iceberg Overkill",price:16,cat:"snus",brand:"iceberg",flavors:["Cherry riot 🍒💥","Citrus blast 🍋💥","Green rampage 🍏💥","Lime strike ⚡💥","Night crush 🖤💥","Polar fury 🧊💥"],desc:"200 мг"},
@@ -456,6 +483,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {id:102,name:"🧪 Bjorn Сон Призрака",price:20,cat:"liquid",brand:"bjorn",flavors:["Ледяная клубника личи 🍓🧊","Манго со льдом 🥭🧊","Ананас манго 🍍🥭","Кислое яблоко 🍏","Яблоко персик 🍎🍑"],desc:"30мл"},
     {id:108,name:"🧪 Bjorn Zloy V2.0",price:16,cat:"liquid",brand:"bjorn",flavors:["Виноград мармелад маршмеллоу 🍇🍬🍡","Смородина малина яблоко 🫐🍓🍎","Ваниль вишня 🍦🍒","Яблоко виноград 🍎🍇","Мохито 🍋🌿🫧","Ягодный напиток 🫐🍓🥤","Энергетик монстер ⚡🖤"],desc:"60mg, 30мл"},
     {id:118,name:"🧪 Bjorn Joker 🃏",price:20,cat:"liquid",brand:"bjorn",flavors:["Клубника банан 🍓🍌","Кола вишня 🥤🍒","Черника мята 🫐🌿","Энергетик ⚡","Вишня клюква 🍒🫐"],desc:"80 мг, 30мл"},
+    {id:601,name:"🧪 Bjorn Headshot",price:20,cat:"liquid",brand:"bjorn",isNew:true,flavors:["Банан с кислинкой 🍌🍋","Дыня клюква 🍈🫐","Киви арбуз 🥝🍉","Клубника с кислинкой 🍓🍋","Малина клюква 🍓🫐","Нектарин вишня 🍑🍒","Черника брусника 🫐","Яблочный скитлс 🍏🍬"],desc:"100 мг, 30мл"},
     // ── anima ──
     {id:111,name:"🧪 Anima Love Zombie",price:17,cat:"liquid",brand:"anima",flavors:["Яблоко виноград 🍎🍇","Клубничный леденец 🍓🍬","Клубника банан 🍓🍌","Малина с кислинкой 🍓","Арбузный Бабл гам 🍉🫧","Алоэ виноград 🌵🍇"],desc:"60mg, 30мл"},
     {id:114,name:"🧪 Anima Love Sour",price:16,cat:"liquid",brand:"anima",flavors:["Кислая черника апельсин 🫐🍊🍋","Кислый зеленый виноград 🍇🍋","Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50mg, 30мл"},
@@ -483,9 +511,16 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     // ── podonki ──
     {id:107,name:"🧪 Podonki Inferno",price:16,cat:"liquid",brand:"podonki",flavors:["Вишня слива груша 🍒🍑🍐"],desc:"60mg, 30мл"},
     // ── Rich ──
-    {id:122,name:"🧪 Rich",price:18,cat:"liquid",brand:"Rich",flavors:["Вишневые леденцы 🍒🍬","Вишня клубника 🍒🍓","Морозные лесные ягоды 🧊🫐🍓"],desc:"80 мг, 30мл"},
+    {id:122,name:"🧪 Rich",price:18,cat:"liquid",brand:"Rich",flavors:["Виноград черная смородина скитлс 🍇🫐🍬","Черничный энергетик ⚡🫐","Вишневые леденцы 🍒🍬","Вишня клубника 🍒🍓","Морозные лесные ягоды 🧊🫐🍓"],desc:"80 мг, 30мл"},
     // ── catswill ──
     {id:123,name:"🧪 Catswill x Hotspot",price:17,cat:"liquid",brand:"catswill, hotspot",flavors:["Энергетик яблоко смородина малина ⚡🍎🫐🍓","Кислая мамба лесная земляника 🍋🫐🍓","Харибо тропические фрукты 🍬🥭🍍","Малиновый энергетик с клубникой ⚡🍓","Кислая клубника ананас 🍓🍍🍋","Кислая черная смородина 🫐🍋","Мармеладные червячки малина лайм 🪱🍓🍋"],desc:"70 мг, 30мл"},
+    // ── NEW ──
+    {id:602,name:"🧪 ELF LIQ",price:17,cat:"liquid",brand:"ELF",isNew:true,flavors:["Арбуз вишня 🍉🍒","Виноград вишня 🍇🍒","Вишня кислая малина 🍒🍓🍋","Кисло-сладкий ягодный микс 🫐🍓🍋","Клубника банан 🍓🍌","Яркий ягодный вкус 🫐🍓"],desc:"50 мг, 30мл"},
+    {id:603,name:"🧪 PIXEL SOUR",price:15,cat:"liquid",brand:"PIXEL",isNew:true,flavors:["Клубника малина лайм 🍓🍓🍋","Лимонад малина арбуз 🍋🍓🍉","Малина апельсин 🍓🍊","Черная смородина 🫐","Ягодный морс 🫐🍓"],desc:"20 мг, 30мл"},
+    {id:604,name:"🧪 RICK & MORTY RUSSIA",price:15,cat:"liquid",brand:"RICK & MORTY",isNew:true,flavors:["Арбузная жвачка 🍉🫧","Вишневый чупа-чупс 🍒🍭","Земляничный мохито 🍓🍹","Клубника банан 🍓🍌","Мармеладные червячки 🍬🪱","Сибирские ягоды 🫐🍓","Смородина голубика 🫐","Фруктовый скитлс 🍬🍊","Черная смородина 🫐","Экзотический микс 🥭🍍","Ягодный морс 🫐🍓"],desc:"70 мг, 30мл"},
+
+    // ═══ ОДНОРАЗКИ ═══
+    {id:606,name:"💨 HQD 5000 puffs",price:17,cat:"disposable",brand:"HQD",isNew:true,flavors:["Арбуз банан 🍉🍌","Жвачка кола лимон лайм 🫧🥤🍋","Малина кола 🍓🥤","Черника мята 🫐🌿","Черная смородина 🫐","Ягодный микс 🫐🍓"],desc:"5000 затяжек"},
 
     // ═══ РАСХОДНИКИ ═══
     // ── vaporesso ──
@@ -494,6 +529,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {id:112,name:"🔧 Картридж Xros 0.8 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
     // ── geekvape ──
     {id:50,name:"🔧 Испаритель Aegis Coil B0 (50-58w)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"0.2Ω, 5 шт"},
+    {id:605,name:"🔧 Сменный картридж Aegis H45 (с испарителем)",price:20,cat:"consumables",brand:"geekvape",isNew:true,flavors:[],desc:"Оригинал, с испарителем"},
     // ── smoant ──
     {id:98,name:"🔧 Испаритель Pasito 3/Pasito 2/Knight 80",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"0.15Ω, (70-90)"},
     // ── voopoo ──
@@ -502,8 +538,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {id:51,name:"🔧 Никобустер Salt (+20мг на 30 мл)",price:3,cat:"consumables",brand:"jord",flavors:[],desc:"Для миксовки"}
   ];
 
-  const CAT_NAMES = {liquid:'Жидкость',snus:'Снюс',kofein:'Кофеин',consumables:'Расходник'};
-  const CAT_EMOJI = {liquid:'💧',snus:'🥫',kofein:'☕',consumables:'🔧'};
+  const CAT_NAMES = {liquid:'Жидкость',disposable:'Одноразка',pod:'Под-система',snus:'Снюс',kofein:'Кофеин',consumables:'Расходник'};
+  const CAT_EMOJI = {liquid:'💧',disposable:'💨',pod:'📱',snus:'🥫',kofein:'☕',consumables:'🔧'};
 
   const $ = id => document.getElementById(id);
   const fmt = n => Number(n).toFixed(2).replace('.',',');
@@ -565,7 +601,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let payMethod = 'card';
   let cashAmount = 0;
 
-  const SK = 'tz_v21';
+  const SK = 'tz_v22';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
   function load(){
     try {
@@ -721,7 +757,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
         const outOfStock = totalStock === 0;
         const stockInfo = (isAdminUser && totalStock !== null && totalStock > 0) ? `<div class="stock-info">📦 ${totalStock} шт</div>` : '';
         const outBadge = outOfStock ? `<span class="badge out">Нет в наличии</span>` : '';
-        html += `<div class="product ${outOfStock ? 'out' : ''}" data-pid="${p.id}">${outBadge}
+        const featuredClass = p.isFeatured ? ' featured' : '';
+        html += `<div class="product ${outOfStock ? 'out' : ''}${featuredClass}" data-pid="${p.id}">${outBadge}
           <div class="product-img">
             <img src="images/product${p.id}.jpg" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
             <div class="ph">${CAT_EMOJI[p.cat]}</div>
@@ -1440,7 +1477,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   });
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
-  console.log('%c🎨 Trahan Zizhka v21','font-size:16px;font-weight:bold;color:#c6ff2e');
+  console.log('%c🎨 Trahan Zizhka v22','font-size:16px;font-weight:bold;color:#c6ff2e');
 })();
 </script>
 </body>
