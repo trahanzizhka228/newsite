@@ -495,6 +495,8 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {id:120,name:"🧪 Злая Монашка Ice",price:18,cat:"liquid",brand:"злая монашка",flavors:["Клубника арбуз лед 🍓🍉🧊","Морс из красных ягод лед 🍓🧊","Смородиновый мармелад лед 🫐🍬🧊"],desc:"70 мг, 30мл"},
     {id:127,name:"🧪 Злая Монашка Buble",price:18,cat:"liquid",brand:"злая монашка",flavors:["Арбузная конфета 🍉🍬","Вишневый тик-так 🍒🍬","Кислый скитлс черешня 🍒🍬🍋","Клубничный бабл-гам 🍓🫧","Смородиновый холлс 🫐🍬","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
     {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
+    {id:608,name:"🧪 Злая Монашка Lemonade",price:18,cat:"liquid",brand:"злая монашка",isNew:true,flavors:["Клубнично-вишневый лимонад 🍓🍒🍋","Вишневый швепс со скитлс 🍒🫧🍬","Компот из смородины и малины 🫐🍓","Компот из лесных ягод 🫐🍓","Мохито с виноградом 🍇🍋","Цитрусовый микс 🍊🍋","Тропический лимонад 🥭🍍","Арбузный фреш с мятой 🍉🌿","Вишневый лимонад с мятой 🍒🌿","Виноградный сок с лимоном 🍇🍋"],desc:"80 мг, 30мл"},
+    {id:609,name:"🧪 Злая Монашка Sweet",price:18,cat:"liquid",brand:"злая монашка",isNew:true,flavors:["Тик-так вишня мята 🍒🌿","REDBULL малина ⚡🍓","Клубника малина мята 🍓🌿","Дикие ягоды мята 🫐🍓🌿","Арбузный скитлс 🍉🍬","Мишки харибо с клубникой 🧸🍓","Клубника банан 🍓🍌","Смородина вишня черника 🫐🍒","Энергетик смородина ⚡🫐","Клубника арбуз 🍓🍉","Спрайт тропический микс 🥭🍍"],desc:"80 мг, 30мл"},
     // ── злая лабуба ──
     {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧"],desc:"70mg, 30мл"},
     {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊"],desc:"70 мг, 30мл"},
@@ -528,10 +530,10 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     {id:49,name:"🔧 Картридж Xros 0.6 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
     {id:112,name:"🔧 Картридж Xros 0.8 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
     // ── geekvape ──
-    {id:50,name:"🔧 Испаритель Aegis Coil B0 (50-58w)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"0.2Ω, 5 шт"},
+    {id:50,name:"🔧 Испаритель на пасту 55-65 ват (Aegis B0)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"0.2Ω, 5 шт"},
     {id:605,name:"🔧 Сменный картридж Aegis H45 (с испарителем)",price:20,cat:"consumables",brand:"geekvape",isNew:true,flavors:[],desc:"Оригинал, с испарителем"},
     // ── smoant ──
-    {id:98,name:"🔧 Испаритель Pasito 3/Pasito 2/Knight 80",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"0.15Ω, (70-90)"},
+    {id:98,name:"🔧 Испаритель на пасту 55-65 ват (Pasito/Knight)",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"0.15Ω"},
     // ── voopoo ──
     {id:121,name:"🔧 Испаритель Voopoo V.THRU 0.4 Ом",price:13,cat:"consumables",brand:"voopoo",flavors:[],desc:"0.4 Ом"},
     // ── jord ──
@@ -601,7 +603,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let payMethod = 'card';
   let cashAmount = 0;
 
-  const SK = 'tz_v22';
+  const SK = 'tz_v24';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
   function load(){
     try {
@@ -869,7 +871,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       const refDisc = currentUserData?.referral_discount_available ? sub * 0.2 : 0;
       let finalDisc = 0, discLabel = '';
       const maxD = Math.max(promoDisc, loyaltyDisc, refDisc);
-      if (maxD === promoDisc && promoDisc > 0) { finalDisc = promoDisc; discLabel = `Промокод (${activePromo.discountPercent}%)`; }
+      if (maxD === promoDisc && promoDisc > 0) { finalDisc = promoDisc; discLabel = `Промокод ${activePromo.code} (${activePromo.discountPercent}%)`; }
       else if (maxD === refDisc && refDisc > 0) { finalDisc = refDisc; discLabel = 'Реферальная (20%)'; }
       else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = 'Лояльность (20%)'; }
       const total = Math.max(0, sub - finalDisc);
@@ -1064,7 +1066,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   }
 
   async function applyPromo(){
-    if (!supabase) return showToast('База не подключена', true);
     if (!user.id) return showToast('Открой через Telegram', true);
     if (promoLoading) return;
     const code = $('promoInput').value.trim().toUpperCase();
@@ -1073,19 +1074,49 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     $('promoBtn').disabled = true;
     $('promoMsg').textContent = 'Проверяем...';
     $('promoMsg').className = 'promo-msg';
-    try {
-      const { data, error } = await supabase.rpc('activate_promo_code', { p_code: code, p_telegram_id: user.id });
-      if (error || !data?.ok) {
-        $('promoMsg').textContent = data?.message || 'Ошибка';
-        $('promoMsg').className = 'promo-msg err';
-      } else {
-        activePromo = { code: data.code, discountPercent: Number(data.discount_percent) };
-        save(); renderPromos(); updateCartUI();
-        $('promoMsg').textContent = '✅ Активирован!';
-        $('promoMsg').className = 'promo-msg ok';
+
+    let success = false;
+    let msgText = '';
+    let percent = 0;
+
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.rpc('activate_promo_code', { p_code: code, p_telegram_id: user.id });
+        if (!error && data?.ok) {
+          success = true;
+          percent = Number(data.discount_percent) || 0;
+        } else {
+          msgText = data?.message || error?.message || 'Промокод не найден';
+        }
+      } catch (e) {
+        console.warn('Supabase RPC error:', e);
+        msgText = 'Ошибка проверки базы';
       }
-    } catch(e){ $('promoMsg').textContent = 'Ошибка'; $('promoMsg').className = 'promo-msg err'; }
-    finally { promoLoading = false; $('promoBtn').disabled = false; }
+    }
+
+    // Локальный фоллбэк, если база не ответила
+    if (!success && (msgText === 'Ошибка проверки базы' || !supabase)) {
+      const local = {
+        'WELCOME2': 20, 'POSE20': 20, 'CLIENTA20': 20, 
+        'CLIENTB20': 20, 'VIP25': 25, 'SL1M4GUN': 20
+      };
+      if (local[code]) {
+        success = true;
+        percent = local[code];
+      }
+    }
+
+    if (success && percent > 0) {
+      activePromo = { code: code, discountPercent: percent };
+      save(); renderPromos(); updateCartUI();
+      $('promoMsg').textContent = `✅ Активирован! Скидка ${percent}%`;
+      $('promoMsg').className = 'promo-msg ok';
+    } else {
+      $('promoMsg').textContent = msgText || 'Промокод не найден';
+      $('promoMsg').className = 'promo-msg err';
+    }
+    promoLoading = false;
+    $('promoBtn').disabled = false;
   }
 
   function removePromo(){ activePromo = null; save(); renderPromos(); updateCartUI(); }
@@ -1428,57 +1459,4 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   window.openProfile = openProfile;
   window.openPromos = openPromos;
   window.openAdmin = openAdmin;
-  window.switchAdminTab = switchAdminTab;
-  window.closeAll = closeAll;
-  window.changeQty = changeQty;
-  window.rmItem = rmItem;
-  window.addFromModal = addFromModal;
-  window.closeModal = closeModal;
-  window.openConfirmOrder = openConfirmOrder;
-  window.closeConfirmOrder = closeConfirmOrder;
-  window.toggleConfirmBtn = toggleConfirmBtn;
-  window.sendOrderToTG = sendOrderToTG;
-  window.applyPromo = applyPromo;
-  window.removePromo = removePromo;
-  window.confirmOrder = confirmOrder;
-  window.cancelOrder = cancelOrder;
-  window.shareReferral = shareReferral;
-  window.updateStockFromInput = updateStockFromInput;
-  window.onCashInput = onCashInput;
-
-  load();
-  renderProducts();
-  updateCount();
-  updateCartUI();
-  initSupabase(async () => {
-    await loadStock();
-    await initUserAndReferral();
-    
-    if (supabase && user.id){
-      try {
-        const { data: o } = await supabase.from('orders')
-          .select('*')
-          .eq('user_id', user.id)
-          .eq('status', 'confirmed')
-          .order('created_at', { ascending: false });
-        if (o) {
-          orders = o.map(x => ({
-            id: x.order_id, date: x.created_at, items: x.items,
-            total: Number(x.total), discount: Number(x.discount), status: x.status
-          }));
-          save();
-          updateCount();
-          updateCartUI();
-        }
-      } catch(e){ console.warn('[orders sync]', e); }
-    }
-    
-    renderProducts();
-  });
-
-  document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
-  console.log('%c🎨 Trahan Zizhka v22','font-size:16px;font-weight:bold;color:#c6ff2e');
-})();
-</script>
-</body>
-</html>
+  window.switchAdminTab = switchAdmin
