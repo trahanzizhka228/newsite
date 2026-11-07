@@ -50,7 +50,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .btn{padding:14px 22px;border-radius:14px;font-weight:600;font-size:14px;transition:.25s;display:inline-flex;align-items:center;gap:8px;justify-content:center;min-height:46px}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 40px -10px rgba(255,77,210,.5)}
 
-/* MAP HERO */
 .hero-visual{position:relative;height:340px;display:flex;align-items:center;justify-content:center;overflow:visible}
 .map-card{position:relative;width:100%;max-width:340px;height:280px;border-radius:20px;background:var(--card);border:1px solid var(--bd);box-shadow:0 30px 80px -20px rgba(168,85,247,.4);overflow:hidden;cursor:pointer;transition:transform 0.3s}
 .map-card:hover{transform:translateY(-4px);border-color:rgba(255,77,210,.4)}
@@ -71,7 +70,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .product{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;cursor:pointer;position:relative;overflow:hidden;transition:.3s}
 
-/* ВЫДЕЛЕННЫЙ ТОВАР (ХИТ) */
 .product.featured {
   border-color: var(--acc);
   box-shadow: 0 0 20px rgba(255, 77, 210, 0.3);
@@ -103,7 +101,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
 .product-cat{font-size:10px;color:var(--acc);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px}
 .product h3{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.3;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-/* БЕЙДЖ ОПИСАНИЯ */
 .product .desc{display:inline-block;padding:3px 8px;background:rgba(255,77,210,.12);color:var(--acc);font-size:10px;font-weight:700;border-radius:6px;margin-bottom:8px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.3px}
 
 .product .flavors-info{color:var(--gold);font-size:11px;font-weight:600;margin-bottom:4px}
@@ -458,85 +455,55 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   ];
 
   const P = [
-    // ═══ ПОД-СИСТЕМЫ (ВЫДЕЛЕННЫЕ) ═══
     {id:607,name:"📱 VAPORESSO XROS 6 MINI",price:60,cat:"pod",brand:"vaporesso",isNew:true,isFeatured:true,flavors:["Plume pink","Plume white","Plume blue"],desc:"Под-система"},
-
-    // ═══ СНЮС ═══
-    // D.L.T.A
     {id:1,name:"💀 D.L.T.A ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Adrenaline RUSH PEPSI 💙⚡","Adrenaline RUSH LIMITED EDITION ICE EFFECT 🔳🧊","Adrenaline RUSH 🤩⚡","Adrenaline VITAMIN POWER 🙃💪"],desc:"Снюс, крепкий"},
     {id:2,name:"💀 D.L.T.A XS ☠️",price:16,cat:"snus",brand:"D.L.T.A",flavors:["Микс ягод 🫐🍓","Зеленый виноград мята 🍇🌿"],desc:"Снюс, крепкий"},
-    // iceberg
     {id:129,name:"💀 Iceberg Strong",price:16,cat:"snus",brand:"iceberg",flavors:["Черная смородина 🫐","Виноград 🍇","Арбуз лайм 🍉🍋"],desc:"75 мг"},
     {id:130,name:"💀 Iceberg Overkill",price:16,cat:"snus",brand:"iceberg",flavors:["Cherry riot 🍒💥","Citrus blast 🍋💥","Green rampage 🍏💥","Lime strike ⚡💥","Night crush 🖤💥","Polar fury 🧊💥"],desc:"200 мг"},
     {id:131,name:"💀 Iceberg Ultra",price:16,cat:"snus",brand:"iceberg",flavors:["Жвачка тутти-фрутти 🍬🫧","Мультифрукт цитрус 🍊🍋","Аромат цветов 🌸","Мандарин 🍊"],desc:"150 мг"},
     {id:303,name:"🔥 Iceberg Hardcore",price:16,cat:"snus",brand:"iceberg",flavors:["Ice shock 🧊💥","Dark bubble","Frozen pulse 🧊💥","Dark matter","Black fury"],desc:"150мг"},
-    // Glitch
     {id:400,name:"⚡ Glitch pouches",price:16,cat:"snus",brand:"Glitch",flavors:["Аромат жвачки с мятой","Аромат мяты","Аромат морозной вишни"],desc:"150 мг"},
-
-    // ═══ КОФЕИН ═══
     {id:500,name:"⚡ Кофеиновые паучи Iceberg",price:13,cat:"kofein",brand:"ICBERG",flavors:["Сладкая мята 🌿🍬","Энергетик ⚡","Мятный арбуз 🌿🍉","Зеленое яблоко 🍏"],desc:"Кофеиновые паучи"},
-
-    // ═══ ЖИДКОСТИ ═══
-    // ── bjorn ──
     {id:8,name:"🧪 Bjorn Long 80mg 🧛",price:20,cat:"liquid",brand:"bjorn",flavors:["Мята спрайт 🌿🧊","Фруктовый мармелад 🍬🍊"],desc:"80mg, 30мл"},
     {id:101,name:"🧪 Bjorn Тёмный Хор",price:20,cat:"liquid",brand:"bjorn",flavors:["Кислое зеленое яблоко 🍏🍋","Кислый ягодный микс 🫐🍓🍋","Арбузный лед 🍉🧊","Арбуз мята 🍉🌿","Мятная жвачка 🌿🫧"],desc:"80 мг, 30мл"},
     {id:102,name:"🧪 Bjorn Сон Призрака",price:20,cat:"liquid",brand:"bjorn",flavors:["Ледяная клубника личи 🍓🧊","Манго со льдом 🥭🧊","Ананас манго 🍍🥭","Кислое яблоко 🍏","Яблоко персик 🍎🍑"],desc:"30мл"},
     {id:108,name:"🧪 Bjorn Zloy V2.0",price:16,cat:"liquid",brand:"bjorn",flavors:["Виноград мармелад маршмеллоу 🍇🍬🍡","Смородина малина яблоко 🫐🍓🍎","Ваниль вишня 🍦🍒","Яблоко виноград 🍎🍇","Мохито 🍋🌿🫧","Ягодный напиток 🫐🍓🥤","Энергетик монстер ⚡🖤"],desc:"60mg, 30мл"},
     {id:118,name:"🧪 Bjorn Joker 🃏",price:20,cat:"liquid",brand:"bjorn",flavors:["Клубника банан 🍓🍌","Кола вишня 🥤🍒","Черника мята 🫐🌿","Энергетик ⚡","Вишня клюква 🍒🫐"],desc:"80 мг, 30мл"},
     {id:601,name:"🧪 Bjorn Headshot",price:20,cat:"liquid",brand:"bjorn",isNew:true,flavors:["Банан с кислинкой 🍌🍋","Дыня клюква 🍈🫐","Киви арбуз 🥝🍉","Клубника с кислинкой 🍓🍋","Малина клюква 🍓🫐","Нектарин вишня 🍑🍒","Черника брусника 🫐","Яблочный скитлс 🍏🍬"],desc:"100 мг, 30мл"},
-    // ── anima ──
     {id:111,name:"🧪 Anima Love Zombie",price:17,cat:"liquid",brand:"anima",flavors:["Яблоко виноград 🍎🍇","Клубничный леденец 🍓🍬","Клубника банан 🍓🍌","Малина с кислинкой 🍓","Арбузный Бабл гам 🍉🫧","Алоэ виноград 🌵🍇"],desc:"60mg, 30мл"},
     {id:114,name:"🧪 Anima Love Sour",price:16,cat:"liquid",brand:"anima",flavors:["Кислая черника апельсин 🫐🍊🍋","Кислый зеленый виноград 🍇🍋","Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50mg, 30мл"},
     {id:117,name:"🧪 Anima Love Killer",price:17,cat:"liquid",brand:"anima",flavors:["Арбузный смузи 🍉🥤","Банан клубника 🍌🍓","Виноград вишня 🍇🍒","Вишневая газировка 🍒🫧","Клубничный коктейль 🍓🍹","Чернично-малиновые червячки 🫐🍓🪱","Яблочный лимонад 🍎🍋","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
     {id:119,name:"🧪 Anima Love Phobia",price:17,cat:"liquid",brand:"anima",flavors:["Вишневый скитлс 🍒🍬","Дикие ягоды 🫐🍓","Кислые ягодные червячки 🪱🍋","Клубнично-банановый фреш 🍓🍌🥤","Морс из домашних ягод 🫐🍓","Ред Булл малина ⚡🍓","Ред Булл со льдом ⚡🧊","Смородина лимонад 🫐🍋","Фруктовый скитлс 🍬🍊","Ягодный Ред Булл ⚡🫐"],desc:"70мг, 30мл"},
     {id:133,name:"🧪 Anima Love",price:16,cat:"liquid",brand:"anima",flavors:["Дыня черника 🍈🫐","Кислые ягодные червячки 🪱🍋","Кислый скитлс 🍬🍋","Клубника банан 🍓🍌","Морс из диких ягод 🫐🍓","Смородиновый лимонад 🫐🍋","Энергетик малина ⚡🍓"],desc:"50 мг, 30мл"},
-    // ── злая монашка ──
     {id:104,name:"🧪 Злая Монашка",price:18,cat:"liquid",brand:"злая монашка",flavors:["Энергетик арбуз ⚡🍉","Жвачка арбуз 🫧🍉","Пина колада 🍹🥥","Клубнично ежевичный морс 🍓🫐","Доктор Пеппер черешня 🥤🍒","Клубника личи 🍓🥭"],desc:"70mg, 30мл"},
     {id:120,name:"🧪 Злая Монашка Ice",price:18,cat:"liquid",brand:"злая монашка",flavors:["Клубника арбуз лед 🍓🍉🧊","Морс из красных ягод лед 🍓🧊","Смородиновый мармелад лед 🫐🍬🧊"],desc:"70 мг, 30мл"},
     {id:127,name:"🧪 Злая Монашка Buble",price:18,cat:"liquid",brand:"злая монашка",flavors:["Арбузная конфета 🍉🍬","Вишневый тик-так 🍒🍬","Кислый скитлс черешня 🍒🍬🍋","Клубничный бабл-гам 🍓🫧","Смородиновый холлс 🫐🍬","Ягодная жвачка 🫐🫧"],desc:"80 мг, 30мл"},
     {id:124,name:"🧪 DUALL x Злая Монашка",price:18,cat:"liquid",brand:"duall, злая монашка",flavors:["Арбуз клубника 🍉🍓","Вишневый чупа-чупс 🍒🍭","Желейные мишки 🧸🍬","Кислая вишня малина 🍒🍓🍋","Кислая жвачка виноград 🍇🫧🍋","Кислая смородина виноград 🫐🍇🍋","Кислые ягоды 🫐🍓🍋","Кислый скитлс 🍬🍋"],desc:"70 мг, 30мл"},
     {id:608,name:"🧪 Злая Монашка Lemonade",price:18,cat:"liquid",brand:"злая монашка",isNew:true,flavors:["Клубнично-вишневый лимонад 🍓🍒🍋","Вишневый швепс со скитлс 🍒🫧🍬","Компот из смородины и малины 🫐🍓","Компот из лесных ягод 🫐🍓","Мохито с виноградом 🍇🍋","Цитрусовый микс 🍊🍋","Тропический лимонад 🥭🍍","Арбузный фреш с мятой 🍉🌿","Вишневый лимонад с мятой 🍒🌿","Виноградный сок с лимоном 🍇🍋"],desc:"80 мг, 30мл"},
     {id:609,name:"🧪 Злая Монашка Sweet",price:18,cat:"liquid",brand:"злая монашка",isNew:true,flavors:["Тик-так вишня мята 🍒🌿","REDBULL малина ⚡🍓","Клубника малина мята 🍓🌿","Дикие ягоды мята 🫐🍓🌿","Арбузный скитлс 🍉🍬","Мишки харибо с клубникой 🧸🍓","Клубника банан 🍓🍌","Смородина вишня черника 🫐🍒","Энергетик смородина ⚡🫐","Клубника арбуз 🍓🍉","Спрайт тропический микс 🥭🍍"],desc:"80 мг, 30мл"},
-    // ── злая лабуба ──
     {id:105,name:"🧪 Злая Лабуба Energy",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Флеш оригинал ⚡🔴","Адреналин оригинал ⚡💙","Драйв оригинал ⚡🟠","HQD с мишками 🧸🫧"],desc:"70mg, 30мл"},
     {id:115,name:"🧪 Злая Лабуба Extra Hard",price:16,cat:"liquid",brand:"злая лабуба",flavors:["Мятная жвачка 🌿🫧","Фруктовые леденцы 🍬🍊"],desc:"70 мг, 30мл"},
-    // ── monster ──
     {id:125,name:"🧪 Monster Hardcore",price:16,cat:"liquid",brand:"monster",flavors:["Смородиновый коктейль 🫐🥤","Фруктовый коктейль 🍓🥭🍍"],desc:"50 мг, 30мл"},
     {id:126,name:"🧪 Monster Iceberg",price:16,cat:"liquid",brand:"monster",flavors:["Арбузный фреш 🍉🥤","Вишневый смузи 🍒🥤","Ледяные ягоды 🧊🫐🍓","Ментоловый спрайт 🌿🧊🫧","Клубничный коктейль 🍓🥤","Розовый лимонад 🌸🍋🥤","Смородиновый смузи 🫐🥤"],desc:"50 мг, 30мл"},
-    // ── самоубийца ──
     {id:128,name:"🧪 Самоубийца Danger",price:20,cat:"liquid",brand:"самоубийца",flavors:["Виноград смородина мята 🍇🫐🌿","Вишневый холлс 🍒🍬","Вишня виноград 🍒🍇","Зеленый скитлс 🍏🍬","Земляничный спрайт 🍓🫧","Классический энергетик","Мармеладный энергетик ⚡🍬","Ягодная жвачка 🫐🫧"],desc:"100 мг, 30мл"},
-    // ── hotspot ──
     {id:81,name:"🧪 Монашка Hotspot",price:18,cat:"liquid",brand:"hotspot , монашка",flavors:["Мармеладные червячки 🍬🪱","Ледяной энергетик ⚡🧊","Вишня ледяной лайм 🍒🧊🍋","Кислый ленточки вишня черника 🎀🍒🫐","Кислые клубничный чупа чупс 🍓🍭","Кислый скитлс малина ананас 🍬🍓🍍","Клубника лайм 🍓🍋","Манго черная смородина 🥭🫐","Морозные лесные ягоды 🧊🫐🍓"],desc:"30мл"},
     {id:106,name:"🧪 Hotspot x Podonki 60 мг",price:15,cat:"liquid",brand:"hotspot , podonki",flavors:["Освежающий лимонад лайм мята 🍋🌿❄️","Холодное яблоко 🍎🧊","Холодный арбуз 🍉🧊"],desc:"60мг"},
     {id:201,name:"🧪 Hotspot Don't Chew It 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Жвачка ледяная вишня 🫧🍒🧊","Жвачка маракуйя 🫧🥭"],desc:"60мг"},
     {id:202,name:"🧪 Hotspot Dot 60 мг",price:14,cat:"liquid",brand:"hotspot",flavors:["Банан лайм 🍌🍋"],desc:"60мг"},
-    // ── podonki ──
     {id:107,name:"🧪 Podonki Inferno",price:16,cat:"liquid",brand:"podonki",flavors:["Вишня слива груша 🍒🍑🍐"],desc:"60mg, 30мл"},
-    // ── Rich ──
     {id:122,name:"🧪 Rich",price:18,cat:"liquid",brand:"Rich",flavors:["Виноград черная смородина скитлс 🍇🫐🍬","Черничный энергетик ⚡🫐","Вишневые леденцы 🍒🍬","Вишня клубника 🍒🍓","Морозные лесные ягоды 🧊🫐🍓"],desc:"80 мг, 30мл"},
-    // ── catswill ──
     {id:123,name:"🧪 Catswill x Hotspot",price:17,cat:"liquid",brand:"catswill, hotspot",flavors:["Энергетик яблоко смородина малина ⚡🍎🫐🍓","Кислая мамба лесная земляника 🍋🫐🍓","Харибо тропические фрукты 🍬🥭🍍","Малиновый энергетик с клубникой ⚡🍓","Кислая клубника ананас 🍓🍍🍋","Кислая черная смородина 🫐🍋","Мармеладные червячки малина лайм 🪱🍓🍋"],desc:"70 мг, 30мл"},
-    // ── NEW ──
     {id:602,name:"🧪 ELF LIQ",price:17,cat:"liquid",brand:"ELF",isNew:true,flavors:["Арбуз вишня 🍉🍒","Виноград вишня 🍇🍒","Вишня кислая малина 🍒🍓🍋","Кисло-сладкий ягодный микс 🫐🍓🍋","Клубника банан 🍓🍌","Яркий ягодный вкус 🫐🍓"],desc:"50 мг, 30мл"},
     {id:603,name:"🧪 PIXEL SOUR",price:15,cat:"liquid",brand:"PIXEL",isNew:true,flavors:["Клубника малина лайм 🍓🍓🍋","Лимонад малина арбуз 🍋🍓🍉","Малина апельсин 🍓🍊","Черная смородина 🫐","Ягодный морс 🫐🍓"],desc:"20 мг, 30мл"},
     {id:604,name:"🧪 RICK & MORTY RUSSIA",price:15,cat:"liquid",brand:"RICK & MORTY",isNew:true,flavors:["Арбузная жвачка 🍉🫧","Вишневый чупа-чупс 🍒🍭","Земляничный мохито 🍓🍹","Клубника банан 🍓🍌","Мармеладные червячки 🍬🪱","Сибирские ягоды 🫐🍓","Смородина голубика 🫐","Фруктовый скитлс 🍬🍊","Черная смородина 🫐","Экзотический микс 🥭🍍","Ягодный морс 🫐🍓"],desc:"70 мг, 30мл"},
-
-    // ═══ ОДНОРАЗКИ ═══
     {id:606,name:"💨 HQD 5000 puffs",price:17,cat:"disposable",brand:"HQD",isNew:true,flavors:["Арбуз банан 🍉🍌","Жвачка кола лимон лайм 🫧🥤🍋","Малина кола 🍓🥤","Черника мята 🫐🌿","Черная смородина 🫐","Ягодный микс 🫐🍓"],desc:"5000 затяжек"},
-
-    // ═══ РАСХОДНИКИ ═══
-    // ── vaporesso ──
     {id:48,name:"🔧 Картридж Xros 0.4 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
     {id:49,name:"🔧 Картридж Xros 0.6 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
     {id:112,name:"🔧 Картридж Xros 0.8 (3мл)",price:13,cat:"consumables",brand:"vaporesso",flavors:[],desc:"Оригинал, 3мл"},
-    // ── geekvape ──
-    {id:50,name:"🔧 Испаритель на пасту 55-65 ват (Aegis B0)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"0.2Ω, 5 шт"},
+    {id:50,name:"🔧 Испаритель на пасту 55-65 ват (Aegis B0)",price:13,cat:"consumables",brand:"geekvape",flavors:[],desc:"55-65 ват, 5 шт"},
     {id:605,name:"🔧 Сменный картридж Aegis H45 (с испарителем)",price:20,cat:"consumables",brand:"geekvape",isNew:true,flavors:[],desc:"Оригинал, с испарителем"},
-    // ── smoant ──
-    {id:98,name:"🔧 Испаритель на пасту 55-65 ват (Pasito/Knight)",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"0.15Ω"},
-    // ── voopoo ──
+    {id:98,name:"🔧 Испаритель на пасту 55-65 ват (Pasito/Knight)",price:12,cat:"consumables",brand:"smoant",flavors:[],desc:"55-65 ват"},
     {id:121,name:"🔧 Испаритель Voopoo V.THRU 0.4 Ом",price:13,cat:"consumables",brand:"voopoo",flavors:[],desc:"0.4 Ом"},
-    // ── jord ──
     {id:51,name:"🔧 Никобустер Salt (+20мг на 30 мл)",price:3,cat:"consumables",brand:"jord",flavors:[],desc:"Для миксовки"}
   ];
 
@@ -603,7 +570,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   let payMethod = 'card';
   let cashAmount = 0;
 
-  const SK = 'tz_v24';
+  const SK = 'tz_v25';
   function save(){ safeSet(SK, JSON.stringify({cart,orders,activePromo})); }
   function load(){
     try {
@@ -871,7 +838,7 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
       const refDisc = currentUserData?.referral_discount_available ? sub * 0.2 : 0;
       let finalDisc = 0, discLabel = '';
       const maxD = Math.max(promoDisc, loyaltyDisc, refDisc);
-      if (maxD === promoDisc && promoDisc > 0) { finalDisc = promoDisc; discLabel = `Промокод ${activePromo.code} (${activePromo.discountPercent}%)`; }
+      if (maxD === promoDisc && promoDisc > 0) { finalDisc = promoDisc; discLabel = `Промокод (${activePromo.discountPercent}%)`; }
       else if (maxD === refDisc && refDisc > 0) { finalDisc = refDisc; discLabel = 'Реферальная (20%)'; }
       else if (loyaltyDisc > 0) { finalDisc = loyaltyDisc; discLabel = 'Лояльность (20%)'; }
       const total = Math.max(0, sub - finalDisc);
@@ -1076,12 +1043,20 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     $('promoMsg').className = 'promo-msg';
 
     let success = false;
-    let msgText = '';
     let percent = 0;
+    let msgText = '';
 
     if (supabase) {
       try {
-        const { data, error } = await supabase.rpc('activate_promo_code', { p_code: code, p_telegram_id: user.id });
+        let { data, error } = await supabase.rpc('activate_promo_code', { p_code: code, p_telegram_id: user.id });
+        
+        if (error || !data?.ok) {
+          const { data: d2, error: e2 } = await supabase.rpc('activate_promo_code', { 
+            p_code: code.toLowerCase(), p_telegram_id: user.id 
+          });
+          if (!e2 && d2?.ok) { data = d2; error = null; }
+        }
+        
         if (!error && data?.ok) {
           success = true;
           percent = Number(data.discount_percent) || 0;
@@ -1090,19 +1065,21 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
         }
       } catch (e) {
         console.warn('Supabase RPC error:', e);
-        msgText = 'Ошибка проверки базы';
+        msgText = 'Ошибка связи';
       }
+    } else {
+      msgText = 'База не подключена';
     }
 
-    // Локальный фоллбэк, если база не ответила
-    if (!success && (msgText === 'Ошибка проверки базы' || !supabase)) {
-      const local = {
-        'WELCOME2': 20, 'POSE20': 20, 'CLIENTA20': 20, 
+    if (!success) {
+      const LOCAL_PROMOS = {
+        'WELCOME2': 20, 'POSE20': 20, 'CLIENTA20': 20,
         'CLIENTB20': 20, 'VIP25': 25, 'SL1M4GUN': 20
       };
-      if (local[code]) {
+      if (LOCAL_PROMOS[code]) {
         success = true;
-        percent = local[code];
+        percent = LOCAL_PROMOS[code];
+        console.log('[promo] used local fallback for', code);
       }
     }
 
@@ -1391,7 +1368,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     const orderId = 'TZ-' + Date.now().toString().slice(-6);
     const orderItems = Object.values(cart).map(i => { const p = getP(i.id); return { id:p.id, name:p.name, flavor:i.flavor, qty:i.qty, price:p.price }; });
 
-    // СОХРАНЯЕМ до сброса
     const savedPayMethod = payMethod;
     const savedCashAmount = cashAmount;
     const savedPromoCode = activePromo?.code || '';
@@ -1419,7 +1395,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     cashAmount = 0;
     save(); updateCartUI(); updateCount(); closeAll(); closeConfirmOrder();
 
-    // Человекочитаемая скидка
     let discLabelHuman = '';
     if (discLabel === 'promo') discLabelHuman = `Промокод ${savedPromoCode} (${savedPromoPercent}%)`;
     if (discLabel === 'referral') discLabelHuman = 'Реферальная скидка (20%)';
@@ -1438,7 +1413,6 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
     if (finalDisc > 0 && discLabelHuman) msg += `🎟️ ${discLabelHuman}: −${fmt(finalDisc)} BYN\n`;
     msg += `💜 Итого: ${fmt(total)} BYN\n\n`;
     
-    // СПОСОБ ОПЛАТЫ + СДАЧА
     if (savedPayMethod === 'cash') {
       msg += `💵 Оплата: Наличными\n`;
       msg += `🤲 Клиент даёт: ${fmt(savedCashAmount)} BYN\n`;
@@ -1459,4 +1433,57 @@ header{position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);background:r
   window.openProfile = openProfile;
   window.openPromos = openPromos;
   window.openAdmin = openAdmin;
-  window.switchAdminTab = switchAdmin
+  window.switchAdminTab = switchAdminTab;
+  window.closeAll = closeAll;
+  window.changeQty = changeQty;
+  window.rmItem = rmItem;
+  window.addFromModal = addFromModal;
+  window.closeModal = closeModal;
+  window.openConfirmOrder = openConfirmOrder;
+  window.closeConfirmOrder = closeConfirmOrder;
+  window.toggleConfirmBtn = toggleConfirmBtn;
+  window.sendOrderToTG = sendOrderToTG;
+  window.applyPromo = applyPromo;
+  window.removePromo = removePromo;
+  window.confirmOrder = confirmOrder;
+  window.cancelOrder = cancelOrder;
+  window.shareReferral = shareReferral;
+  window.updateStockFromInput = updateStockFromInput;
+  window.onCashInput = onCashInput;
+
+  load();
+  renderProducts();
+  updateCount();
+  updateCartUI();
+  initSupabase(async () => {
+    await loadStock();
+    await initUserAndReferral();
+    
+    if (supabase && user.id){
+      try {
+        const { data: o } = await supabase.from('orders')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('status', 'confirmed')
+          .order('created_at', { ascending: false });
+        if (o) {
+          orders = o.map(x => ({
+            id: x.order_id, date: x.created_at, items: x.items,
+            total: Number(x.total), discount: Number(x.discount), status: x.status
+          }));
+          save();
+          updateCount();
+          updateCartUI();
+        }
+      } catch(e){ console.warn('[orders sync]', e); }
+    }
+    
+    renderProducts();
+  });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAll(); closeModal(); } });
+  console.log('%c🎨 Trahan Zizhka v25','font-size:16px;font-weight:bold;color:#c6ff2e');
+})();
+</script>
+</body>
+</html>
